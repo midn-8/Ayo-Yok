@@ -1,3 +1,13 @@
-<h2>Welcome {{ auth()->user()->name }}</h2>
-
-<a href="/logout">Logout</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>AyoYok Events</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
+<body>
+    <div id="ayoyok-event-root" data-user-name="{{ auth()->user()->name ?? 'AyoYok User' }}"></div>
+</body>
+</html>

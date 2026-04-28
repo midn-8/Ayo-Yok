@@ -115,31 +115,44 @@
 <h1 class="text-5xl font-extrabold text-on-surface tracking-tight mb-2">Welcome Back!</h1>
 <p class="text-on-surface-variant text-lg">Your creative community is waiting for you.</p>
 </div>
+@if ($errors->any())
+<div class="mb-6 rounded-[2rem] border-2 border-error/20 bg-error/10 px-6 py-4 text-left text-sm font-semibold text-error">
+    <p class="uppercase tracking-wider">Login failed</p>
+    <p class="mt-1 normal-case tracking-normal">{{ $errors->first() }}</p>
+</div>
+@endif
 <!-- Login Form -->
-<form action="#" class="space-y-6" onsubmit="return false;">
+<form action="/login" class="space-y-6" method="POST">
+@csrf
 <!-- Email Input -->
 <div class="space-y-2">
-<label class="text-xs font-bold uppercase tracking-wider text-outline px-4">Email Address</label>
+<label class="text-xs font-bold uppercase tracking-wider text-outline px-4" for="email">Email Address</label>
 <div class="relative">
-<input class="w-full h-16 bg-surface-container-low border-2 border-outline/20 rounded-full px-8 text-on-surface placeholder:text-outline-variant focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all text-lg font-medium" placeholder="hello@playground.com" type="email"/>
+<input autocomplete="email" class="w-full h-16 bg-surface-container-low border-2 border-outline/20 rounded-full px-8 text-on-surface placeholder:text-outline-variant focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all text-lg font-medium" id="email" name="email" placeholder="hello@playground.com" required type="email" value="{{ old('email') }}"/>
 <span class="material-symbols-outlined absolute right-6 top-1/2 -translate-y-1/2 text-outline">alternate_email</span>
 </div>
+@error('email')
+<p class="px-4 text-sm font-semibold text-error">{{ $message }}</p>
+@enderror
 </div>
 <!-- Password Input -->
 <div class="space-y-2">
 <div class="flex justify-between items-center px-4">
-<label class="text-xs font-bold uppercase tracking-wider text-outline">Password</label>
+<label class="text-xs font-bold uppercase tracking-wider text-outline" for="password">Password</label>
 <a class="text-xs font-bold uppercase tracking-wider text-secondary hover:text-on-secondary-container transition-colors" href="#">Forgot Password?</a>
 </div>
 <div class="relative">
-<input class="w-full h-16 bg-surface-container-low border-2 border-outline/20 rounded-full px-8 text-on-surface placeholder:text-outline-variant focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all text-lg font-medium" placeholder="••••••••" type="password"/>
+<input autocomplete="current-password" class="w-full h-16 bg-surface-container-low border-2 border-outline/20 rounded-full px-8 text-on-surface placeholder:text-outline-variant focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all text-lg font-medium" id="password" name="password" placeholder="••••••••" required type="password"/>
 <span class="material-symbols-outlined absolute right-6 top-1/2 -translate-y-1/2 text-outline">lock</span>
 </div>
+@error('password')
+<p class="px-4 text-sm font-semibold text-error">{{ $message }}</p>
+@enderror
 </div>
 <!-- Action Button Cluster -->
 <div class="pt-4 flex flex-col items-center gap-6 relative">
 <!-- Enter Button -->
-<button class="group relative w-full h-20 bg-gradient-to-br from-primary to-primary-container text-on-primary rounded-full text-2xl font-black tracking-tight shadow-[0_8px_0_0_#430076] active:translate-y-1 active:shadow-none transition-all flex items-center justify-center gap-3">
+<button class="group relative w-full h-20 bg-gradient-to-br from-primary to-primary-container text-on-primary rounded-full text-2xl font-black tracking-tight shadow-[0_8px_0_0_#430076] active:translate-y-1 active:shadow-none transition-all flex items-center justify-center gap-3" type="submit">
                         Enter
                         <span class="material-symbols-outlined text-3xl group-hover:translate-x-2 transition-transform">arrow_forward</span>
 </button>
@@ -150,11 +163,11 @@
 <div class="h-[2px] flex-grow bg-surface-container-high"></div>
 </div>
 <div class="grid grid-cols-2 gap-4 w-full">
-<button class="h-14 bg-surface-container-highest/50 border-2 border-outline/10 rounded-full flex items-center justify-center gap-2 font-bold text-on-surface hover:bg-surface-container-highest transition-colors">
+<button class="h-14 bg-surface-container-highest/50 border-2 border-outline/10 rounded-full flex items-center justify-center gap-2 font-bold text-on-surface hover:bg-surface-container-highest transition-colors" type="button">
 <span class="material-symbols-outlined text-primary">google</span>
                             Google
                         </button>
-<button class="h-14 bg-surface-container-highest/50 border-2 border-outline/10 rounded-full flex items-center justify-center gap-2 font-bold text-on-surface hover:bg-surface-container-highest transition-colors">
+<button class="h-14 bg-surface-container-highest/50 border-2 border-outline/10 rounded-full flex items-center justify-center gap-2 font-bold text-on-surface hover:bg-surface-container-highest transition-colors" type="button">
 <span class="material-symbols-outlined text-primary">ios</span>
                             Apple
                         </button>
@@ -165,7 +178,7 @@
 <div class="mt-12 text-center">
 <p class="text-on-surface-variant font-medium">
                     Not part of the playground yet? 
-                    <a class="text-primary font-extrabold hover:underline underline-offset-4 ml-1" href="#">Create an account</a>
+                    <a class="text-primary font-extrabold hover:underline underline-offset-4 ml-1" href="/register">Create an account</a>
 </p>
 </div>
 <!-- Bubbly Accents -->
