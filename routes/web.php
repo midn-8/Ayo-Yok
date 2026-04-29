@@ -29,6 +29,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/home', [AuthController::class, 'home'])->name('home');
 
     Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
+    Route::view('/profile', 'profile')->name('profile');
 
     // EVENT
     Route::get('/event/create', [EventController::class,'createEvent']);
