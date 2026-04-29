@@ -13,12 +13,12 @@ Route::get('/', function () {
 
 // AUTH
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
-Route::post('/register', [AuthController::class, 'register']);
+Route::post('/register', [AuthController::class, 'register'])->name('register.store');
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/login', [AuthController::class, 'login'])->name('login.store');
 
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
 
 // ======================
 // PROTECTED ROUTES (LOGIN DULU)
@@ -28,7 +28,7 @@ Route::middleware('auth')->group(function () {
     // HOME (INI PENTING BUAT REDIRECT)
     Route::get('/home', [AuthController::class, 'home'])->name('home');
 
-    Route::get('/dashboard', [AuthController::class, 'dashboard']);
+    Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
 
     // EVENT
     Route::get('/event/create', [EventController::class,'createEvent']);

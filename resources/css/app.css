@@ -1,11 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap');
 @import 'tailwindcss';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';
 @source '../**/*.js';
+@source '../**/*.jsx';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    --font-sans: 'Manrope', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+@layer base {
+    body {
+        @apply m-0 bg-stone-200 text-slate-950 antialiased;
+    }
+}
+
+@layer components {
+    .dashboard-shell {
+        background-image:
+            radial-gradient(circle at top left, rgba(251, 146, 60, 0.18), transparent 32%),
+            radial-gradient(circle at top right, rgba(34, 211, 238, 0.18), transparent 28%),
+            linear-gradient(180deg, #f7f4ed 0%, #ece7dc 100%);
+    }
+
+    .dashboard-display {
+        font-family: 'Space Grotesk', 'Manrope', ui-sans-serif, system-ui, sans-serif;
+    }
+
+    .panel {
+        @apply rounded-[28px] border border-slate-200/80 bg-white/78 shadow-[0_24px_60px_-32px_rgba(15,23,42,0.35)] backdrop-blur-xl;
+    }
+
+    .panel-dark {
+        @apply rounded-[28px] border border-white/10 bg-slate-950/92 text-slate-100 shadow-[0_24px_60px_-32px_rgba(15,23,42,0.7)];
+    }
+
+    .panel-grid {
+        background-image:
+            linear-gradient(rgba(148, 163, 184, 0.14) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(148, 163, 184, 0.14) 1px, transparent 1px);
+        background-position: center;
+        background-size: 22px 22px;
+    }
 }
