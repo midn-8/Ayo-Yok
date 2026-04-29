@@ -436,9 +436,12 @@ function TopNavigation({ userName, searchTerm, onSearchChange }) {
                             <a href="#joined-events" className="rounded-full px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-100">
                                 Joined
                             </a>
+                            <a href="/profile" className="rounded-full px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-100">
+                                Profile
+                            </a>
                         </nav>
 
-                        <div className="flex items-center gap-3 rounded-full bg-slate-950 px-3 py-2 text-white shadow-lg shadow-slate-950/15">
+                        <a href="/profile" className="flex items-center gap-3 rounded-full bg-slate-950 px-3 py-2 text-white shadow-lg shadow-slate-950/15">
                             <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white/15 text-sm font-bold">
                                 {getInitials(userName)}
                             </span>
@@ -446,7 +449,7 @@ function TopNavigation({ userName, searchTerm, onSearchChange }) {
                                 <p className="text-sm font-semibold">{userName}</p>
                                 <p className="text-xs text-slate-300">Ready to go out</p>
                             </div>
-                        </div>
+                        </a>
                     </div>
                 </div>
             </div>
