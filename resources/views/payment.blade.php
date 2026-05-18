@@ -4,15 +4,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>AyoYok Events</title>
-    @vite(['resources/css/app.css', 'resources/js/dashboard.jsx'])
+    <title>AyoYok Payment</title>
+    @vite(['resources/css/app.css', 'resources/js/payment.jsx'])
 </head>
 <body>
     <div
-        id="ayoyok-event-root"
+        id="ayoyok-payment-root"
         data-user-name="{{ auth()->user()->name ?? 'AyoYok User' }}"
-        data-user-username="{{ auth()->user()->username ? '@' . auth()->user()->username : '@ayoyok-user' }}"
-        data-user-email="{{ auth()->user()->email ?? 'hello@ayoyok.app' }}"
+        data-event-id="{{ $eventId }}"
     ></div>
 </body>
 </html>

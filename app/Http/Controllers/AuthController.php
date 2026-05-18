@@ -25,7 +25,7 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
 
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
             return redirect()->intended(route('dashboard'));
         }
@@ -34,7 +34,7 @@ class AuthController extends Controller
             ->withErrors([
                 'email' => 'The provided credentials do not match our records.',
             ])
-            ->onlyInput('email');
+            ->onlyInput('email', 'remember');
     }
 
     public function showRegister()
@@ -68,7 +68,7 @@ class AuthController extends Controller
         Auth::login($user);
         $request->session()->regenerate();
 
-        return redirect()->route('dashboard');
+        return redirect()->intended(route('dashboard'));
     }
 
     public function home()
@@ -86,6 +86,9 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/login');
+
+        return redirect()
+            ->route('login')
+            ->with('status', 'You have been logged out.');
     }
 }

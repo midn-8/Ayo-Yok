@@ -5,7 +5,16 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
     plugins: [
         laravel({
-            input: ['resources/css/app.css', 'resources/js/app.js', 'resources/js/profile.jsx'],
+            input: [
+                'resources/css/app.css',
+                'resources/js/dashboard.jsx',
+                'resources/js/explore.jsx',
+                'resources/js/schedule.jsx',
+                'resources/js/profile.jsx',
+                'resources/js/payment.jsx',
+                'resources/js/private-event.jsx',
+                'resources/js/private-invite.jsx',
+            ],
             refresh: true,
         }),
         tailwindcss(),

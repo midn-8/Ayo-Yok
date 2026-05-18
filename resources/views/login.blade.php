@@ -115,6 +115,11 @@
 <h1 class="text-5xl font-extrabold text-on-surface tracking-tight mb-2">Welcome Back!</h1>
 <p class="text-on-surface-variant text-lg">Your creative community is waiting for you.</p>
 </div>
+@if (session('status'))
+<div class="mb-6 rounded-[2rem] border-2 border-tertiary/20 bg-tertiary/10 px-6 py-4 text-left text-sm font-semibold text-tertiary">
+    {{ session('status') }}
+</div>
+@endif
 @if ($errors->any())
 <div class="mb-6 rounded-[2rem] border-2 border-error/20 bg-error/10 px-6 py-4 text-left text-sm font-semibold text-error">
     <p class="uppercase tracking-wider">Login failed</p>
@@ -122,7 +127,7 @@
 </div>
 @endif
 <!-- Login Form -->
-<form action="/login" class="space-y-6" method="POST">
+<form action="{{ route('login.store') }}" class="space-y-6" method="POST">
 @csrf
 <!-- Email Input -->
 <div class="space-y-2">
@@ -148,6 +153,14 @@
 @error('password')
 <p class="px-4 text-sm font-semibold text-error">{{ $message }}</p>
 @enderror
+</div>
+<!-- Remember Me -->
+<div class="flex items-center justify-between px-4">
+<label class="inline-flex items-center gap-3 text-sm font-semibold text-on-surface" for="remember">
+<input {{ old('remember') ? 'checked' : '' }} class="h-5 w-5 rounded border-2 border-outline/30 text-primary focus:ring-primary/20" id="remember" name="remember" type="checkbox" value="1"/>
+<span>Remember me</span>
+</label>
+<span class="text-xs font-bold uppercase tracking-wider text-outline">Optional</span>
 </div>
 <!-- Action Button Cluster -->
 <div class="pt-4 flex flex-col items-center gap-6 relative">
@@ -178,7 +191,7 @@
 <div class="mt-12 text-center">
 <p class="text-on-surface-variant font-medium">
                     Not part of the playground yet? 
-                    <a class="text-primary font-extrabold hover:underline underline-offset-4 ml-1" href="/register">Create an account</a>
+                    <a class="text-primary font-extrabold hover:underline underline-offset-4 ml-1" href="{{ route('register') }}">Create an account</a>
 </p>
 </div>
 <!-- Bubbly Accents -->

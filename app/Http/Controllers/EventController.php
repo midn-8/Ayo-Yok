@@ -11,7 +11,12 @@ class EventController extends Controller
     // =========================
     public function createEvent()
     {
-        return view('events.create');
+        return $this->createPrivateEvent();
+    }
+
+    public function createPrivateEvent()
+    {
+        return view('events.private-create');
     }
 
     public function storeEvent(Request $request)
@@ -20,13 +25,26 @@ class EventController extends Controller
             'title' => 'required',
             'description' => 'required',
             'date' => 'required',
-            'type' => 'required' // public / private
+            'type' => 'required', // public / private
         ]);
 
         // sementara pakai dummy
         // nanti bisa pakai Event::create()
 
-        return redirect('/home')->with('success','Event berhasil dibuat!');
+        return redirect()->route('dashboard')->with('success', 'Event berhasil dibuat!');
+    }
+
+    public function storePrivateEvent(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'date' => 'required',
+            'theme' => 'required|string',
+        ]);
+
+        return redirect()
+            ->route('events.private.create')
+            ->with('success', 'Private event draft created. Connect persistence when the backend is ready.');
     }
 
     // =========================
@@ -64,16 +82,38 @@ class EventController extends Controller
     {
         // nanti simpan ke tabel registrations
 
-        return redirect('/home')->with('success','Berhasil join event & payment success!');
+        return redirect()
+            ->route('payment.show', ['id' => $id])
+            ->with('success', 'Lanjut ke pembayaran untuk menyelesaikan tiket event.');
+    }
+
+    public function payment($id)
+    {
+        return view('payment', ['eventId' => $id]);
+    }
+
+    public function confirmPayment(Request $request, $id)
+    {
+        $request->validate([
+            'payment_method' => 'required|string',
+            'quantity' => 'required|integer|min:1',
+        ]);
+
+        return redirect()
+            ->route('dashboard')
+            ->with('success', "Payment for event {$id} confirmed.");
     }
 
     // =========================
     // JOIN PRIVATE EVENT (INVITE)
     // =========================
-    public function joinPrivate($token)
+    public function joinPrivate(Request $request, $token)
     {
         // validasi token undangan
 
-        return view('events.private');
+        return view('events.private', [
+            'token' => $token,
+            'theme' => $request->query('theme', 'elegant-night'),
+        ]);
     }
-} 
+}

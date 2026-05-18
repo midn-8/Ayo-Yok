@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Plus Jakarta Sans', Arial, sans-serif;
             background: linear-gradient(180deg, #f6f0ff 0%, #eef6ff 100%);
             color: #1f2937;
         }
@@ -85,12 +87,24 @@
             margin-top: 20px;
             font-size: 14px;
         }
+        .field-error {
+            margin: -10px 0 14px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #b91c1c;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h2>Create Account</h2>
         <p>Register to access the event dashboard and purchase flow.</p>
+
+        @if (session('status'))
+            <div class="error" style="background:#ecfdf5;border-color:#a7f3d0;color:#047857;">
+                {{ session('status') }}
+            </div>
+        @endif
 
         @if ($errors->any())
             <div class="error">
@@ -100,31 +114,46 @@
             </div>
         @endif
 
-        <form method="POST" action="/register">
+        <form method="POST" action="{{ route('register.store') }}">
             @csrf
 
             <label for="name">Full Name</label>
-            <input id="name" type="text" name="name" placeholder="Full Name" value="{{ old('name') }}" required>
+            <input id="name" type="text" name="name" placeholder="Full Name" value="{{ old('name') }}" autocomplete="name" required>
+            @error('name')
+                <div class="field-error">{{ $message }}</div>
+            @enderror
 
             <label for="username">Username</label>
-            <input id="username" type="text" name="username" placeholder="Username" value="{{ old('username') }}" required>
+            <input id="username" type="text" name="username" placeholder="Username" value="{{ old('username') }}" autocomplete="username" required>
+            @error('username')
+                <div class="field-error">{{ $message }}</div>
+            @enderror
 
             <label for="email">Email</label>
-            <input id="email" type="email" name="email" placeholder="Email" value="{{ old('email') }}" required>
+            <input id="email" type="email" name="email" placeholder="Email" value="{{ old('email') }}" autocomplete="email" required>
+            @error('email')
+                <div class="field-error">{{ $message }}</div>
+            @enderror
 
             <label for="phone_number">Phone Number</label>
-            <input id="phone_number" type="text" name="phone_number" placeholder="Phone Number" value="{{ old('phone_number') }}" required>
+            <input id="phone_number" type="text" name="phone_number" placeholder="Phone Number" value="{{ old('phone_number') }}" autocomplete="tel" required>
+            @error('phone_number')
+                <div class="field-error">{{ $message }}</div>
+            @enderror
 
             <label for="password">Password</label>
-            <input id="password" type="password" name="password" placeholder="Password" required>
+            <input id="password" type="password" name="password" placeholder="Password" autocomplete="new-password" required>
+            @error('password')
+                <div class="field-error">{{ $message }}</div>
+            @enderror
 
             <label for="password_confirmation">Confirm Password</label>
-            <input id="password_confirmation" type="password" name="password_confirmation" placeholder="Confirm Password" required>
+            <input id="password_confirmation" type="password" name="password_confirmation" placeholder="Confirm Password" autocomplete="new-password" required>
 
             <button type="submit">Register</button>
         </form>
 
-        <p class="hint">Already have an account? <a href="/login">Login</a></p>
+        <p class="hint">Already have an account? <a href="{{ route('login') }}">Login</a></p>
     </div>
 </body>
 </html>
