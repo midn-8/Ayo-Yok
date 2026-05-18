@@ -3,538 +3,265 @@ import { createRoot } from 'react-dom/client';
 
 import './bootstrap';
 
-const { StrictMode, useState } = React;
+import {
+    BASE_DATE,
+    EVENTS,
+    MESSAGE_THREADS,
+    PRIVATE_EVENT_LIMITS,
+    USER_EVENT_BADGES,
+    USER_REVIEW_POSTS,
+    USER_STORIES,
+    canReviewEvent,
+    compareEventDates,
+    getJoinedEvents,
+    getRecommendedEvents,
+    getUserRank,
+    makeAvatarImage,
+} from './social-hub/mockData';
+import {
+    classNames,
+    CompactEventItem,
+    EmptyState,
+    EventCard,
+    FloatingCreateButton,
+    formatEventDate,
+    formatShortDate,
+    Icon,
+    SectionHeading,
+    StatCard,
+    TopNavigation,
+} from './social-hub/ui';
 
-const BASE_DATE = new Date('2026-04-29T00:00:00');
+const { StrictMode, useMemo, useState } = React;
 
-const CATEGORY_META = {
-    Music: {
-        emoji: '♪',
-        soft: 'bg-fuchsia-100 text-fuchsia-700 ring-1 ring-inset ring-fuchsia-200',
-    },
-    Seminar: {
-        emoji: '◎',
-        soft: 'bg-sky-100 text-sky-700 ring-1 ring-inset ring-sky-200',
-    },
-    Sports: {
-        emoji: '△',
-        soft: 'bg-emerald-100 text-emerald-700 ring-1 ring-inset ring-emerald-200',
-    },
-    Food: {
-        emoji: '◌',
-        soft: 'bg-amber-100 text-amber-700 ring-1 ring-inset ring-amber-200',
-    },
-    Arts: {
-        emoji: '✦',
-        soft: 'bg-violet-100 text-violet-700 ring-1 ring-inset ring-violet-200',
-    },
-    Community: {
-        emoji: '◍',
-        soft: 'bg-rose-100 text-rose-700 ring-1 ring-inset ring-rose-200',
-    },
-};
-
-function classNames(...classes) {
-    return classes.filter(Boolean).join(' ');
-}
-
-function getInitials(name) {
-    return name
-        .split(' ')
-        .map((part) => part[0])
-        .join('')
-        .slice(0, 2)
-        .toUpperCase();
-}
-
-function sanitizeSvgText(value) {
-    return value.replace(/&/g, '&amp;').replace(/</g, '&lt;');
-}
-
-function makeEventImage(title, accentA, accentB, glyph) {
-    const safeTitle = sanitizeSvgText(title);
-    const svg = `
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800">
-            <defs>
-                <linearGradient id="bg" x1="0%" x2="100%" y1="0%" y2="100%">
-                    <stop offset="0%" stop-color="${accentA}" />
-                    <stop offset="100%" stop-color="${accentB}" />
-                </linearGradient>
-                <radialGradient id="glow" cx="50%" cy="35%" r="55%">
-                    <stop offset="0%" stop-color="rgba(255,255,255,0.72)" />
-                    <stop offset="100%" stop-color="rgba(255,255,255,0)" />
-                </radialGradient>
-            </defs>
-            <rect width="1200" height="800" fill="#0f172a" rx="40" />
-            <rect width="1200" height="800" fill="url(#bg)" rx="40" opacity="0.92" />
-            <circle cx="250" cy="180" r="240" fill="url(#glow)" opacity="0.8" />
-            <circle cx="1010" cy="620" r="220" fill="rgba(255,255,255,0.12)" />
-            <circle cx="980" cy="180" r="90" fill="rgba(255,255,255,0.22)" />
-            <path d="M0 640C180 560 320 560 460 640C600 720 760 730 1200 580V800H0Z" fill="rgba(15,23,42,0.18)" />
-            <text x="90" y="165" fill="rgba(255,255,255,0.9)" font-size="84" font-family="Arial, sans-serif" font-weight="700">${glyph}</text>
-            <text x="90" y="600" fill="#ffffff" font-size="74" font-family="Arial, sans-serif" font-weight="700">${safeTitle}</text>
-            <text x="90" y="664" fill="rgba(255,255,255,0.82)" font-size="28" font-family="Arial, sans-serif">AyoYok social events</text>
-        </svg>
-    `;
-
-    return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
-}
-
-function makeAvatarImage(name) {
-    const safeName = sanitizeSvgText(name);
-    const initials = getInitials(name);
-    const svg = `
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320">
-            <defs>
-                <linearGradient id="avatar-bg" x1="0%" x2="100%" y1="0%" y2="100%">
-                    <stop offset="0%" stop-color="#fb923c" />
-                    <stop offset="100%" stop-color="#d946ef" />
-                </linearGradient>
-            </defs>
-            <rect width="320" height="320" rx="68" fill="#0f172a" />
-            <rect width="320" height="320" rx="68" fill="url(#avatar-bg)" opacity="0.95" />
-            <circle cx="85" cy="78" r="78" fill="rgba(255,255,255,0.18)" />
-            <circle cx="260" cy="248" r="90" fill="rgba(15,23,42,0.12)" />
-            <text x="160" y="178" fill="#ffffff" font-size="116" font-family="Arial, sans-serif" font-weight="700" text-anchor="middle">${initials}</text>
-            <text x="160" y="232" fill="rgba(255,255,255,0.86)" font-size="22" font-family="Arial, sans-serif" text-anchor="middle">${safeName}</text>
-        </svg>
-    `;
-
-    return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
-}
-
-function formatEventDate(dateString) {
-    return new Intl.DateTimeFormat('en-US', {
-        weekday: 'short',
-        month: 'short',
-        day: 'numeric',
-        hour: 'numeric',
-        minute: '2-digit',
-    }).format(new Date(dateString));
-}
-
-function formatShortDate(dateString) {
-    return new Intl.DateTimeFormat('en-US', {
-        month: 'short',
-        day: 'numeric',
-    }).format(new Date(dateString));
-}
-
-function formatPrice(price) {
-    if (price === 0) {
-        return 'Free';
-    }
-
-    return new Intl.NumberFormat('id-ID', {
-        style: 'currency',
-        currency: 'IDR',
-        maximumFractionDigits: 0,
-    }).format(price);
-}
-
-function compareEventDates(left, right) {
-    return new Date(left.date) - new Date(right.date);
-}
-
-function isUpcomingEvent(event) {
-    return new Date(event.date) >= BASE_DATE;
-}
-
-function Icon({ name, className = 'h-5 w-5' }) {
-    switch (name) {
-        case 'search':
-            return (
-                <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-                    <circle cx="11" cy="11" r="6.5" />
-                    <path d="M16 16l4.5 4.5" />
-                </svg>
-            );
-        case 'calendar':
-            return (
-                <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-                    <rect x="3.5" y="5.5" width="17" height="15" rx="2.5" />
-                    <path d="M7.5 3.5v4M16.5 3.5v4M3.5 9.5h17" />
-                </svg>
-            );
-        case 'map':
-            return (
-                <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-                    <path d="M12 20s6-5.27 6-10a6 6 0 10-12 0c0 4.73 6 10 6 10z" />
-                    <circle cx="12" cy="10" r="2.5" />
-                </svg>
-            );
-        case 'ticket':
-            return (
-                <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-                    <path d="M5 7.5A2.5 2.5 0 017.5 5H17a2 2 0 002 2 2 2 0 002 2v6a2 2 0 00-2 2 2 2 0 00-2 2H7.5A2.5 2.5 0 015 18.5V7.5z" />
-                    <path d="M9.5 8v8M14.5 8v8" strokeDasharray="2.5 2.5" />
-                </svg>
-            );
-        case 'spark':
-            return (
-                <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-                    <path d="M12 3l1.6 4.4L18 9l-4.4 1.6L12 15l-1.6-4.4L6 9l4.4-1.6L12 3z" />
-                    <path d="M18.5 15.5l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8.8-2.2z" />
-                </svg>
-            );
-        case 'user':
-            return (
-                <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-                    <circle cx="12" cy="8.75" r="3.25" />
-                    <path d="M5 19a7 7 0 0114 0" />
-                </svg>
-            );
-        case 'edit':
-            return (
-                <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-                    <path d="M4 20h4.5L19 9.5a2.12 2.12 0 10-3-3L5.5 17H4v3z" />
-                </svg>
-            );
-        default:
-            return (
-                <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-                    <circle cx="12" cy="12" r="8.5" />
-                </svg>
-            );
-    }
-}
-
-function TopNavigation({ userName, searchTerm, onSearchChange }) {
-    const navLinkClass = 'rounded-full px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-100';
-
-    return (
-        <header className="panel sticky top-4 z-30 px-4 py-4 sm:px-6">
-            <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
-                <div className="flex items-center gap-4">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-orange-400 to-fuchsia-500 text-white shadow-lg shadow-fuchsia-950/20">
-                        <Icon name="spark" className="h-6 w-6" />
-                    </div>
-                    <div>
-                        <p className="dashboard-display text-2xl font-bold text-slate-950">AyoYok</p>
-                        <p className="text-sm text-slate-500">Discover events, meet people, collect moments.</p>
-                    </div>
-                </div>
-
-                <div className="flex flex-1 flex-col gap-3 xl:max-w-3xl xl:flex-row xl:items-center xl:justify-end">
-                    <div className="relative w-full xl:max-w-xl">
-                        <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
-                            <Icon name="search" className="h-5 w-5" />
-                        </span>
-                        <input
-                            type="search"
-                            value={searchTerm}
-                            onChange={(event) => onSearchChange(event.target.value)}
-                            placeholder="Search your events, cities, or communities"
-                            className="h-12 w-full rounded-full border border-slate-200 bg-white pl-12 pr-4 text-sm text-slate-700 shadow-sm outline-none transition focus:border-fuchsia-300 focus:ring-4 focus:ring-fuchsia-100"
-                        />
-                    </div>
-
-                    <div className="flex items-center justify-between gap-3 xl:justify-end">
-                        <nav className="hidden items-center gap-2 lg:flex">
-                            <a href="/dashboard" className={navLinkClass}>
-                                Dashboard
-                            </a>
-                            <a href="#profile-events" className={navLinkClass}>
-                                My Events
-                            </a>
-                            <a href="#profile-edit" className={navLinkClass}>
-                                Edit Profile
-                            </a>
-                            <a
-                                href="/profile"
-                                aria-current="page"
-                                className="rounded-full bg-slate-950 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-slate-950/15"
-                            >
-                                Profile
-                            </a>
-                        </nav>
-
-                        <a href="/profile" className="flex items-center gap-3 rounded-full bg-slate-950 px-3 py-2 text-white shadow-lg shadow-slate-950/15">
-                            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white/15 text-sm font-bold">
-                                {getInitials(userName)}
-                            </span>
-                            <div className="pr-2">
-                                <p className="text-sm font-semibold">{userName}</p>
-                                <p className="text-xs text-slate-300">Your event identity</p>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </header>
-    );
-}
-
-function SectionHeading({ eyebrow, title, description, action }) {
-    return (
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-slate-500">{eyebrow}</p>
-                <h2 className="dashboard-display mt-2 text-2xl font-bold text-slate-950 sm:text-3xl">{title}</h2>
-                {description ? <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">{description}</p> : null}
-            </div>
-            {action}
-        </div>
-    );
-}
-
-function StatCard({ label, value, note }) {
-    return (
-        <article className="panel p-5 sm:p-6">
-            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-slate-500">{label}</p>
-            <p className="dashboard-display mt-4 text-4xl font-bold text-slate-950">{value}</p>
-            <p className="mt-2 text-sm leading-6 text-slate-600">{note}</p>
-        </article>
-    );
-}
-
-function TabButton({ label, count, active, onClick }) {
+function TabButton({ label, active, onClick }) {
     return (
         <button
             type="button"
             onClick={onClick}
             className={classNames(
                 'rounded-full px-4 py-2 text-sm font-semibold transition',
-                active
-                    ? 'bg-slate-950 text-white shadow-lg shadow-slate-950/15'
-                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200',
+                active ? 'bg-slate-950 text-white shadow-lg shadow-slate-950/15' : 'bg-slate-100 text-slate-600 hover:bg-slate-200',
             )}
         >
-            {label} <span className={classNames('ml-2 rounded-full px-2 py-0.5 text-xs', active ? 'bg-white/12 text-white' : 'bg-white text-slate-500')}>{count}</span>
+            {label}
         </button>
     );
 }
 
-function ProfileEventCard({ event, onAction }) {
-    const meta = CATEGORY_META[event.category];
-    const statusLabel = event.hostedByUser ? 'Hosting' : event.joined ? 'Joined' : 'Saved';
+function ReviewCard({ review, userName }) {
+    const event = EVENTS.find((item) => item.id === review.eventId);
+
+    if (!event) {
+        return null;
+    }
 
     return (
         <article className="panel overflow-hidden">
             <img src={event.image} alt={event.title} className="h-56 w-full object-cover" />
-            <div className="p-5 sm:p-6">
-                <div className="flex flex-wrap items-center gap-2">
-                    <span className={classNames('rounded-full px-3 py-1 text-xs font-semibold', meta.soft)}>{event.category}</span>
-                    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-500">{statusLabel}</span>
-                    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-500">{event.ticketLabel}</span>
-                </div>
-
-                <h3 className="dashboard-display mt-4 text-2xl font-bold text-slate-950">{event.title}</h3>
-                <p className="mt-2 text-sm leading-6 text-slate-600">{event.highlight}</p>
-
-                <div className="mt-5 space-y-3 text-sm text-slate-600">
-                    <div className="flex items-center gap-3">
-                        <span className="text-slate-400">
-                            <Icon name="calendar" className="h-4 w-4" />
-                        </span>
-                        <span>{formatEventDate(event.date)}</span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                        <span className="text-slate-400">
-                            <Icon name="map" className="h-4 w-4" />
-                        </span>
-                        <span>{event.location}</span>
-                    </div>
-                </div>
-
-                <div className="mt-6 flex items-center justify-between gap-4">
+            <div className="space-y-4 p-5 sm:p-6">
+                <div className="flex items-center justify-between gap-4">
                     <div>
-                        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">Ticket</p>
-                        <p className="mt-1 text-lg font-bold text-slate-950">{formatPrice(event.price)}</p>
+                        <p className="font-semibold text-slate-950">{userName}</p>
+                        <p className="text-sm text-slate-500">{formatShortDate(review.createdAt)}</p>
                     </div>
-                    <button
-                        type="button"
-                        onClick={() => onAction(event)}
-                        className={classNames(
-                            'inline-flex items-center rounded-full px-4 py-2 text-sm font-semibold transition',
-                            event.joined || event.hostedByUser
-                                ? 'bg-emerald-100 text-emerald-700 ring-1 ring-inset ring-emerald-200 hover:bg-emerald-200'
-                                : 'bg-slate-950 text-white shadow-lg shadow-slate-950/15 hover:bg-slate-800',
-                        )}
-                    >
-                        {event.joined || event.hostedByUser ? 'Joined' : 'View'}
-                    </button>
+                    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">{event.title}</span>
+                </div>
+
+                <p className="text-sm leading-7 text-slate-700">{review.caption}</p>
+
+                <div className="flex flex-wrap gap-3 text-sm text-slate-500">
+                    <div className="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-2 font-semibold text-slate-700">
+                        <Icon name="heart" className="h-4 w-4" />
+                        {review.likes}
+                    </div>
+                    <div className="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-2 font-semibold text-slate-700">
+                        <Icon name="comment" className="h-4 w-4" />
+                        {review.comments}
+                    </div>
                 </div>
             </div>
         </article>
     );
 }
 
-const PROFILE_EVENTS = [
-    {
-        id: 'prf-201',
-        title: 'Rooftop Jazz Circle',
-        category: 'Music',
-        date: '2026-05-03T19:00:00',
-        location: 'Senayan Skyline Terrace, Jakarta',
-        price: 175000,
-        joined: true,
-        saved: false,
-        hostedByUser: false,
-        ticketLabel: 'Paid ticket',
-        highlight: 'Golden-hour live set, social tables, and late-night city views.',
-        image: makeEventImage('Rooftop Jazz Circle', '#7c3aed', '#ec4899', '♪'),
-    },
-    {
-        id: 'prf-202',
-        title: 'Saturday Design Walk',
-        category: 'Arts',
-        date: '2026-05-11T09:30:00',
-        location: 'Kota Tua Creative District',
-        price: 0,
-        joined: true,
-        saved: false,
-        hostedByUser: true,
-        ticketLabel: 'Host badge',
-        highlight: 'Gallery hopping, coffee stops, and an easy social route through the city.',
-        image: makeEventImage('Design Walk', '#8b5cf6', '#6366f1', '✦'),
-    },
-    {
-        id: 'prf-203',
-        title: 'Startup Mixer After Hours',
-        category: 'Seminar',
-        date: '2026-04-18T19:30:00',
-        location: 'Mega Kuningan Commons',
-        price: 65000,
-        joined: true,
-        saved: false,
-        hostedByUser: false,
-        ticketLabel: 'Paid ticket',
-        highlight: 'Founder stories, demo tables, and a relaxed networking lounge.',
-        image: makeEventImage('Startup Mixer', '#0ea5e9', '#22d3ee', '◎'),
-    },
-    {
-        id: 'prf-204',
-        title: 'Community Garden Brunch',
-        category: 'Community',
-        date: '2026-04-12T08:00:00',
-        location: 'Tebet Eco Park',
-        price: 0,
-        joined: true,
-        saved: false,
-        hostedByUser: false,
-        ticketLabel: 'RSVP confirmed',
-        highlight: 'Planting session, brunch picnic, and a seed-swap corner.',
-        image: makeEventImage('Garden Brunch', '#fb7185', '#f43f5e', '◍'),
-    },
-    {
-        id: 'prf-205',
-        title: 'Midnight Street Food Run',
-        category: 'Food',
-        date: '2026-05-16T20:00:00',
-        location: 'Pantai Indah Kapuk',
-        price: 95000,
-        joined: false,
-        saved: true,
-        hostedByUser: false,
-        ticketLabel: 'Saved idea',
-        highlight: 'A curated tasting trail across favorite late-night stalls.',
-        image: makeEventImage('Street Food Run', '#f59e0b', '#f97316', '◌'),
-    },
-    {
-        id: 'prf-206',
-        title: 'Sunrise Paddle Session',
-        category: 'Sports',
-        date: '2026-05-21T06:00:00',
-        location: 'Ancol Beach Club',
-        price: 120000,
-        joined: false,
-        saved: true,
-        hostedByUser: false,
-        ticketLabel: 'Saved idea',
-        highlight: 'Beginner-friendly coaching, beach coffee, and a sunrise session.',
-        image: makeEventImage('Paddle Session', '#22c55e', '#06b6d4', '△'),
-    },
-    {
-        id: 'prf-207',
-        title: 'City Soundwave Festival',
-        category: 'Music',
-        date: '2026-06-02T18:30:00',
-        location: 'ICE BSD Open Ground',
-        price: 250000,
-        joined: true,
-        saved: false,
-        hostedByUser: false,
-        ticketLabel: 'Paid ticket',
-        highlight: 'Large-scale festival energy with creator booths and community meetups.',
-        image: makeEventImage('City Soundwave', '#ec4899', '#f97316', '♪'),
-    },
-];
+function StoryPill({ story, eventTitle }) {
+    return (
+        <div className="flex flex-col items-center gap-3">
+            <div className={classNames('flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br text-sm font-semibold text-white shadow-lg shadow-slate-950/15', story.accent)}>
+                {story.label.slice(0, 2).toUpperCase()}
+            </div>
+            <div className="text-center">
+                <p className="text-sm font-semibold text-slate-950">{story.label}</p>
+                <p className="text-xs text-slate-500">{eventTitle}</p>
+            </div>
+        </div>
+    );
+}
+
+function MessageBubble({ message }) {
+    const isSelf = message.sender === 'self';
+
+    return (
+        <div className={classNames('flex', isSelf ? 'justify-end' : 'justify-start')}>
+            <div
+                className={classNames(
+                    'max-w-[85%] rounded-[24px] px-4 py-3 text-sm leading-6',
+                    isSelf ? 'bg-slate-950 text-white' : 'bg-slate-100 text-slate-700',
+                )}
+            >
+                <p>{message.text}</p>
+                <p className={classNames('mt-2 text-[11px] font-semibold uppercase tracking-[0.22em]', isSelf ? 'text-slate-300' : 'text-slate-400')}>
+                    {message.time}
+                </p>
+            </div>
+        </div>
+    );
+}
+
+function SettingsBlock({ title, description, children }) {
+    return (
+        <section className="rounded-[28px] border border-slate-200 bg-slate-50 p-5 sm:p-6">
+            <h3 className="dashboard-display text-xl font-bold text-slate-950">{title}</h3>
+            <p className="mt-2 text-sm leading-6 text-slate-600">{description}</p>
+            <div className="mt-5 space-y-4">{children}</div>
+        </section>
+    );
+}
 
 function ProfilePage({ initialProfile }) {
     const [profile, setProfile] = useState(initialProfile);
     const [draftProfile, setDraftProfile] = useState(initialProfile);
-    const [isEditing, setIsEditing] = useState(false);
-    const [selectedImageName, setSelectedImageName] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
-    const [activeTab, setActiveTab] = useState('My Events');
+    const [activeTab, setActiveTab] = useState('Reviews');
     const [flashMessage, setFlashMessage] = useState('');
+    const [reviewPosts, setReviewPosts] = useState(USER_REVIEW_POSTS);
+    const [reviewCaption, setReviewCaption] = useState('');
+    const [reviewEventId, setReviewEventId] = useState(getJoinedEvents().find(canReviewEvent)?.id || '');
+    const [storyHighlights, setStoryHighlights] = useState(USER_STORIES);
+    const [uploadedStoryName, setUploadedStoryName] = useState('');
+    const [threads, setThreads] = useState(MESSAGE_THREADS);
+    const [selectedThreadId, setSelectedThreadId] = useState(MESSAGE_THREADS[0]?.id || '');
+    const [messageDraft, setMessageDraft] = useState('');
+    const [paymentPreference, setPaymentPreference] = useState('E-Wallet');
 
-    const joinedEvents = PROFILE_EVENTS.filter((event) => event.joined).sort(compareEventDates);
-    const upcomingEvents = joinedEvents.filter(isUpcomingEvent);
-    const pastEvents = joinedEvents
-        .filter((event) => !isUpcomingEvent(event))
-        .sort((left, right) => new Date(right.date) - new Date(left.date));
-    const savedEvents = PROFILE_EVENTS.filter((event) => event.saved).sort(compareEventDates);
-    const hostedEvents = PROFILE_EVENTS.filter((event) => event.hostedByUser);
-    const ticketsPurchased = joinedEvents.filter((event) => event.price > 0);
-    const nextUpcomingEvent = upcomingEvents[0] || savedEvents[0] || PROFILE_EVENTS[0];
-
-    const tabs = [
-        { label: 'My Events', events: joinedEvents },
-        { label: 'Upcoming Events', events: upcomingEvents },
-        { label: 'Past Events', events: pastEvents },
-        { label: 'Saved Events', events: savedEvents },
-    ];
-
+    const joinedEvents = useMemo(() => getJoinedEvents().slice().sort(compareEventDates), []);
+    const upcomingEvents = joinedEvents.filter((event) => new Date(event.date) >= BASE_DATE);
+    const pastEvents = joinedEvents.filter((event) => new Date(event.date) < BASE_DATE);
+    const reviewableEvents = joinedEvents.filter(canReviewEvent);
+    const savedIdeas = getRecommendedEvents().slice(0, 4);
+    const selectedThread = threads.find((thread) => thread.id === selectedThreadId) || threads[0];
+    const followers = 1248;
+    const following = 318;
+    const socialActivity = reviewPosts.length * 4 + USER_EVENT_BADGES.length * 2 + threads.length;
+    const profileRank = getUserRank(joinedEvents.length, socialActivity);
     const query = searchTerm.trim().toLowerCase();
-    const currentTab = tabs.find((tab) => tab.label === activeTab) || tabs[0];
-    const visibleEvents = currentTab.events.filter((event) => {
-        if (query === '') {
-            return true;
-        }
 
-        return [event.title, event.location, event.category].some((value) => value.toLowerCase().includes(query));
+    const visibleReviewPosts = reviewPosts.filter((review) => {
+        const event = EVENTS.find((item) => item.id === review.eventId);
+        const haystack = [review.caption, event?.title || ''].join(' ').toLowerCase();
+        return query === '' || haystack.includes(query);
     });
 
-    function openEditor() {
-        setDraftProfile(profile);
-        setSelectedImageName('');
-        setIsEditing(true);
+    const visibleEvents = joinedEvents.filter((event) => {
+        return query === '' || [event.title, event.location, event.category].some((value) => value.toLowerCase().includes(query));
+    });
 
-        if (typeof window !== 'undefined') {
-            window.setTimeout(() => {
-                document.getElementById('profile-edit')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 50);
-        }
-    }
-
-    function cancelEditing() {
-        setDraftProfile(profile);
-        setSelectedImageName('');
-        setIsEditing(false);
-    }
+    const visibleThreads = threads.filter((thread) => {
+        return query === '' || [thread.userName, thread.handle, thread.lastMessage].some((value) => value.toLowerCase().includes(query));
+    });
 
     function handleSaveProfile(event) {
         event.preventDefault();
         setProfile(draftProfile);
-        setIsEditing(false);
-        setFlashMessage('Profile details updated locally for the current demo session.');
+        setFlashMessage('Profile settings updated locally for this demo session.');
     }
 
-    function handleEventAction(event) {
-        if (event.joined || event.hostedByUser) {
-            setFlashMessage(`${event.title} is already on your event profile.`);
+    function handlePostReview(event) {
+        event.preventDefault();
+
+        if (!reviewEventId || reviewCaption.trim() === '') {
             return;
         }
 
-        setFlashMessage(`${event.title} is saved. You can connect this button to a detail page or ticket flow next.`);
+        setReviewPosts((currentReviews) => [
+            {
+                id: `review-${currentReviews.length + 1}`,
+                eventId: reviewEventId,
+                caption: reviewCaption.trim(),
+                likes: 0,
+                comments: 0,
+                createdAt: BASE_DATE.toISOString(),
+            },
+            ...currentReviews,
+        ]);
+        setReviewCaption('');
+        setFlashMessage('Your event review was posted to the local profile feed.');
+        setActiveTab('Reviews');
     }
+
+    function handleStoryUpload(fileName) {
+        if (!fileName) {
+            return;
+        }
+
+        const event = upcomingEvents[0] || joinedEvents[0];
+
+        setStoryHighlights((currentStories) => [
+            {
+                id: `story-${currentStories.length + 1}`,
+                label: fileName.slice(0, 12),
+                eventId: event?.id || joinedEvents[0]?.id,
+                accent: 'from-sky-500 to-fuchsia-500',
+            },
+            ...currentStories,
+        ]);
+        setUploadedStoryName(fileName);
+        setFlashMessage('Story upload UI captured the selected file for this demo session.');
+    }
+
+    function handleSendMessage(event) {
+        event.preventDefault();
+
+        if (!selectedThread || messageDraft.trim() === '') {
+            return;
+        }
+
+        setThreads((currentThreads) =>
+            currentThreads.map((thread) =>
+                thread.id === selectedThread.id
+                    ? {
+                          ...thread,
+                          unread: 0,
+                          lastMessage: messageDraft.trim(),
+                          messages: [
+                              ...thread.messages,
+                              {
+                                  id: `message-${thread.messages.length + 1}`,
+                                  sender: 'self',
+                                  text: messageDraft.trim(),
+                                  time: new Intl.DateTimeFormat('en-US', { hour: '2-digit', minute: '2-digit' }).format(BASE_DATE),
+                              },
+                          ],
+                      }
+                    : thread,
+            ),
+        );
+        setMessageDraft('');
+    }
+
+    const tabs = ['Reviews', 'Events', 'Messages', 'Settings'];
 
     return (
         <div className="dashboard-shell min-h-screen">
             <div className="mx-auto max-w-[1500px] px-4 py-4 sm:px-6 sm:py-6">
-                <TopNavigation userName={profile.name} searchTerm={searchTerm} onSearchChange={setSearchTerm} />
+                <TopNavigation
+                    userName={profile.name}
+                    searchTerm={searchTerm}
+                    onSearchChange={setSearchTerm}
+                    activePath="profile"
+                    searchPlaceholder="Search your reviews, inbox, or event archive"
+                />
 
                 {flashMessage ? (
                     <div className="mt-4 flex items-center justify-between gap-4 rounded-[24px] border border-emerald-200 bg-emerald-50 px-5 py-4 text-sm font-semibold text-emerald-700">
@@ -546,12 +273,12 @@ function ProfilePage({ initialProfile }) {
                 ) : null}
 
                 <main className="mt-6 space-y-6">
-                    <section id="profile-overview" className="panel-dark relative overflow-hidden p-6 sm:p-8">
+                    <section className="panel-dark relative overflow-hidden p-6 sm:p-8">
                         <div className="absolute inset-0 panel-grid opacity-10" />
                         <div className="absolute -left-12 top-8 h-36 w-36 rounded-full bg-orange-400/18 blur-3xl" />
                         <div className="absolute bottom-0 right-0 h-44 w-44 rounded-full bg-fuchsia-400/14 blur-3xl" />
 
-                        <div className="relative flex flex-col gap-6 xl:flex-row xl:items-center xl:justify-between">
+                        <div className="relative flex flex-col gap-6 xl:flex-row xl:items-end xl:justify-between">
                             <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
                                 <img
                                     src={makeAvatarImage(profile.name)}
@@ -562,234 +289,435 @@ function ProfilePage({ initialProfile }) {
                                 <div className="max-w-2xl">
                                     <div className="flex flex-wrap items-center gap-2">
                                         <span className="rounded-full bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-white">
-                                            Profile
+                                            Social profile
                                         </span>
                                         <span className="rounded-full bg-fuchsia-400/15 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-fuchsia-100">
                                             {profile.username}
+                                        </span>
+                                        <span className="rounded-full bg-amber-400/15 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-amber-100">
+                                            {profileRank}
                                         </span>
                                     </div>
                                     <h1 className="dashboard-display mt-5 text-4xl font-bold tracking-tight text-white sm:text-5xl">{profile.name}</h1>
                                     <p className="mt-3 text-base font-medium text-slate-200">{profile.email}</p>
                                     <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-300">{profile.bio}</p>
+
+                                    <div className="mt-6 flex flex-wrap gap-6 text-sm text-slate-200">
+                                        <div>
+                                            <p className="text-slate-400">Followers</p>
+                                            <p className="mt-1 font-semibold text-white">{followers.toLocaleString()}</p>
+                                        </div>
+                                        <div>
+                                            <p className="text-slate-400">Following</p>
+                                            <p className="mt-1 font-semibold text-white">{following.toLocaleString()}</p>
+                                        </div>
+                                        <div>
+                                            <p className="text-slate-400">Social activity</p>
+                                            <p className="mt-1 font-semibold text-white">{socialActivity}</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div className="flex flex-col gap-3 xl:items-end">
-                                <button
-                                    type="button"
-                                    onClick={openEditor}
-                                    className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-slate-950 shadow-lg shadow-slate-950/20 transition hover:bg-slate-100"
-                                >
-                                    <Icon name="edit" className="h-4 w-4" />
-                                    Edit Profile
-                                </button>
-                                <div className="grid w-full gap-3 sm:grid-cols-2 xl:w-[320px] xl:grid-cols-1">
-                                    <div className="rounded-[24px] bg-white/8 px-4 py-4">
-                                        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">Next event</p>
-                                        <p className="mt-2 text-sm font-semibold text-white">{nextUpcomingEvent.title}</p>
-                                        <p className="mt-1 text-sm text-slate-300">{formatShortDate(nextUpcomingEvent.date)}</p>
-                                    </div>
-                                    <div className="rounded-[24px] bg-white/8 px-4 py-4">
-                                        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">Social pulse</p>
-                                        <p className="mt-2 text-sm font-semibold text-white">{joinedEvents.length} active event memories in one place.</p>
-                                    </div>
+                            <div className="grid w-full gap-3 sm:grid-cols-2 xl:w-[340px] xl:grid-cols-1">
+                                <div className="rounded-[24px] bg-white/8 px-4 py-4">
+                                    <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">Plan</p>
+                                    <p className="mt-2 text-sm font-semibold text-white">{profile.plan} member</p>
+                                    <p className="mt-1 text-sm text-slate-300">{PRIVATE_EVENT_LIMITS.remainingPrivateEventsThisMonth} private event slot left this month.</p>
+                                </div>
+                                <div className="rounded-[24px] bg-white/8 px-4 py-4">
+                                    <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">Next event</p>
+                                    <p className="mt-2 text-sm font-semibold text-white">{upcomingEvents[0]?.title || 'No upcoming tickets'}</p>
+                                    <p className="mt-1 text-sm text-slate-300">{upcomingEvents[0] ? formatShortDate(upcomingEvents[0].date) : 'Add something new'}</p>
                                 </div>
                             </div>
                         </div>
                     </section>
 
-                    <section className="grid gap-4 md:grid-cols-3">
-                        <StatCard
-                            label="Events Joined"
-                            value={joinedEvents.length}
-                            note="Your current profile footprint across concerts, communities, and meetups."
+                    <section className="grid gap-4 md:grid-cols-4">
+                        <StatCard label="Events Joined" value={joinedEvents.length} note="Your social footprint across public events." />
+                        <StatCard label="Reviews Posted" value={reviewPosts.length} note="Only joined events that already started can be reviewed." />
+                        <StatCard label="Inbox Threads" value={threads.length} note="Direct messages and private invitation touchpoints." />
+                        <StatCard label="Rank" value={profileRank} note="Calculated from joined events and visible social activity." />
+                    </section>
+
+                    <section className="panel p-6 sm:p-7">
+                        <SectionHeading
+                            eyebrow="Story highlights"
+                            title="Event stories and uploads"
+                            description="Instagram-style story circles for moments you want pinned to the top of your profile."
                         />
-                        <StatCard
-                            label="Events Hosted"
-                            value={hostedEvents.length}
-                            note="A future-ready slot for creator activity and hosted gatherings."
-                        />
-                        <StatCard
-                            label="Tickets Purchased"
-                            value={ticketsPurchased.length}
-                            note="Paid experiences already locked in and ready for the next weekend."
-                        />
+
+                        <div className="mt-6 flex flex-wrap gap-6">
+                            <label className="flex cursor-pointer flex-col items-center gap-3">
+                                <span className="flex h-20 w-20 items-center justify-center rounded-full border-2 border-dashed border-slate-300 bg-white text-slate-600 transition hover:border-slate-950 hover:text-slate-950">
+                                    <Icon name="image" className="h-7 w-7" />
+                                </span>
+                                <span className="text-sm font-semibold text-slate-700">Upload story</span>
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    className="sr-only"
+                                    onChange={(event) => handleStoryUpload(event.target.files?.[0]?.name || '')}
+                                />
+                            </label>
+
+                            {storyHighlights.map((story) => {
+                                const event = EVENTS.find((item) => item.id === story.eventId);
+
+                                return <StoryPill key={story.id} story={story} eventTitle={event?.title || uploadedStoryName || 'Event story'} />;
+                            })}
+                        </div>
                     </section>
 
                     <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
-                        <section id="profile-events" className="panel p-6 sm:p-7">
+                        <section className="panel p-6 sm:p-7">
                             <SectionHeading
-                                eyebrow="Your Event Archive"
+                                eyebrow="Profile hub"
                                 title={activeTab}
-                                description="Browse the events tied to your social identity, from future plans to past check-ins."
+                                description="Switch between review posting, event archive, inbox, and settings without leaving the profile page."
                             />
 
                             <div className="mt-6 flex flex-wrap gap-2">
                                 {tabs.map((tab) => (
-                                    <TabButton
-                                        key={tab.label}
-                                        label={tab.label}
-                                        count={tab.events.length}
-                                        active={activeTab === tab.label}
-                                        onClick={() => setActiveTab(tab.label)}
-                                    />
+                                    <TabButton key={tab} label={tab} active={activeTab === tab} onClick={() => setActiveTab(tab)} />
                                 ))}
                             </div>
 
-                            <div className="mt-6 rounded-[24px] border border-slate-200 bg-slate-50 px-4 py-4 text-sm text-slate-600">
-                                Showing <span className="font-semibold text-slate-950">{visibleEvents.length}</span> events in{' '}
-                                <span className="font-semibold text-slate-950">{activeTab}</span> for{' '}
-                                <span className="font-semibold text-slate-950">{searchTerm || 'all searches'}</span>.
-                            </div>
+                            {activeTab === 'Reviews' ? (
+                                <div className="mt-6 space-y-6">
+                                    <div className="rounded-[28px] border border-slate-200 bg-slate-50 p-5 sm:p-6">
+                                        <div className="flex items-start gap-3">
+                                            <span className="mt-1 text-slate-400">
+                                                <Icon name="message" className="h-5 w-5" />
+                                            </span>
+                                            <div>
+                                                <p className="font-semibold text-slate-950">Review restriction</p>
+                                                <p className="mt-2 text-sm leading-6 text-slate-600">
+                                                    Reviews can only be posted for events you joined and that are already past or currently ongoing.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                            <div className="mt-6 grid gap-4 lg:grid-cols-2">
-                                {visibleEvents.length === 0 ? (
-                                    <div className="panel-grid rounded-[28px] border border-dashed border-slate-300 bg-slate-50 px-6 py-12 text-center">
-                                        <p className="dashboard-display text-2xl font-bold text-slate-950">Nothing matches that search yet.</p>
-                                        <p className="mt-3 text-sm leading-6 text-slate-600">
-                                            Try another keyword or switch tabs to see a different part of your event history.
-                                        </p>
-                                    </div>
-                                ) : (
-                                    visibleEvents.map((event) => <ProfileEventCard key={event.id} event={event} onAction={handleEventAction} />)
-                                )}
-                            </div>
-                        </section>
-
-                        <aside className="space-y-6">
-                            <section className="panel-dark p-6">
-                                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-slate-400">Calendar spotlight</p>
-                                <h2 className="dashboard-display mt-3 text-2xl font-bold text-white">{nextUpcomingEvent.title}</h2>
-                                <div className="mt-5 overflow-hidden rounded-[24px]">
-                                    <img src={nextUpcomingEvent.image} alt={nextUpcomingEvent.title} className="h-44 w-full object-cover" />
-                                </div>
-                                <div className="mt-5 space-y-3 rounded-[24px] bg-white/6 p-4 text-sm text-slate-200">
-                                    <div className="flex items-center gap-3">
-                                        <Icon name="calendar" className="h-4 w-4" />
-                                        <span>{formatEventDate(nextUpcomingEvent.date)}</span>
-                                    </div>
-                                    <div className="flex items-center gap-3">
-                                        <Icon name="map" className="h-4 w-4" />
-                                        <span>{nextUpcomingEvent.location}</span>
-                                    </div>
-                                    <div className="flex items-center gap-3">
-                                        <Icon name="ticket" className="h-4 w-4" />
-                                        <span>{nextUpcomingEvent.ticketLabel}</span>
-                                    </div>
-                                </div>
-                            </section>
-
-                            <section id="profile-edit" className="panel p-6">
-                                <SectionHeading
-                                    eyebrow="Edit Profile"
-                                    title={isEditing ? 'Update your public card' : 'Keep your profile fresh'}
-                                    description="Name, email, bio, and image upload UI are ready here without changing the auth flow."
-                                    action={
-                                        !isEditing ? (
-                                            <button
-                                                type="button"
-                                                onClick={openEditor}
-                                                className="rounded-full bg-slate-950 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-slate-950/15 transition hover:bg-slate-800"
+                                    <form onSubmit={handlePostReview} className="space-y-5 rounded-[28px] border border-slate-200 bg-white p-5 sm:p-6">
+                                        <label className="block">
+                                            <span className="text-sm font-semibold text-slate-700">Event to review</span>
+                                            <select
+                                                value={reviewEventId}
+                                                onChange={(event) => setReviewEventId(event.target.value)}
+                                                disabled={reviewableEvents.length === 0}
+                                                className="mt-2 h-12 w-full rounded-2xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-fuchsia-300 focus:ring-4 focus:ring-fuchsia-100"
                                             >
-                                                Edit Profile
-                                            </button>
-                                        ) : null
-                                    }
-                                />
-
-                                {isEditing ? (
-                                    <form onSubmit={handleSaveProfile} className="mt-6 space-y-5">
-                                        <label className="block">
-                                            <span className="text-sm font-semibold text-slate-700">Name</span>
-                                            <input
-                                                type="text"
-                                                value={draftProfile.name}
-                                                onChange={(event) => setDraftProfile((current) => ({ ...current, name: event.target.value }))}
-                                                className="mt-2 h-12 w-full rounded-2xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-fuchsia-300 focus:ring-4 focus:ring-fuchsia-100"
-                                                required
-                                            />
+                                                {reviewableEvents.length === 0 ? <option value="">No eligible events yet</option> : null}
+                                                {reviewableEvents.map((event) => (
+                                                    <option key={event.id} value={event.id}>
+                                                        {event.title}
+                                                    </option>
+                                                ))}
+                                            </select>
                                         </label>
 
                                         <label className="block">
-                                            <span className="text-sm font-semibold text-slate-700">Email</span>
-                                            <input
-                                                type="email"
-                                                value={draftProfile.email}
-                                                onChange={(event) => setDraftProfile((current) => ({ ...current, email: event.target.value }))}
-                                                className="mt-2 h-12 w-full rounded-2xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-fuchsia-300 focus:ring-4 focus:ring-fuchsia-100"
-                                                required
-                                            />
-                                        </label>
-
-                                        <label className="block">
-                                            <span className="text-sm font-semibold text-slate-700">Bio</span>
+                                            <span className="text-sm font-semibold text-slate-700">Caption / review</span>
                                             <textarea
                                                 rows="5"
-                                                value={draftProfile.bio}
-                                                onChange={(event) => setDraftProfile((current) => ({ ...current, bio: event.target.value }))}
-                                                className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm leading-6 text-slate-700 outline-none transition focus:border-fuchsia-300 focus:ring-4 focus:ring-fuchsia-100"
-                                                placeholder="Tell people what kind of events you love and what communities you show up for."
+                                                value={reviewCaption}
+                                                onChange={(event) => setReviewCaption(event.target.value)}
+                                                disabled={reviewableEvents.length === 0}
+                                                className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm leading-6 text-slate-700 outline-none transition focus:border-fuchsia-300 focus:ring-4 focus:ring-fuchsia-100 disabled:cursor-not-allowed disabled:bg-slate-100"
+                                                placeholder="Drop your event review here."
                                             />
                                         </label>
 
-                                        <div className="rounded-[24px] border border-dashed border-slate-300 bg-slate-50 px-4 py-5">
-                                            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                                                <div>
-                                                    <p className="text-sm font-semibold text-slate-700">Profile image</p>
-                                                    <p className="mt-1 text-sm text-slate-600">
-                                                        {selectedImageName ? `Selected: ${selectedImageName}` : 'No image selected yet.'}
-                                                    </p>
-                                                </div>
-                                                <label className="inline-flex cursor-pointer items-center justify-center rounded-full bg-white px-4 py-2 text-sm font-semibold text-slate-700 ring-1 ring-inset ring-slate-200 transition hover:bg-slate-100">
-                                                    Choose file
-                                                    <input
-                                                        type="file"
-                                                        accept="image/*"
-                                                        className="sr-only"
-                                                        onChange={(event) => setSelectedImageName(event.target.files?.[0]?.name || '')}
+                                        <button
+                                            type="submit"
+                                            disabled={reviewableEvents.length === 0 || reviewCaption.trim() === ''}
+                                            className="inline-flex items-center gap-2 rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-slate-950/15 transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-300"
+                                        >
+                                            Post review
+                                            <Icon name="send" className="h-4 w-4" />
+                                        </button>
+                                    </form>
+
+                                    <div className="grid gap-4 lg:grid-cols-2">
+                                        {visibleReviewPosts.length === 0 ? (
+                                            <EmptyState
+                                                title="No review posts match that search."
+                                                description="Try another search term or publish a fresh event review from the composer."
+                                            />
+                                        ) : (
+                                            visibleReviewPosts.map((review) => <ReviewCard key={review.id} review={review} userName={profile.name} />)
+                                        )}
+                                    </div>
+                                </div>
+                            ) : null}
+
+                            {activeTab === 'Events' ? (
+                                <div className="mt-6 space-y-6">
+                                    <div className="rounded-[24px] border border-slate-200 bg-slate-50 px-4 py-4 text-sm text-slate-600">
+                                        Showing <span className="font-semibold text-slate-950">{visibleEvents.length}</span> joined events for{' '}
+                                        <span className="font-semibold text-slate-950">{searchTerm || 'all searches'}</span>.
+                                    </div>
+
+                                    <div className="grid gap-4 lg:grid-cols-2">
+                                        {visibleEvents.length === 0 ? (
+                                            <EmptyState
+                                                title="No events match that search."
+                                                description="Switch your search or head back to Explore to add more events to your identity."
+                                            />
+                                        ) : (
+                                            visibleEvents.map((event) => (
+                                                <EventCard
+                                                    key={event.id}
+                                                    event={event}
+                                                    joined
+                                                    primaryLabel="Open schedule"
+                                                    onPrimaryAction={() => {
+                                                        window.location.href = '/schedule';
+                                                    }}
+                                                />
+                                            ))
+                                        )}
+                                    </div>
+
+                                    <div className="grid gap-6 lg:grid-cols-2">
+                                        <div>
+                                            <SectionHeading eyebrow="Upcoming" title="Next joined events" />
+                                            <div className="mt-5 space-y-3">
+                                                {upcomingEvents.map((event) => (
+                                                    <CompactEventItem
+                                                        key={event.id}
+                                                        event={event}
+                                                        badge={event.ticketStatus}
+                                                        actionLabel={event.location}
+                                                        onOpen={() => {
+                                                            window.location.href = '/schedule';
+                                                        }}
                                                     />
-                                                </label>
+                                                ))}
                                             </div>
-                                            <p className="mt-3 text-xs leading-5 text-slate-500">
-                                                Upload UI is included for now. Hook this field into storage when you are ready to persist avatars.
-                                            </p>
                                         </div>
 
-                                        <div className="flex flex-wrap gap-3">
+                                        <div>
+                                            <SectionHeading eyebrow="Saved ideas" title="Recommended next" />
+                                            <div className="mt-5 space-y-3">
+                                                {savedIdeas.map((event) => (
+                                                    <CompactEventItem
+                                                        key={event.id}
+                                                        event={event}
+                                                        badge="Recommended"
+                                                        actionLabel={event.host}
+                                                        onOpen={() => {
+                                                            window.location.href = `/payment/${event.id}`;
+                                                        }}
+                                                    />
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ) : null}
+
+                            {activeTab === 'Messages' ? (
+                                <div className="mt-6 grid gap-6 xl:grid-cols-[320px_minmax(0,1fr)]">
+                                    <div className="space-y-3">
+                                        {visibleThreads.map((thread) => (
+                                            <button
+                                                key={thread.id}
+                                                type="button"
+                                                onClick={() => setSelectedThreadId(thread.id)}
+                                                className={classNames(
+                                                    'w-full rounded-[24px] border px-4 py-4 text-left transition',
+                                                    selectedThreadId === thread.id ? 'border-slate-950 bg-slate-950 text-white' : 'border-slate-200 bg-slate-50 hover:bg-white',
+                                                )}
+                                            >
+                                                <div className="flex items-start gap-3">
+                                                    <img src={thread.avatar} alt={thread.userName} className="h-12 w-12 rounded-full object-cover" />
+                                                    <div className="min-w-0 flex-1">
+                                                        <div className="flex items-center justify-between gap-3">
+                                                            <p className="font-semibold">{thread.userName}</p>
+                                                            {thread.unread > 0 ? (
+                                                                <span className={classNames('rounded-full px-2 py-0.5 text-xs font-semibold', selectedThreadId === thread.id ? 'bg-white/10 text-white' : 'bg-slate-950 text-white')}>
+                                                                    {thread.unread}
+                                                                </span>
+                                                            ) : null}
+                                                        </div>
+                                                        <p className={classNames('mt-1 text-sm', selectedThreadId === thread.id ? 'text-slate-300' : 'text-slate-500')}>{thread.role}</p>
+                                                        <p className={classNames('mt-2 line-clamp-2 text-sm', selectedThreadId === thread.id ? 'text-slate-200' : 'text-slate-600')}>{thread.lastMessage}</p>
+                                                    </div>
+                                                </div>
+                                            </button>
+                                        ))}
+                                    </div>
+
+                                    {selectedThread ? (
+                                        <div className="rounded-[28px] border border-slate-200 bg-white p-5 sm:p-6">
+                                            <div className="flex items-center gap-4 border-b border-slate-200 pb-4">
+                                                <img src={selectedThread.avatar} alt={selectedThread.userName} className="h-14 w-14 rounded-full object-cover" />
+                                                <div>
+                                                    <p className="font-semibold text-slate-950">{selectedThread.userName}</p>
+                                                    <p className="text-sm text-slate-500">{selectedThread.role}</p>
+                                                </div>
+                                            </div>
+
+                                            {selectedThread.invitation ? (
+                                                <div className="mt-4 rounded-[24px] border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
+                                                    Invitation status: <span className="font-semibold text-slate-950">{selectedThread.invitation.status}</span>
+                                                </div>
+                                            ) : null}
+
+                                            <div className="mt-5 space-y-3">
+                                                {selectedThread.messages.map((message) => (
+                                                    <MessageBubble key={message.id} message={message} />
+                                                ))}
+                                            </div>
+
+                                            <form onSubmit={handleSendMessage} className="mt-6 flex gap-3">
+                                                <input
+                                                    type="text"
+                                                    value={messageDraft}
+                                                    onChange={(event) => setMessageDraft(event.target.value)}
+                                                    placeholder="Write a reply"
+                                                    className="h-12 flex-1 rounded-2xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-fuchsia-300 focus:ring-4 focus:ring-fuchsia-100"
+                                                />
+                                                <button
+                                                    type="submit"
+                                                    className="inline-flex items-center gap-2 rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-slate-950/15 transition hover:bg-slate-800"
+                                                >
+                                                    Send
+                                                </button>
+                                            </form>
+                                        </div>
+                                    ) : (
+                                        <EmptyState title="No thread selected." description="Pick a conversation from the inbox list to open the chat interface." />
+                                    )}
+                                </div>
+                            ) : null}
+
+                            {activeTab === 'Settings' ? (
+                                <div className="mt-6 space-y-6">
+                                    <SettingsBlock title="Profile settings" description="Update the public identity people see around your reviews and invitations.">
+                                        <form onSubmit={handleSaveProfile} className="space-y-4">
+                                            <label className="block">
+                                                <span className="text-sm font-semibold text-slate-700">Name</span>
+                                                <input
+                                                    type="text"
+                                                    value={draftProfile.name}
+                                                    onChange={(event) => setDraftProfile((current) => ({ ...current, name: event.target.value }))}
+                                                    className="mt-2 h-12 w-full rounded-2xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-fuchsia-300 focus:ring-4 focus:ring-fuchsia-100"
+                                                />
+                                            </label>
+                                            <label className="block">
+                                                <span className="text-sm font-semibold text-slate-700">Bio</span>
+                                                <textarea
+                                                    rows="4"
+                                                    value={draftProfile.bio}
+                                                    onChange={(event) => setDraftProfile((current) => ({ ...current, bio: event.target.value }))}
+                                                    className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm leading-6 text-slate-700 outline-none transition focus:border-fuchsia-300 focus:ring-4 focus:ring-fuchsia-100"
+                                                />
+                                            </label>
                                             <button
                                                 type="submit"
                                                 className="inline-flex items-center gap-2 rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-slate-950/15 transition hover:bg-slate-800"
                                             >
-                                                Save Changes
+                                                Save profile
                                             </button>
-                                            <button
-                                                type="button"
-                                                onClick={cancelEditing}
-                                                className="rounded-full border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
-                                            >
-                                                Cancel
-                                            </button>
+                                        </form>
+                                    </SettingsBlock>
+
+                                    <SettingsBlock title="Account settings" description="Dummy account-level controls that keep the auth system intact while expanding the UI.">
+                                        <div className="rounded-[24px] border border-slate-200 bg-white p-4 text-sm text-slate-600">
+                                            <p>
+                                                Email: <span className="font-semibold text-slate-950">{profile.email}</span>
+                                            </p>
+                                            <p className="mt-2">
+                                                Username: <span className="font-semibold text-slate-950">{profile.username}</span>
+                                            </p>
+                                            <p className="mt-2">
+                                                Membership: <span className="font-semibold text-slate-950">{profile.plan}</span>
+                                            </p>
                                         </div>
-                                    </form>
-                                ) : (
-                                    <div className="mt-6 rounded-[24px] bg-slate-50 px-5 py-5 text-sm leading-6 text-slate-600">
-                                        <div className="flex items-start gap-3">
-                                            <span className="mt-0.5 text-slate-400">
-                                                <Icon name="user" className="h-5 w-5" />
-                                            </span>
-                                            <div>
-                                                <p className="font-semibold text-slate-950">Public profile summary</p>
-                                                <p className="mt-2">{profile.bio}</p>
-                                                <p className="mt-3 text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">{profile.username}</p>
-                                            </div>
+                                    </SettingsBlock>
+
+                                    <SettingsBlock title="Payment configuration" description="A placeholder payment configuration section for future wallet and billing persistence.">
+                                        <label className="block">
+                                            <span className="text-sm font-semibold text-slate-700">Preferred payment method</span>
+                                            <select
+                                                value={paymentPreference}
+                                                onChange={(event) => setPaymentPreference(event.target.value)}
+                                                className="mt-2 h-12 w-full rounded-2xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-fuchsia-300 focus:ring-4 focus:ring-fuchsia-100"
+                                            >
+                                                <option>E-Wallet</option>
+                                                <option>Virtual Account</option>
+                                                <option>Credit Card</option>
+                                            </select>
+                                        </label>
+                                        <div className="rounded-[24px] border border-slate-200 bg-white p-4 text-sm text-slate-600">
+                                            Current preference: <span className="font-semibold text-slate-950">{paymentPreference}</span>
+                                        </div>
+                                    </SettingsBlock>
+                                </div>
+                            ) : null}
+                        </section>
+
+                        <aside className="space-y-6">
+                            <section className="panel-dark p-6">
+                                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-slate-400">Badges and rank</p>
+                                <h2 className="dashboard-display mt-3 text-2xl font-bold text-white">{profileRank}</h2>
+                                <div className="mt-5 space-y-3">
+                                    {USER_EVENT_BADGES.map((badge) => (
+                                        <div key={badge.id} className="rounded-[24px] bg-white/6 p-4">
+                                            <p className="font-semibold text-white">{badge.name}</p>
+                                            <p className="mt-1 text-sm text-slate-300">{badge.note}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            </section>
+
+                            <section className="panel p-6">
+                                <SectionHeading eyebrow="Calendar spotlight" title={upcomingEvents[0]?.title || 'No upcoming event'} />
+                                {upcomingEvents[0] ? (
+                                    <div className="mt-5 space-y-4">
+                                        <img src={upcomingEvents[0].image} alt={upcomingEvents[0].title} className="h-44 w-full rounded-[24px] object-cover" />
+                                        <div className="rounded-[24px] bg-slate-50 p-4 text-sm text-slate-600">
+                                            <p className="font-semibold text-slate-950">{formatEventDate(upcomingEvents[0].date)}</p>
+                                            <p className="mt-2">{upcomingEvents[0].location}</p>
                                         </div>
                                     </div>
+                                ) : (
+                                    <div className="mt-5">
+                                        <EmptyState
+                                            title="No upcoming tickets."
+                                            description="Jump to Explore or Dashboard to add your next event."
+                                        />
+                                    </div>
                                 )}
+                            </section>
+
+                            <section className="panel p-6">
+                                <SectionHeading eyebrow="Past highlights" title="Reviewable history" />
+                                <div className="mt-5 space-y-3">
+                                    {pastEvents.map((event) => (
+                                        <CompactEventItem
+                                            key={event.id}
+                                            event={event}
+                                            badge={event.ticketStatus}
+                                            actionLabel="Eligible for review"
+                                            onOpen={() => {
+                                                setActiveTab('Reviews');
+                                                setReviewEventId(event.id);
+                                            }}
+                                        />
+                                    ))}
+                                </div>
                             </section>
                         </aside>
                     </div>
                 </main>
             </div>
+
+            <FloatingCreateButton />
         </div>
     );
 }
@@ -802,6 +730,7 @@ if (mountNode) {
         username: mountNode.dataset.userUsername || '@ayoyok-user',
         email: mountNode.dataset.userEmail || 'hello@ayoyok.app',
         bio: mountNode.dataset.userBio || 'Always chasing events with good energy, better playlists, and people worth meeting.',
+        plan: mountNode.dataset.userPlan || 'Free',
     };
 
     createRoot(mountNode).render(
