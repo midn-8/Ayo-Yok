@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Studio\CreateEvent\StudioCreateEventInputGuard;
+use InvalidArgumentException;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class EventController extends Controller
 {
@@ -36,15 +39,31 @@ class EventController extends Controller
 
     public function storePrivateEvent(Request $request)
     {
+        // Previous implementation (kept for TDD traceability):
+        // $request->validate([
+        //     'title' => 'required|string|max:255',
+        //     'date' => 'required',
+        //     'theme' => 'required|string',
+        // ]);
         $request->validate([
-            'title' => 'required|string|max:255',
             'date' => 'required',
             'theme' => 'required|string',
         ]);
 
+        try {
+            $sanitized = StudioCreateEventInputGuard::validateAndSanitize([
+                'title' => $request->input('title'),
+                'description' => $request->input('description', ''),
+            ]);
+        } catch (InvalidArgumentException $exception) {
+            throw ValidationException::withMessages([
+                'title' => $exception->getMessage(),
+            ]);
+        }
+
         return redirect()
             ->route('events.private.create')
-            ->with('success', 'Private event draft created. Connect persistence when the backend is ready.');
+            ->with('success', "Private event draft created for \"{$sanitized['title']}\". Connect persistence when the backend is ready.");
     }
 
     // =========================

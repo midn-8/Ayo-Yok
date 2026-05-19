@@ -17,13 +17,15 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
-    protected $fillable = [
+protected $fillable = [
     'name',
     'username',
     'email',
     'phone_number',
     'password',
     'role', // Added from your migration
+    'is_studio_partner',
+    'studio_partner_approved_at',
 ];
 
     /**
@@ -46,6 +48,8 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_studio_partner' => 'boolean',
+            'studio_partner_approved_at' => 'datetime',
         ];
     }
 }

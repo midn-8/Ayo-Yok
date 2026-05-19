@@ -14,6 +14,7 @@ export default defineConfig({
                 'resources/js/payment.jsx',
                 'resources/js/private-event.jsx',
                 'resources/js/private-invite.jsx',
+                'resources/js/studio.jsx',
             ],
             refresh: true,
         }),

@@ -51,4 +51,70 @@ Route::middleware('auth')->group(function () {
     Route::post('/event/{id}/join', [EventController::class, 'joinEvent'])->name('event.join');
     Route::get('/payment/{id}', [EventController::class, 'payment'])->name('payment.show');
     Route::post('/payment/{id}/confirm', [EventController::class, 'confirmPayment'])->name('payment.confirm');
+
+    // STUDIO (ORGANIZER PLATFORM)
+    Route::middleware('studio.partner')->group(function () {
+        Route::get('/studio', function () {
+            return view('studio.app', [
+                'studioPage' => 'dashboard',
+                'studioTitle' => 'AyoYok Studio Dashboard',
+            ]);
+        })->name('studio.dashboard');
+
+        Route::get('/studio/create-event', function () {
+            return view('studio.app', [
+                'studioPage' => 'create-event',
+                'studioTitle' => 'AyoYok Studio Create Event',
+            ]);
+        })->name('studio.create-event');
+
+        Route::get('/studio/boost-event', function () {
+            return view('studio.app', [
+                'studioPage' => 'boost-event',
+                'studioTitle' => 'AyoYok Studio Boost Event',
+            ]);
+        })->name('studio.boost-event');
+
+        Route::get('/studio/schedule-window', function () {
+            return view('studio.app', [
+                'studioPage' => 'schedule-window',
+                'studioTitle' => 'AyoYok Studio Schedule Window',
+            ]);
+        })->name('studio.schedule-window');
+
+        Route::get('/studio/social-media-management', function () {
+            return view('studio.app', [
+                'studioPage' => 'social-media-management',
+                'studioTitle' => 'AyoYok Studio Social Media Management',
+            ]);
+        })->name('studio.social-media-management');
+
+        Route::get('/studio/social-preview', function () {
+            return view('studio.app', [
+                'studioPage' => 'social-preview',
+                'studioTitle' => 'AyoYok Studio Social Preview',
+            ]);
+        })->name('studio.social-preview');
+
+        Route::get('/studio/planning', function () {
+            return view('studio.app', [
+                'studioPage' => 'planning',
+                'studioTitle' => 'AyoYok Studio Planning',
+            ]);
+        })->name('studio.planning');
+
+        Route::get('/studio/payment-configuration', function () {
+            return view('studio.app', [
+                'studioPage' => 'payment-configuration',
+                'studioTitle' => 'AyoYok Studio Payment Configuration',
+            ]);
+        })->name('studio.payment-configuration');
+
+        Route::get('/studio/organizer-profile', function () {
+            return view('studio.app', [
+                'studioPage' => 'organizer-profile',
+                'studioTitle' => 'AyoYok Studio Organizer Profile',
+            ]);
+        })->name('studio.organizer-profile');
+    });
 });

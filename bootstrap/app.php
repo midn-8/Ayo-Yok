@@ -12,6 +12,9 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->redirectGuestsTo('/login');
+        $middleware->alias([
+            'studio.partner' => \App\Http\Middleware\EnsureStudioPartner::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
