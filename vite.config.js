@@ -12,6 +12,7 @@ export default defineConfig({
                 'resources/js/schedule.jsx',
                 'resources/js/profile.jsx',
                 'resources/js/payment.jsx',
+                'resources/js/event-detail.jsx',
                 'resources/js/private-event.jsx',
                 'resources/js/private-invite.jsx',
             ],

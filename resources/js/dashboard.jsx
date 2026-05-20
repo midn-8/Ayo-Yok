@@ -19,7 +19,7 @@ import {
     getRecentlyViewedEvents,
     getTrendingEvents,
 } from './social-hub/mockData';
-import { classNames, formatDateChip, formatEventDate, formatPrice, Icon } from './social-hub/ui';
+import { classNames, formatDateChip, formatEventDate, formatPrice, Icon, FloatingCreateButton } from './social-hub/ui';
 
 const { StrictMode, useEffect, useMemo, useRef, useState } = React;
 
@@ -1096,14 +1096,7 @@ function Dashboard({ userName, userUsername, userEmail }) {
                 </div>
             </footer>
 
-            <div className="fixed bottom-24 right-6 z-40 md:hidden">
-                <a
-                    href="/events/private/create"
-                    className="flex h-14 w-14 items-center justify-center rounded-full bg-[#5e50b0] text-white shadow-[0_24px_46px_-24px_rgba(94,80,176,0.9)] transition active:scale-95"
-                >
-                    <MaterialIcon name="add" />
-                </a>
-            </div>
+            <FloatingCreateButton />
 
             <nav className="fixed bottom-0 left-0 z-50 flex w-full items-center justify-around rounded-t-[22px] border-t border-white/60 bg-[rgba(247,242,251,0.92)] px-4 py-3 shadow-[0_-8px_30px_-18px_rgba(94,80,176,0.28)] backdrop-blur-lg md:hidden">
                 <a href="/dashboard" className="flex flex-col items-center justify-center rounded-full bg-[#e5deff] px-5 py-1 text-[#372687]">
