@@ -86,9 +86,9 @@ class EventController extends Controller
     {
         $event = [
             'id'=>$id,
-            'title'=>'Music Festival',
-            'description'=>'Big outdoor concert',
-            'price'=>100000
+            'title'=>'Event',
+            'description'=>'',
+            'price'=>null
         ];
 
         return view('events.detail', compact('event'));

@@ -12,6 +12,7 @@
         id="ayoyok-explore-root"
         data-user-name="{{ auth()->user()->name ?? 'AyoYok User' }}"
         data-user-username="{{ auth()->user()->username ? '@' . auth()->user()->username : '@ayoyok-user' }}"
+        data-user-email="{{ auth()->user()->email ?? 'hello@ayoyok.app' }}"
     ></div>
 </body>
 </html>

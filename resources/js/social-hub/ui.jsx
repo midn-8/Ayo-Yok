@@ -506,9 +506,9 @@ export function FloatingCreateButton() {
         <a
             href="/events/private/create"
             aria-label="Create private event"
-            className="fixed bottom-6 right-6 z-40 inline-flex h-16 w-16 items-center justify-center rounded-full bg-slate-950 text-white shadow-[0_24px_60px_-20px_rgba(15,23,42,0.6)] transition hover:-translate-y-1 hover:bg-slate-800"
+            className="fixed bottom-24 right-6 sm:bottom-10 sm:right-10 z-40 inline-flex h-16 w-16 items-center justify-center rounded-[20px] bg-[#5e50b0] text-white shadow-[0_20px_40px_-16px_rgba(94,80,176,0.8)] transition hover:-translate-y-1 hover:shadow-[0_24px_60px_-16px_rgba(94,80,176,0.95)]"
         >
-            <Icon name="plus" className="h-7 w-7" />
+            <span aria-hidden="true" className="material-symbols-outlined text-[32px] leading-none">add</span>
         </a>
     );
 }

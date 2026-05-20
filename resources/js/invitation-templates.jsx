@@ -13,7 +13,7 @@ export function ElegantNightInvitation({ invitation }) {
                 <div className="absolute -right-10 top-0 h-36 w-36 rounded-full bg-amber-300/20 blur-3xl" />
                 <div className="absolute bottom-0 left-0 h-32 w-32 rounded-full bg-white/10 blur-3xl" />
                 <p className="text-xs font-semibold uppercase tracking-[0.32em] text-amber-100">Elegant Night</p>
-                <h2 className="dashboard-display mt-5 text-4xl font-bold sm:text-5xl">{invitation.title}</h2>
+                <h2 className="editorial-display mt-5 text-4xl font-bold sm:text-5xl">{invitation.title}</h2>
                 <p className="mt-6 max-w-xl text-sm leading-7 text-amber-50/88">{invitation.message}</p>
 
                 <div className="mt-8 grid gap-4 sm:grid-cols-2">
@@ -37,7 +37,7 @@ export function MinimalModernInvitation({ invitation }) {
             <div className="grid gap-0 md:grid-cols-[1fr_220px]">
                 <div className="p-8 sm:p-10">
                     <p className="text-xs font-semibold uppercase tracking-[0.32em] text-slate-400">Minimal Modern</p>
-                    <h2 className="dashboard-display mt-5 text-4xl font-bold sm:text-5xl">{invitation.title}</h2>
+                    <h2 className="editorial-display mt-5 text-4xl font-bold sm:text-5xl">{invitation.title}</h2>
                     <div className="mt-8 space-y-3 text-sm leading-7 text-slate-600">
                         <p>{invitation.message}</p>
                         <p>{formatEventDate(invitation.date)}</p>
@@ -61,7 +61,7 @@ export function PartyNeonInvitation({ invitation }) {
                     <div className="inline-flex rounded-full border border-white/10 bg-white/8 px-4 py-2 text-xs font-semibold uppercase tracking-[0.28em] text-fuchsia-100">
                         Party Neon
                     </div>
-                    <h2 className="dashboard-display mt-6 text-4xl font-bold sm:text-5xl">{invitation.title}</h2>
+                    <h2 className="editorial-display mt-6 text-4xl font-bold sm:text-5xl">{invitation.title}</h2>
                     <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-200">{invitation.message}</p>
 
                     <div className="mt-8 flex flex-wrap gap-3 text-sm font-semibold">
