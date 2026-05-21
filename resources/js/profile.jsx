@@ -26,6 +26,7 @@ import {
     formatEventDate,
     formatPrice,
     formatShortDate,
+    LogoutButton,
 } from './social-hub/ui';
 
 const { StrictMode, useMemo, useState } = React;
@@ -212,6 +213,7 @@ function ProfileNavigation({ userName, searchTerm, onSearchChange }) {
                     <button type="button" onClick={() => scrollToSection('profile-memories')} className="rounded-full p-2 text-[#484552] transition hover:bg-white/80 hover:text-[#5e50b0]">
                         <MaterialIcon name="favorite" />
                     </button>
+                    <LogoutButton />
                     <a href="/profile" className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-[#c8bfff] bg-white text-sm font-bold text-[#5e50b0]" title={`${userName} ${displayHandle}`}>
                         {getInitials(userName)}
                     </a>
@@ -616,7 +618,12 @@ function ProfilePage({ initialProfile }) {
                                     <div className="rounded-[24px] border border-[#e5e1ea] bg-white/80 p-4 text-sm text-[#484552] space-y-2">
                                         <p>Email: <span className="font-semibold text-[#1c1b21]">{profile.email}</span></p>
                                         <p>Username: <span className="font-semibold text-[#1c1b21]">{profile.username}</span></p>
-                                        <p>Membership: <span className="font-semibold text-[#1c1b21]">{profile.plan}</span></p>
+                                        <div className="flex items-center justify-between">
+                                            <p>Membership: <span className="font-semibold text-[#1c1b21] capitalize">{profile.plan === 'pro' ? 'Pro Organizer' : profile.plan}</span></p>
+                                            <a href="/membership" className="text-xs font-bold uppercase tracking-wider text-[#5e50b0] hover:underline">
+                                                Manage Plan
+                                            </a>
+                                        </div>
                                     </div>
                                     <label className="block mt-4">
                                         <span className="text-sm font-semibold text-[#484552]">Default Payment Method</span>
@@ -631,6 +638,14 @@ function ProfilePage({ initialProfile }) {
                                     <PrivacyToggle label="Public Profile" description="Allow others to see your profile." enabled={privacySettings.profileVisible} onToggle={() => togglePrivacy('profileVisible')} />
                                     <PrivacyToggle label="Show Events" description="Display your joined events archive." enabled={privacySettings.showJoinedEvents} onToggle={() => togglePrivacy('showJoinedEvents')} />
                                     <PrivacyToggle label="Direct Messages" description="Allow anyone to send you messages." enabled={privacySettings.allowMessages} onToggle={() => togglePrivacy('allowMessages')} />
+                                </SettingsBlock>
+                                <SettingsBlock title="Account Actions" description="Manage your current session.">
+                                    <form method="POST" action="/logout">
+                                        <input type="hidden" name="_token" value={document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')} />
+                                        <button type="submit" className="w-full rounded-2xl border border-red-200 bg-red-50 py-4 text-center text-sm font-semibold text-red-600 transition hover:bg-red-100">
+                                            Log Out Securely
+                                        </button>
+                                    </form>
                                 </SettingsBlock>
                             </div>
                         </div>

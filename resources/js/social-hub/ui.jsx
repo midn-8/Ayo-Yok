@@ -512,3 +512,18 @@ export function FloatingCreateButton() {
         </a>
     );
 }
+
+export function LogoutButton() {
+    return (
+        <form method="POST" action="/logout" className="inline-flex m-0 p-0">
+            <input type="hidden" name="_token" value={document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')} />
+            <button
+                type="submit"
+                title="Logout"
+                className="rounded-full p-2 text-[#484552] transition hover:bg-white/80 hover:text-red-500"
+            >
+                <span aria-hidden="true" className="material-symbols-outlined leading-none">logout</span>
+            </button>
+        </form>
+    );
+}
