@@ -16,6 +16,8 @@ export default defineConfig({
                 'resources/js/private-event.jsx',
                 'resources/js/private-invite.jsx',
                 'resources/js/studio.jsx',
+                'resources/js/membership.jsx',
+                'resources/js/membership-checkout.jsx',
             ],
             refresh: true,
         }),

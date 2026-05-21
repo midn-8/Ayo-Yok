@@ -24,6 +24,7 @@ protected $fillable = [
     'phone_number',
     'password',
     'role', // Added from your migration
+    'membership_plan',
     'is_studio_partner',
     'studio_partner_approved_at',
 ];

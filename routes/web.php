@@ -36,6 +36,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/schedule', [SocialController::class, 'schedule'])->name('schedule');
     Route::get('/profile', [SocialController::class, 'profile'])->name('profile');
 
+    // MEMBERSHIP
+    Route::get('/membership', [\App\Http\Controllers\MembershipController::class, 'index'])->name('membership.index');
+    Route::get('/membership/checkout/{plan}', [\App\Http\Controllers\MembershipController::class, 'checkout'])->name('membership.checkout');
+    Route::post('/membership/checkout/{plan}', [\App\Http\Controllers\MembershipController::class, 'processCheckout'])->name('membership.process');
+
     // EVENT
     Route::get('/event/create', [EventController::class, 'createPrivateEvent'])->name('event.create');
     Route::get('/events/private/create', [EventController::class, 'createPrivateEvent'])->name('events.private.create');
