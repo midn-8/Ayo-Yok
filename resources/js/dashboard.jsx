@@ -20,6 +20,7 @@ import {
     getTrendingEvents,
 } from './social-hub/mockData';
 import { classNames, formatDateChip, formatEventDate, formatPrice, Icon, FloatingCreateButton, LogoutButton } from './social-hub/ui';
+import { logoAyoyok } from './brand-assets';
 
 const { StrictMode, useEffect, useMemo, useRef, useState } = React;
 
@@ -99,8 +100,8 @@ function FilterPill({ label, active, onClick }) {
             className={classNames(
                 'rounded-full border px-4 py-2 text-sm font-semibold transition',
                 active
-                    ? 'border-[#5e50b0] bg-[#5e50b0] text-white shadow-[0_14px_30px_-18px_rgba(94,80,176,0.65)]'
-                    : 'border-white/70 bg-white/70 text-[#484552] hover:border-[#c8bfff] hover:text-[#5e50b0]',
+                    ? 'border-[#8ea2ff] bg-[#8ea2ff] text-white shadow-[0_14px_30px_-18px_rgba(94,80,176,0.65)]'
+                    : 'border-[#25324d]/70 bg-[#111b31]/70 text-[#a8b4cc] hover:border-[#3e5996] hover:text-[#8ea2ff]',
             )}
         >
             {label}
@@ -112,8 +113,8 @@ function SectionTitle({ title, description, action }) {
     return (
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div>
-                <h2 className="editorial-display text-[28px] font-semibold leading-[1.2] text-[#1c1b21] md:text-[32px]">{title}</h2>
-                {description ? <p className="mt-2 max-w-2xl text-base leading-7 text-[#484552]">{description}</p> : null}
+                <h2 className="editorial-display text-[28px] font-semibold leading-[1.2] text-[#e8eefc] md:text-[32px]">{title}</h2>
+                {description ? <p className="mt-2 max-w-2xl text-base leading-7 text-[#a8b4cc]">{description}</p> : null}
             </div>
             {action}
         </div>
@@ -122,9 +123,9 @@ function SectionTitle({ title, description, action }) {
 
 function EditorialEmptyState({ title, description, action }) {
     return (
-        <div className="glass-card ambient-shadow rounded-[28px] border border-white/70 px-6 py-12 text-center">
-            <h3 className="editorial-display text-2xl font-semibold text-[#1c1b21]">{title}</h3>
-            <p className="mt-3 text-sm leading-7 text-[#484552]">{description}</p>
+        <div className="glass-card ambient-shadow rounded-[28px] border border-[#25324d]/70 px-6 py-12 text-center">
+            <h3 className="editorial-display text-2xl font-semibold text-[#e8eefc]">{title}</h3>
+            <p className="mt-3 text-sm leading-7 text-[#a8b4cc]">{description}</p>
             {action ? <div className="mt-5">{action}</div> : null}
         </div>
     );
@@ -151,11 +152,11 @@ function AvatarStack({ event }) {
                 <img
                     key={`${event.id}-${avatar.label}`}
                     alt={avatar.label}
-                    className="h-8 w-8 rounded-full border-2 border-[#fdf8ff] object-cover"
+                    className="h-8 w-8 rounded-full border-2 border-[#050b17] object-cover"
                     src={avatar.src}
                 />
             ))}
-            <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-[#fdf8ff] bg-[#e5deff] text-[10px] font-bold text-[#372687]">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-[#050b17] bg-[#1a2742] text-[10px] font-bold text-[#9fb3ff]">
                 +{Math.min(Math.max(Math.round(event.attendees / 40), 3), 99)}
             </div>
         </div>
@@ -167,20 +168,20 @@ function CompactAgendaItem({ event, label, onOpen }) {
         <button
             type="button"
             onClick={onOpen}
-            className="flex w-full items-center gap-4 rounded-[24px] border border-white/70 bg-white/80 p-4 text-left transition hover:-translate-y-0.5 hover:shadow-[0_20px_42px_-28px_rgba(94,80,176,0.45)]"
+            className="flex w-full items-center gap-4 rounded-[24px] border border-[#25324d]/70 bg-[#111b31]/80 p-4 text-left transition hover:-translate-y-0.5 hover:shadow-[0_20px_42px_-28px_rgba(94,80,176,0.45)]"
         >
             <img alt={event.title} className="h-20 w-20 rounded-[20px] object-cover" src={event.image} />
             <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-center gap-2">
-                    <span className="rounded-full bg-[#f1ecf5] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-[#5e50b0]">
+                    <span className="rounded-full bg-[#101a30] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-[#8ea2ff]">
                         {label}
                     </span>
-                    <span className="text-xs font-medium uppercase tracking-[0.18em] text-[#797583]">{formatDateChip(event.date)}</span>
+                    <span className="text-xs font-medium uppercase tracking-[0.18em] text-[#7e8eaa]">{formatDateChip(event.date)}</span>
                 </div>
-                <h3 className="editorial-display mt-3 truncate text-lg font-semibold text-[#1c1b21]">{event.title}</h3>
-                <p className="mt-1 truncate text-sm text-[#484552]">{event.location}</p>
+                <h3 className="editorial-display mt-3 truncate text-lg font-semibold text-[#e8eefc]">{event.title}</h3>
+                <p className="mt-1 truncate text-sm text-[#a8b4cc]">{event.location}</p>
             </div>
-            <MaterialIcon name="arrow_forward" className="text-[#797583]" />
+            <MaterialIcon name="arrow_forward" className="text-[#7e8eaa]" />
         </button>
     );
 }
@@ -195,11 +196,11 @@ function SupportingVibeCard({ event, label, onOpen }) {
             <img alt={event.title} className="h-full w-full object-cover" src={event.image} />
             <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
             <div className="absolute bottom-0 left-0 right-0 p-6">
-                <span className="mb-2 inline-flex rounded-full bg-white/85 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.28em] text-[#534438]">
+                <span className="mb-2 inline-flex rounded-full bg-[#111b31]/85 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.28em] text-[#534438]">
                     {label}
                 </span>
                 <h3 className="editorial-display text-xl font-semibold text-white">{event.title}</h3>
-                <p className="mt-2 text-sm text-white/80">{formatEventDate(event.date)}</p>
+                <p className="mt-2 text-sm text-[#c1cde4]">{formatEventDate(event.date)}</p>
             </div>
         </button>
     );
@@ -211,12 +212,12 @@ function UpcomingEventCard({ event, joined, onOpen, onPrimaryAction }) {
     const primaryLabel = joined ? 'View Ticket' : event.price === 0 ? 'Join Event' : 'Buy Ticket';
 
     return (
-        <article className="ambient-shadow ambient-shadow-hover overflow-hidden rounded-[28px] border border-white/70 bg-white/88 transition">
+        <article className="ambient-shadow ambient-shadow-hover overflow-hidden rounded-[28px] border border-[#25324d]/70 bg-[#111b31]/88 transition">
             <div className="relative h-64 overflow-hidden">
                 <img alt={event.title} className="h-full w-full object-cover transition-transform duration-500 hover:scale-105" src={event.image} />
                 <div className="absolute top-4 right-4 date-tile">
-                    <span className="text-xl font-bold text-[#5e50b0]">{eventDate.getDate()}</span>
-                    <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#797583]">
+                    <span className="text-xl font-bold text-[#8ea2ff]">{eventDate.getDate()}</span>
+                    <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#7e8eaa]">
                         {eventDate.toLocaleString('en-US', { month: 'short' })}
                     </span>
                 </div>
@@ -224,19 +225,19 @@ function UpcomingEventCard({ event, joined, onOpen, onPrimaryAction }) {
             <div className="p-6">
                 <div className="flex flex-wrap items-center gap-2">
                     <span className={classNames('rounded-md px-2 py-1 text-[10px] font-bold uppercase tracking-[0.2em]', meta.soft)}>{event.category}</span>
-                    <span className="text-xs font-medium text-[#797583]">• {formatEventDate(event.date)}</span>
+                    <span className="text-xs font-medium text-[#7e8eaa]">• {formatEventDate(event.date)}</span>
                 </div>
-                <h3 className="editorial-display mt-4 text-[24px] font-semibold leading-[1.25] text-[#1c1b21]">{event.title}</h3>
-                <p className="mt-3 line-clamp-2 text-sm leading-7 text-[#484552]">{event.description}</p>
-                <div className="mt-6 flex items-center justify-between border-t border-[#e5e1ea] pt-4">
+                <h3 className="editorial-display mt-4 text-[24px] font-semibold leading-[1.25] text-[#e8eefc]">{event.title}</h3>
+                <p className="mt-3 line-clamp-2 text-sm leading-7 text-[#a8b4cc]">{event.description}</p>
+                <div className="mt-6 flex items-center justify-between border-t border-[#1d2940] pt-4">
                     <AvatarStack event={event} />
-                    <span className="text-sm font-semibold text-[#5e50b0]">{formatPrice(event.price)}</span>
+                    <span className="text-sm font-semibold text-[#8ea2ff]">{formatPrice(event.price)}</span>
                 </div>
                 <div className="mt-5 flex flex-wrap gap-3">
                     <button
                         type="button"
                         onClick={onOpen}
-                        className="inline-flex items-center gap-2 rounded-full border border-[#c9c4d3] px-4 py-2 text-sm font-semibold text-[#484552] transition hover:border-[#5e50b0] hover:text-[#5e50b0]"
+                        className="inline-flex items-center gap-2 rounded-full border border-[#2b3855] px-4 py-2 text-sm font-semibold text-[#a8b4cc] transition hover:border-[#8ea2ff] hover:text-[#8ea2ff]"
                     >
                         Open details
                         <Icon name="arrow" className="h-4 w-4" />
@@ -244,7 +245,7 @@ function UpcomingEventCard({ event, joined, onOpen, onPrimaryAction }) {
                     <button
                         type="button"
                         onClick={onPrimaryAction}
-                        className="inline-flex items-center gap-2 rounded-full bg-[#5e50b0] px-4 py-2 text-sm font-semibold text-white transition hover:scale-[1.02] hover:shadow-[0_18px_36px_-24px_rgba(94,80,176,0.9)]"
+                        className="inline-flex items-center gap-2 rounded-full bg-[#8ea2ff] px-4 py-2 text-sm font-semibold text-white transition hover:scale-[1.02] hover:shadow-[0_18px_36px_-24px_rgba(94,80,176,0.9)]"
                     >
                         {primaryLabel}
                         <Icon name="ticket" className="h-4 w-4" />
@@ -263,25 +264,25 @@ function StoryCard({ post }) {
     }
 
     return (
-        <article className="group flex gap-6 rounded-[28px] border border-transparent p-2 transition hover:border-white/60 hover:bg-white/50">
+        <article className="group flex gap-6 rounded-[28px] border border-transparent p-2 transition hover:border-[#25324d]/60 hover:bg-[#111b31]/50">
             <div className="h-40 w-40 shrink-0 overflow-hidden rounded-[24px]">
                 <img alt={event.title} className="h-full w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0" src={event.image} />
             </div>
             <div className="flex flex-col justify-center">
                 <div className="flex flex-wrap items-center gap-3 text-xs font-medium uppercase tracking-[0.18em]">
-                    <span className="text-[#5e50b0]">{event.category}</span>
-                    <span className="h-1 w-1 rounded-full bg-[#797583]" />
-                    <span className="text-[#797583]">{post.timeAgo}</span>
+                    <span className="text-[#8ea2ff]">{event.category}</span>
+                    <span className="h-1 w-1 rounded-full bg-[#7e8eaa]" />
+                    <span className="text-[#7e8eaa]">{post.timeAgo}</span>
                 </div>
-                <h3 className="editorial-display mt-3 text-[24px] font-semibold leading-[1.25] text-[#1c1b21] transition-colors group-hover:text-[#5e50b0]">
+                <h3 className="editorial-display mt-3 text-[24px] font-semibold leading-[1.25] text-[#e8eefc] transition-colors group-hover:text-[#8ea2ff]">
                     {event.title}
                 </h3>
-                <p className="mt-3 line-clamp-3 text-sm leading-7 text-[#484552]">{post.caption}</p>
+                <p className="mt-3 line-clamp-3 text-sm leading-7 text-[#a8b4cc]">{post.caption}</p>
                 <div className="mt-5 flex items-center gap-3">
                     <img alt={post.userName} className="h-10 w-10 rounded-full object-cover" src={post.avatar} />
                     <div>
-                        <p className="text-sm font-semibold text-[#1c1b21]">{post.userName}</p>
-                        <p className="text-xs text-[#797583]">{post.handle}</p>
+                        <p className="text-sm font-semibold text-[#e8eefc]">{post.userName}</p>
+                        <p className="text-xs text-[#7e8eaa]">{post.handle}</p>
                     </div>
                 </div>
             </div>
@@ -297,7 +298,7 @@ function EditorialDetailView({ event, joined, relatedEvents, onBack, onJoinOrBuy
             <button
                 type="button"
                 onClick={onBack}
-                className="inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/80 px-5 py-3 text-sm font-semibold text-[#484552] transition hover:border-[#5e50b0] hover:text-[#5e50b0]"
+                className="inline-flex items-center gap-2 rounded-full border border-[#25324d]/70 bg-[#111b31]/80 px-5 py-3 text-sm font-semibold text-[#a8b4cc] transition hover:border-[#8ea2ff] hover:text-[#8ea2ff]"
             >
                 <Icon name="back" className="h-4 w-4" />
                 Back to the homepage
@@ -310,11 +311,11 @@ function EditorialDetailView({ event, joined, relatedEvents, onBack, onJoinOrBuy
                     <div className="max-w-3xl">
                         <div className="flex flex-wrap gap-2">
                             <span className={classNames('rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em]', meta.soft)}>{event.category}</span>
-                            <span className="rounded-full bg-white/20 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-white">
+                            <span className="rounded-full bg-[#101a30]/20 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-white">
                                 Hosted by {event.host}
                             </span>
                             {joined ? (
-                                <span className="rounded-full bg-[#c1e9d5]/90 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-[#002116]">
+                                <span className="rounded-full bg-[#1b365f]/90 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-[#b9cbf1]">
                                     Ticket ready
                                 </span>
                             ) : null}
@@ -325,7 +326,7 @@ function EditorialDetailView({ event, joined, relatedEvents, onBack, onJoinOrBuy
                             <button
                                 type="button"
                                 onClick={onJoinOrBuy}
-                                className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#1c1b21] transition hover:bg-[#f1ecf5]"
+                                className="inline-flex items-center gap-2 rounded-full bg-[#101a30] px-6 py-3 text-sm font-semibold text-[#e8eefc] transition hover:bg-[#101a30]"
                             >
                                 {joined ? 'Open Schedule' : event.price === 0 ? 'Join Event' : 'Continue to Payment'}
                                 <Icon name="ticket" className="h-4 w-4" />
@@ -333,7 +334,7 @@ function EditorialDetailView({ event, joined, relatedEvents, onBack, onJoinOrBuy
                             <button
                                 type="button"
                                 onClick={onOpenExplore}
-                                className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur-md transition hover:bg-white/18"
+                                className="inline-flex items-center gap-2 rounded-full border border-[#25324d]/30 bg-[#101a30]/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur-md transition hover:bg-[#172742]/65"
                             >
                                 More events
                                 <Icon name="arrow" className="h-4 w-4" />
@@ -344,32 +345,32 @@ function EditorialDetailView({ event, joined, relatedEvents, onBack, onJoinOrBuy
             </section>
 
             <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
-                <article className="glass-card ambient-shadow rounded-[32px] border border-white/70 p-6 sm:p-8">
+                <article className="glass-card ambient-shadow rounded-[32px] border border-[#25324d]/70 p-6 sm:p-8">
                     <div className="grid gap-4 md:grid-cols-3">
-                        <div className="rounded-[24px] bg-white/80 p-5">
-                            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#797583]">Date and time</p>
-                            <p className="mt-3 text-sm font-semibold text-[#1c1b21]">{formatEventDate(event.date)}</p>
+                        <div className="rounded-[24px] bg-[#111b31]/80 p-5">
+                            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#7e8eaa]">Date and time</p>
+                            <p className="mt-3 text-sm font-semibold text-[#e8eefc]">{formatEventDate(event.date)}</p>
                         </div>
-                        <div className="rounded-[24px] bg-white/80 p-5">
-                            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#797583]">Location</p>
-                            <p className="mt-3 text-sm font-semibold text-[#1c1b21]">{event.location}</p>
+                        <div className="rounded-[24px] bg-[#111b31]/80 p-5">
+                            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#7e8eaa]">Location</p>
+                            <p className="mt-3 text-sm font-semibold text-[#e8eefc]">{event.location}</p>
                         </div>
-                        <div className="rounded-[24px] bg-white/80 p-5">
-                            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#797583]">Crowd</p>
-                            <p className="mt-3 text-sm font-semibold text-[#1c1b21]">{event.attendees.toLocaleString()} people</p>
+                        <div className="rounded-[24px] bg-[#111b31]/80 p-5">
+                            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#7e8eaa]">Crowd</p>
+                            <p className="mt-3 text-sm font-semibold text-[#e8eefc]">{event.attendees.toLocaleString()} people</p>
                         </div>
                     </div>
 
                     <div className="mt-8">
-                        <h2 className="editorial-display text-[28px] font-semibold text-[#1c1b21]">What to expect</h2>
-                        <p className="mt-3 text-base leading-8 text-[#484552]">{event.highlight}</p>
+                        <h2 className="editorial-display text-[28px] font-semibold text-[#e8eefc]">What to expect</h2>
+                        <p className="mt-3 text-base leading-8 text-[#a8b4cc]">{event.highlight}</p>
                     </div>
 
                     <div className="mt-8">
-                        <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#797583]">Included with your access</p>
+                        <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#7e8eaa]">Included with your access</p>
                         <div className="mt-4 grid gap-3 sm:grid-cols-3">
                             {event.perks.map((perk) => (
-                                <div key={perk} className="rounded-[24px] border border-[#e5e1ea] bg-white/85 px-4 py-4 text-sm font-semibold text-[#484552]">
+                                <div key={perk} className="rounded-[24px] border border-[#1d2940] bg-[#111b31]/85 px-4 py-4 text-sm font-semibold text-[#a8b4cc]">
                                     {perk}
                                 </div>
                             ))}
@@ -389,7 +390,7 @@ function EditorialDetailView({ event, joined, relatedEvents, onBack, onJoinOrBuy
                                   : 'Move into the existing payment flow without changing any backend route or auth behavior.'}
                         </p>
 
-                        <div className="mt-6 space-y-4 rounded-[24px] bg-white/8 p-4">
+                        <div className="mt-6 space-y-4 rounded-[24px] bg-[#101a30]/8 p-4">
                             <div className="flex items-center gap-3 text-sm text-white/82">
                                 <Icon name="calendar" className="h-4 w-4" />
                                 <span>{formatEventDate(event.date)}</span>
@@ -405,8 +406,8 @@ function EditorialDetailView({ event, joined, relatedEvents, onBack, onJoinOrBuy
                         </div>
                     </div>
 
-                    <div className="glass-card ambient-shadow rounded-[32px] border border-white/70 p-6">
-                        <h3 className="editorial-display text-[24px] font-semibold text-[#1c1b21]">Related moments</h3>
+                    <div className="glass-card ambient-shadow rounded-[32px] border border-[#25324d]/70 p-6">
+                        <h3 className="editorial-display text-[24px] font-semibold text-[#e8eefc]">Related moments</h3>
                         <div className="mt-5 space-y-3">
                             {relatedEvents.length === 0 ? (
                                 <EditorialEmptyState
@@ -557,35 +558,34 @@ function Dashboard({ userName, userUsername, userEmail }) {
 
     return (
         <div
-            className="editorial-shell editorial-copy min-h-screen bg-[#fdf8ff] pb-28 text-[#1c1b21] selection:bg-[#e5deff] selection:text-[#372687] md:pb-0"
+            className="editorial-shell editorial-copy min-h-screen bg-[#050b17] pb-28 text-[#e8eefc] selection:bg-[#1a2742] selection:text-[#9fb3ff] md:pb-0"
             style={{
-                backgroundColor: '#fdf8ff',
+                backgroundColor: '#050b17',
             }}
         >
-            <header className="fixed inset-x-0 top-0 z-50 border-b border-white/55 bg-[rgba(253,248,255,0.78)] backdrop-blur-md shadow-[0_12px_30px_-24px_rgba(94,80,176,0.35)]">
+            <header className="fixed inset-x-0 top-0 z-50 border-b border-[#25324d]/55 bg-[rgba(8,13,27,0.78)] backdrop-blur-md shadow-[0_12px_30px_-24px_rgba(94,80,176,0.35)]">
                 <div className="mx-auto flex max-w-[1200px] items-center justify-between gap-4 px-5 py-4 lg:px-8">
                     <div className="flex items-center gap-8">
                         <a href="/dashboard" className="flex items-center gap-3">
-                            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#5e50b0] text-white shadow-[0_16px_28px_-18px_rgba(94,80,176,0.85)]">
-                                <span className="editorial-display text-base font-bold">AY</span>
-                            </div>
-                            <div>
-                                <p className="editorial-display text-[24px] font-bold tracking-[-0.02em] text-[#5e50b0]">AyoYok</p>
-                                <p className="hidden text-xs text-[#797583] sm:block">Experience Beautiful Moments</p>
-                            </div>
+                            <img
+                                src={logoAyoyok}
+                                alt="AyoYok"
+                                className="h-11 w-auto rounded-xl border border-[#25324d]/75 bg-[#111b31]/90 p-1 shadow-[0_16px_28px_-18px_rgba(94,80,176,0.65)]"
+                            />
+                            <p className="hidden text-xs text-[#7e8eaa] sm:block">Experience Beautiful Moments</p>
                         </a>
 
                         <nav className="hidden items-center gap-6 md:flex">
-                            <a className="border-b-2 border-[#5e50b0] pb-1 text-sm font-semibold text-[#5e50b0]" href="/dashboard">
+                            <a className="border-b-2 border-[#8ea2ff] pb-1 text-sm font-semibold text-[#8ea2ff]" href="/dashboard">
                                 Home
                             </a>
-                            <a className="text-sm font-semibold text-[#484552] transition-colors hover:text-[#5e50b0]" href="/explore">
+                            <a className="text-sm font-semibold text-[#a8b4cc] transition-colors hover:text-[#8ea2ff]" href="/explore">
                                 Explore
                             </a>
-                            <a className="text-sm font-semibold text-[#484552] transition-colors hover:text-[#5e50b0]" href="/schedule">
+                            <a className="text-sm font-semibold text-[#a8b4cc] transition-colors hover:text-[#8ea2ff]" href="/schedule">
                                 Schedule
                             </a>
-                            <a className="text-sm font-semibold text-[#484552] transition-colors hover:text-[#5e50b0]" href="/profile">
+                            <a className="text-sm font-semibold text-[#a8b4cc] transition-colors hover:text-[#8ea2ff]" href="/profile">
                                 Profile
                             </a>
                         </nav>
@@ -594,11 +594,11 @@ function Dashboard({ userName, userUsername, userEmail }) {
                     <div className="flex items-center gap-3">
                         <div
                             className={classNames(
-                                'glass-card hidden items-center rounded-full border border-white/70 px-4 py-2 transition-all duration-200 lg:flex',
+                                'glass-card hidden items-center rounded-full border border-[#25324d]/70 px-4 py-2 transition-all duration-200 lg:flex',
                                 isHeaderSearchFocused ? 'w-80' : 'w-64',
                             )}
                         >
-                            <MaterialIcon name="search" className="text-[#797583]" />
+                            <MaterialIcon name="search" className="text-[#7e8eaa]" />
                             <input
                                 type="search"
                                 value={searchTerm}
@@ -606,7 +606,7 @@ function Dashboard({ userName, userUsername, userEmail }) {
                                 onFocus={() => setIsHeaderSearchFocused(true)}
                                 onBlur={() => setIsHeaderSearchFocused(false)}
                                 placeholder="Find vibes..."
-                                className="ml-2 w-full border-none bg-transparent p-0 text-sm text-[#1c1b21] outline-none placeholder:text-[#797583]"
+                                className="ml-2 w-full border-none bg-transparent p-0 text-sm text-[#e8eefc] outline-none placeholder:text-[#7e8eaa]"
                             />
                         </div>
 
@@ -616,7 +616,7 @@ function Dashboard({ userName, userUsername, userEmail }) {
                             onClick={() => {
                                 window.location.href = '/schedule';
                             }}
-                            className="rounded-full p-2 text-[#484552] transition hover:bg-white/80 hover:text-[#5e50b0]"
+                            className="rounded-full p-2 text-[#a8b4cc] transition hover:bg-[#111b31]/80 hover:text-[#8ea2ff]"
                         >
                             <MaterialIcon name="notifications" />
                         </button>
@@ -624,14 +624,14 @@ function Dashboard({ userName, userUsername, userEmail }) {
                             type="button"
                             aria-label="Jump to recommended events"
                             onClick={() => scrollToSection('upcoming-events')}
-                            className="rounded-full p-2 text-[#484552] transition hover:bg-white/80 hover:text-[#5e50b0]"
+                            className="rounded-full p-2 text-[#a8b4cc] transition hover:bg-[#111b31]/80 hover:text-[#8ea2ff]"
                         >
                             <MaterialIcon name="favorite" />
                         </button>
                         <LogoutButton />
                         <a
                             href="/profile"
-                            className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-[#c8bfff] bg-white text-sm font-bold text-[#5e50b0]"
+                            className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-[#3e5996] bg-[#101a30] text-sm font-bold text-[#8ea2ff]"
                             title={`${userName} ${displayHandle}`}
                         >
                             {getInitials(userName)}
@@ -675,7 +675,7 @@ function Dashboard({ userName, userUsername, userEmail }) {
                                 <div className="absolute inset-x-0 bottom-0 p-8 sm:p-12">
                                     <div className="grid gap-10 xl:grid-cols-[minmax(0,1fr)_320px] xl:items-end">
                                         <div className="max-w-3xl">
-                                            <span className="mb-4 inline-flex rounded-full bg-[#c1e9d5]/90 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-[#002116]">
+                                            <span className="mb-4 inline-flex rounded-full bg-[#1b365f]/90 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-[#b9cbf1]">
                                                 Curated for you
                                             </span>
                                             <h1 className="editorial-display text-[42px] font-bold leading-[1.08] tracking-[-0.02em] text-white sm:text-[54px]">
@@ -688,30 +688,30 @@ function Dashboard({ userName, userUsername, userEmail }) {
                                             <div className="mt-8 flex flex-wrap gap-4">
                                                 <a
                                                     href="/explore"
-                                                    className="inline-flex items-center justify-center rounded-full bg-[#5e50b0] px-8 py-4 text-sm font-semibold text-white transition hover:scale-[1.02] hover:shadow-[0_24px_42px_-26px_rgba(94,80,176,0.95)]"
+                                                    className="inline-flex items-center justify-center rounded-full bg-[#8ea2ff] px-8 py-4 text-sm font-semibold text-white transition hover:scale-[1.02] hover:shadow-[0_24px_42px_-26px_rgba(94,80,176,0.95)]"
                                                 >
                                                     Explore Events
                                                 </a>
                                                 <button
                                                     type="button"
                                                     onClick={() => scrollToSection('community-stories')}
-                                                    className="inline-flex items-center justify-center rounded-full border border-white/30 bg-white/10 px-8 py-4 text-sm font-semibold text-white backdrop-blur-md transition hover:bg-white/18"
+                                                    className="inline-flex items-center justify-center rounded-full border border-[#25324d]/30 bg-[#101a30]/10 px-8 py-4 text-sm font-semibold text-white backdrop-blur-md transition hover:bg-[#172742]/65"
                                                 >
                                                     How it works
                                                 </button>
                                             </div>
                                         </div>
 
-                                        <div className="hidden rounded-[28px] border border-white/25 bg-[rgba(18,16,28,0.28)] p-6 text-white shadow-[0_24px_60px_-32px_rgba(18,16,28,0.55)] backdrop-blur-md xl:block">
-                                            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-white/70">Tonight&apos;s momentum</p>
+                                        <div className="hidden rounded-[28px] border border-[#25324d]/25 bg-[rgba(18,16,28,0.28)] p-6 text-white shadow-[0_24px_60px_-32px_rgba(18,16,28,0.55)] backdrop-blur-md xl:block">
+                                            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#b2c0da]">Tonight&apos;s momentum</p>
                                             <h2 className="editorial-display mt-3 text-[28px] font-semibold leading-[1.2]">{heroEvent.title}</h2>
-                                            <p className="mt-3 text-sm leading-7 text-white/80">{heroEvent.highlight}</p>
+                                            <p className="mt-3 text-sm leading-7 text-[#c1cde4]">{heroEvent.highlight}</p>
                                             <div className="mt-5 grid grid-cols-2 gap-3 text-sm">
-                                                <div className="rounded-[20px] bg-white/10 p-4">
+                                                <div className="rounded-[20px] bg-[#101a30]/10 p-4">
                                                     <p className="text-white/60">Date</p>
                                                     <p className="mt-2 font-semibold">{formatDateChip(heroEvent.date)}</p>
                                                 </div>
-                                                <div className="rounded-[20px] bg-white/10 p-4">
+                                                <div className="rounded-[20px] bg-[#101a30]/10 p-4">
                                                     <p className="text-white/60">Price</p>
                                                     <p className="mt-2 font-semibold">{formatPrice(heroEvent.price)}</p>
                                                 </div>
@@ -723,7 +723,7 @@ function Dashboard({ userName, userUsername, userEmail }) {
                                                 </div>
                                                 <a
                                                     href="/profile"
-                                                    className="flex h-12 w-12 items-center justify-center rounded-full border border-white/30 bg-white/10 text-sm font-bold"
+                                                    className="flex h-12 w-12 items-center justify-center rounded-full border border-[#25324d]/30 bg-[#101a30]/10 text-sm font-bold"
                                                 >
                                                     {getInitials(userName)}
                                                 </a>
@@ -735,18 +735,18 @@ function Dashboard({ userName, userUsername, userEmail }) {
                         </section>
 
                         <section className="mx-auto max-w-[1200px] px-5 pb-20 lg:px-8">
-                            <div className="glass-card ambient-shadow rounded-[32px] border border-white/70 p-6 sm:p-8">
+                            <div className="glass-card ambient-shadow rounded-[32px] border border-[#25324d]/70 p-6 sm:p-8">
                                 <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
                                     <div>
-                                        <h2 className="editorial-display text-[28px] font-semibold text-[#1c1b21]">Refine the vibe</h2>
-                                        <p className="mt-2 max-w-2xl text-sm leading-7 text-[#484552]">
+                                        <h2 className="editorial-display text-[28px] font-semibold text-[#e8eefc]">Refine the vibe</h2>
+                                        <p className="mt-2 max-w-2xl text-sm leading-7 text-[#a8b4cc]">
                                             The search, category filters, and date filters from the existing dashboard stay intact. They now sit inside the new glassmorphism editorial layer.
                                         </p>
                                     </div>
                                     <button
                                         type="button"
                                         onClick={resetFilters}
-                                        className="inline-flex items-center justify-center rounded-full bg-[#5e50b0] px-5 py-3 text-sm font-semibold text-white transition hover:scale-[1.02]"
+                                        className="inline-flex items-center justify-center rounded-full bg-[#8ea2ff] px-5 py-3 text-sm font-semibold text-white transition hover:scale-[1.02]"
                                     >
                                         Reset filters
                                     </button>
@@ -755,20 +755,20 @@ function Dashboard({ userName, userUsername, userEmail }) {
                                 <div className="mt-6 grid gap-6 xl:grid-cols-[minmax(0,1fr)_280px]">
                                     <div className="space-y-5">
                                         <div className="lg:hidden">
-                                            <div className="glass-card flex items-center rounded-full border border-white/70 px-4 py-3">
-                                                <MaterialIcon name="search" className="text-[#797583]" />
+                                            <div className="glass-card flex items-center rounded-full border border-[#25324d]/70 px-4 py-3">
+                                                <MaterialIcon name="search" className="text-[#7e8eaa]" />
                                                 <input
                                                     type="search"
                                                     value={searchTerm}
                                                     onChange={(event) => setSearchTerm(event.target.value)}
                                                     placeholder="Find vibes..."
-                                                    className="ml-2 w-full border-none bg-transparent p-0 text-sm text-[#1c1b21] outline-none placeholder:text-[#797583]"
+                                                    className="ml-2 w-full border-none bg-transparent p-0 text-sm text-[#e8eefc] outline-none placeholder:text-[#7e8eaa]"
                                                 />
                                             </div>
                                         </div>
 
                                         <div>
-                                            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#797583]">Category</p>
+                                            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#7e8eaa]">Category</p>
                                             <div className="mt-3 flex flex-wrap gap-2">
                                                 {CATEGORY_OPTIONS.map((category) => (
                                                     <FilterPill
@@ -782,7 +782,7 @@ function Dashboard({ userName, userUsername, userEmail }) {
                                         </div>
 
                                         <div>
-                                            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#797583]">Date</p>
+                                            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#7e8eaa]">Date</p>
                                             <div className="mt-3 flex flex-wrap gap-2">
                                                 {DATE_FILTERS.map((filter) => (
                                                     <FilterPill
@@ -797,17 +797,17 @@ function Dashboard({ userName, userUsername, userEmail }) {
                                     </div>
 
                                     <div className="grid gap-3 sm:grid-cols-3 xl:grid-cols-1">
-                                        <div className="rounded-[24px] bg-white/80 p-5">
-                                            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#797583]">Joined events</p>
-                                            <p className="editorial-display mt-3 text-[32px] font-semibold text-[#1c1b21]">{joinedEvents.length}</p>
+                                        <div className="rounded-[24px] bg-[#111b31]/80 p-5">
+                                            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#7e8eaa]">Joined events</p>
+                                            <p className="editorial-display mt-3 text-[32px] font-semibold text-[#e8eefc]">{joinedEvents.length}</p>
                                         </div>
-                                        <div className="rounded-[24px] bg-white/80 p-5">
-                                            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#797583]">Recommended</p>
-                                            <p className="editorial-display mt-3 text-[32px] font-semibold text-[#1c1b21]">{recommendedEvents.length}</p>
+                                        <div className="rounded-[24px] bg-[#111b31]/80 p-5">
+                                            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#7e8eaa]">Recommended</p>
+                                            <p className="editorial-display mt-3 text-[32px] font-semibold text-[#e8eefc]">{recommendedEvents.length}</p>
                                         </div>
-                                        <div className="rounded-[24px] bg-white/80 p-5">
-                                            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#797583]">Showing now</p>
-                                            <p className="editorial-display mt-3 text-[32px] font-semibold text-[#1c1b21]">{filteredEvents.length}</p>
+                                        <div className="rounded-[24px] bg-[#111b31]/80 p-5">
+                                            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#7e8eaa]">Showing now</p>
+                                            <p className="editorial-display mt-3 text-[32px] font-semibold text-[#e8eefc]">{filteredEvents.length}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -826,19 +826,19 @@ function Dashboard({ userName, userUsername, userEmail }) {
                                                 onClick={() =>
                                                     setTrendingIndex((current) => (current - 1 + Math.max(trendingEvents.length, 1)) % Math.max(trendingEvents.length, 1))
                                                 }
-                                                className="rounded-full border border-white/70 bg-white/80 px-4 py-2 text-sm font-semibold text-[#484552] transition hover:text-[#5e50b0]"
+                                                className="rounded-full border border-[#25324d]/70 bg-[#111b31]/80 px-4 py-2 text-sm font-semibold text-[#a8b4cc] transition hover:text-[#8ea2ff]"
                                             >
                                                 Prev
                                             </button>
                                             <button
                                                 type="button"
                                                 onClick={() => setTrendingIndex((current) => (current + 1) % Math.max(trendingEvents.length, 1))}
-                                                className="rounded-full border border-white/70 bg-white/80 px-4 py-2 text-sm font-semibold text-[#484552] transition hover:text-[#5e50b0]"
+                                                className="rounded-full border border-[#25324d]/70 bg-[#111b31]/80 px-4 py-2 text-sm font-semibold text-[#a8b4cc] transition hover:text-[#8ea2ff]"
                                             >
                                                 Next
                                             </button>
                                         </div>
-                                        <a href="/explore" className="inline-flex items-center gap-2 text-sm font-semibold text-[#5e50b0] transition hover:gap-3">
+                                        <a href="/explore" className="inline-flex items-center gap-2 text-sm font-semibold text-[#8ea2ff] transition hover:gap-3">
                                             View all vibes
                                             <MaterialIcon name="arrow_forward" />
                                         </a>
@@ -853,7 +853,7 @@ function Dashboard({ userName, userUsername, userEmail }) {
                                             <img alt={activeTrendingEvent.title} className="h-full w-full object-cover" src={activeTrendingEvent.image} />
                                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/15 to-transparent" />
                                             <div className="absolute left-6 top-6 flex flex-wrap gap-2">
-                                                <span className="rounded-full bg-[#5e50b0]/90 px-3 py-1 text-xs font-semibold uppercase tracking-[0.22em] text-white">
+                                                <span className="rounded-full bg-[#8ea2ff]/90 px-3 py-1 text-xs font-semibold uppercase tracking-[0.22em] text-white">
                                                     Featured
                                                 </span>
                                                 <span className={classNames('rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.22em]', CATEGORY_META[activeTrendingEvent.category].soft)}>
@@ -861,7 +861,7 @@ function Dashboard({ userName, userUsername, userEmail }) {
                                                 </span>
                                             </div>
                                             <div className="absolute bottom-0 left-0 right-0 p-8">
-                                                <p className="text-sm font-medium uppercase tracking-[0.2em] text-white/70">{formatEventDate(activeTrendingEvent.date)}</p>
+                                                <p className="text-sm font-medium uppercase tracking-[0.2em] text-[#b2c0da]">{formatEventDate(activeTrendingEvent.date)}</p>
                                                 <h3 className="editorial-display mt-3 text-[30px] font-semibold leading-[1.15] text-white sm:text-[36px]">
                                                     {activeTrendingEvent.title}
                                                 </h3>
@@ -870,7 +870,7 @@ function Dashboard({ userName, userUsername, userEmail }) {
                                                     <button
                                                         type="button"
                                                         onClick={() => openEvent(activeTrendingEvent.id)}
-                                                        className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-[#1c1b21] transition hover:bg-[#f1ecf5]"
+                                                        className="inline-flex items-center gap-2 rounded-full bg-[#101a30] px-5 py-3 text-sm font-semibold text-[#e8eefc] transition hover:bg-[#101a30]"
                                                     >
                                                         Open details
                                                         <Icon name="arrow" className="h-4 w-4" />
@@ -878,7 +878,7 @@ function Dashboard({ userName, userUsername, userEmail }) {
                                                     <button
                                                         type="button"
                                                         onClick={() => handlePrimaryAction(activeTrendingEvent)}
-                                                        className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-5 py-3 text-sm font-semibold text-white backdrop-blur-md transition hover:bg-white/18"
+                                                        className="inline-flex items-center gap-2 rounded-full border border-[#25324d]/30 bg-[#101a30]/10 px-5 py-3 text-sm font-semibold text-white backdrop-blur-md transition hover:bg-[#172742]/65"
                                                     >
                                                         {joinedEventIds.includes(activeTrendingEvent.id)
                                                             ? 'View ticket'
@@ -910,7 +910,7 @@ function Dashboard({ userName, userUsername, userEmail }) {
                                             <button
                                                 type="button"
                                                 onClick={resetFilters}
-                                                className="rounded-full bg-[#5e50b0] px-5 py-3 text-sm font-semibold text-white"
+                                                className="rounded-full bg-[#8ea2ff] px-5 py-3 text-sm font-semibold text-white"
                                             >
                                                 Reset filters
                                             </button>
@@ -920,7 +920,7 @@ function Dashboard({ userName, userUsername, userEmail }) {
                             </div>
                         </section>
 
-                        <section id="upcoming-events" className="bg-[#f7f2fb] py-20">
+                        <section id="upcoming-events" className="bg-[#0b1528] py-20">
                             <div className="mx-auto max-w-[1200px] px-5 lg:px-8">
                                 <SectionTitle
                                     title="Upcoming Events"
@@ -957,8 +957,8 @@ function Dashboard({ userName, userUsername, userEmail }) {
                             />
 
                             <div className="mt-12 grid gap-6 xl:grid-cols-3">
-                                <div className="glass-card ambient-shadow rounded-[32px] border border-white/70 p-6">
-                                    <h3 className="editorial-display text-[24px] font-semibold text-[#1c1b21]">Upcoming agenda</h3>
+                                <div className="glass-card ambient-shadow rounded-[32px] border border-[#25324d]/70 p-6">
+                                    <h3 className="editorial-display text-[24px] font-semibold text-[#e8eefc]">Upcoming agenda</h3>
                                     <div className="mt-5 space-y-3">
                                         {upcomingJoinedEvents.length === 0 ? (
                                             <EditorialEmptyState
@@ -978,8 +978,8 @@ function Dashboard({ userName, userUsername, userEmail }) {
                                     </div>
                                 </div>
 
-                                <div className="glass-card ambient-shadow rounded-[32px] border border-white/70 p-6">
-                                    <h3 className="editorial-display text-[24px] font-semibold text-[#1c1b21]">Recently viewed</h3>
+                                <div className="glass-card ambient-shadow rounded-[32px] border border-[#25324d]/70 p-6">
+                                    <h3 className="editorial-display text-[24px] font-semibold text-[#e8eefc]">Recently viewed</h3>
                                     <div className="mt-5 space-y-3">
                                         {recentlyViewedEvents.slice(0, 3).map((event) => (
                                             <CompactAgendaItem
@@ -992,8 +992,8 @@ function Dashboard({ userName, userUsername, userEmail }) {
                                     </div>
                                 </div>
 
-                                <div className="glass-card ambient-shadow rounded-[32px] border border-white/70 p-6">
-                                    <h3 className="editorial-display text-[24px] font-semibold text-[#1c1b21]">Hosting</h3>
+                                <div className="glass-card ambient-shadow rounded-[32px] border border-[#25324d]/70 p-6">
+                                    <h3 className="editorial-display text-[24px] font-semibold text-[#e8eefc]">Hosting</h3>
                                     <div className="mt-5 space-y-3">
                                         {hostedEvents.slice(0, 3).map((event) => (
                                             <CompactAgendaItem
@@ -1010,8 +1010,8 @@ function Dashboard({ userName, userUsername, userEmail }) {
 
                         <section id="community-stories" className="mx-auto max-w-[1200px] px-5 pb-20 lg:px-8">
                             <div className="text-center">
-                                <h2 className="editorial-display text-[32px] font-semibold leading-[1.2] text-[#1c1b21]">Community Stories</h2>
-                                <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-[#484552]">
+                                <h2 className="editorial-display text-[32px] font-semibold leading-[1.2] text-[#e8eefc]">Community Stories</h2>
+                                <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-[#a8b4cc]">
                                     Voices from the existing community data about their recent discoveries and shared moments.
                                 </p>
                             </div>
@@ -1026,39 +1026,34 @@ function Dashboard({ userName, userUsername, userEmail }) {
                 )}
             </main>
 
-            <footer className="border-t border-[#e5e1ea] bg-[#ebe6ef] py-16">
+            <footer className="border-t border-[#1d2940] bg-[#0a1222] py-16">
                 <div className="mx-auto max-w-[1200px] px-5 lg:px-8">
                     <div className="grid gap-12 md:grid-cols-4">
                         <div className="md:col-span-2">
                             <a href="/dashboard" className="inline-flex items-center gap-3">
-                                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[#5e50b0] text-white">
-                                    <span className="editorial-display text-lg font-bold">AY</span>
-                                </div>
-                                <div>
-                                    <p className="editorial-display text-[28px] font-bold tracking-[-0.02em] text-[#5e50b0]">AyoYok</p>
-                                    <p className="text-sm text-[#797583]">Curating the city&apos;s most beautiful moments.</p>
-                                </div>
+                                <img src={logoAyoyok} alt="AyoYok" className="h-14 w-auto rounded-xl border border-[#25324d]/80 bg-[#111b31]/90 p-1" />
+                                <p className="text-sm text-[#7e8eaa]">Curating the city&apos;s most beautiful moments.</p>
                             </a>
-                            <p className="mt-6 max-w-md text-sm leading-7 text-[#484552]">
+                            <p className="mt-6 max-w-md text-sm leading-7 text-[#a8b4cc]">
                                 The editorial homepage is now mounted on the existing Laravel dashboard root, while discovery, payment, profile, and schedule routes stay exactly where the app already expects them.
                             </p>
                         </div>
 
                         <div>
-                            <h4 className="text-sm font-semibold uppercase tracking-[0.24em] text-[#1c1b21]">Navigate</h4>
-                            <ul className="mt-6 space-y-4 text-sm text-[#484552]">
+                            <h4 className="text-sm font-semibold uppercase tracking-[0.24em] text-[#e8eefc]">Navigate</h4>
+                            <ul className="mt-6 space-y-4 text-sm text-[#a8b4cc]">
                                 <li>
-                                    <a className="transition-colors hover:text-[#5e50b0]" href="/dashboard">
+                                    <a className="transition-colors hover:text-[#8ea2ff]" href="/dashboard">
                                         Home
                                     </a>
                                 </li>
                                 <li>
-                                    <a className="transition-colors hover:text-[#5e50b0]" href="/explore">
+                                    <a className="transition-colors hover:text-[#8ea2ff]" href="/explore">
                                         Explore
                                     </a>
                                 </li>
                                 <li>
-                                    <a className="transition-colors hover:text-[#5e50b0]" href="/schedule">
+                                    <a className="transition-colors hover:text-[#8ea2ff]" href="/schedule">
                                         Schedule
                                     </a>
                                 </li>
@@ -1066,15 +1061,15 @@ function Dashboard({ userName, userUsername, userEmail }) {
                         </div>
 
                         <div>
-                            <h4 className="text-sm font-semibold uppercase tracking-[0.24em] text-[#1c1b21]">Connect</h4>
-                            <ul className="mt-6 space-y-4 text-sm text-[#484552]">
+                            <h4 className="text-sm font-semibold uppercase tracking-[0.24em] text-[#e8eefc]">Connect</h4>
+                            <ul className="mt-6 space-y-4 text-sm text-[#a8b4cc]">
                                 <li>
-                                    <a className="transition-colors hover:text-[#5e50b0]" href="/profile">
+                                    <a className="transition-colors hover:text-[#8ea2ff]" href="/profile">
                                         {displayHandle}
                                     </a>
                                 </li>
                                 <li>
-                                    <a className="transition-colors hover:text-[#5e50b0]" href="/events/private/create">
+                                    <a className="transition-colors hover:text-[#8ea2ff]" href="/events/private/create">
                                         Host a private event
                                     </a>
                                 </li>
@@ -1084,12 +1079,12 @@ function Dashboard({ userName, userUsername, userEmail }) {
                     </div>
 
                     <div className="mt-12 flex flex-col gap-6 border-t border-[#d8d2de] pt-8 md:flex-row md:items-center md:justify-between">
-                        <p className="text-sm text-[#797583]">© {new Date().getFullYear()} AyoYok. All rights reserved.</p>
-                        <div className="flex gap-6 text-[#797583]">
-                            <span className="transition-colors hover:text-[#5e50b0]">
+                        <p className="text-sm text-[#7e8eaa]">© {new Date().getFullYear()} AyoYok. All rights reserved.</p>
+                        <div className="flex gap-6 text-[#7e8eaa]">
+                            <span className="transition-colors hover:text-[#8ea2ff]">
                                 <MaterialIcon name="language" />
                             </span>
-                            <span className="transition-colors hover:text-[#5e50b0]">
+                            <span className="transition-colors hover:text-[#8ea2ff]">
                                 <MaterialIcon name="help" />
                             </span>
                         </div>
@@ -1099,20 +1094,20 @@ function Dashboard({ userName, userUsername, userEmail }) {
 
             <FloatingCreateButton />
 
-            <nav className="fixed bottom-0 left-0 z-50 flex w-full items-center justify-around rounded-t-[22px] border-t border-white/60 bg-[rgba(247,242,251,0.92)] px-4 py-3 shadow-[0_-8px_30px_-18px_rgba(94,80,176,0.28)] backdrop-blur-lg md:hidden">
-                <a href="/dashboard" className="flex flex-col items-center justify-center rounded-full bg-[#e5deff] px-5 py-1 text-[#372687]">
+            <nav className="fixed bottom-0 left-0 z-50 flex w-full items-center justify-around rounded-t-[22px] border-t border-[#25324d]/60 bg-[rgba(10,17,34,0.92)] px-4 py-3 shadow-[0_-8px_30px_-18px_rgba(94,80,176,0.28)] backdrop-blur-lg md:hidden">
+                <a href="/dashboard" className="flex flex-col items-center justify-center rounded-full bg-[#1a2742] px-5 py-1 text-[#9fb3ff]">
                     <MaterialIcon name="home" />
                     <span className="text-[11px] font-semibold">Home</span>
                 </a>
-                <a href="/explore" className="flex flex-col items-center justify-center px-5 py-1 text-[#484552]">
+                <a href="/explore" className="flex flex-col items-center justify-center px-5 py-1 text-[#a8b4cc]">
                     <MaterialIcon name="explore" />
                     <span className="text-[11px] font-semibold">Explore</span>
                 </a>
-                <a href="/schedule" className="flex flex-col items-center justify-center px-5 py-1 text-[#484552]">
+                <a href="/schedule" className="flex flex-col items-center justify-center px-5 py-1 text-[#a8b4cc]">
                     <MaterialIcon name="calendar_today" />
                     <span className="text-[11px] font-semibold">Calendar</span>
                 </a>
-                <a href="/profile" className="flex flex-col items-center justify-center px-5 py-1 text-[#484552]">
+                <a href="/profile" className="flex flex-col items-center justify-center px-5 py-1 text-[#a8b4cc]">
                     <MaterialIcon name="person" />
                     <span className="text-[11px] font-semibold">Profile</span>
                 </a>

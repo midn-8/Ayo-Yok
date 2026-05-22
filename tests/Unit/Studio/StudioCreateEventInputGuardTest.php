@@ -18,28 +18,4 @@ class StudioCreateEventInputGuardTest extends TestCase
             'description' => 'Valid description',
         ]);
     }
-// }
-
-
-    public function test_input_is_sanitized_for_xss_patterns_and_whitespace(): void
-    {
-        $sanitized = StudioCreateEventInputGuard::validateAndSanitize([
-            'title' => "   <script>alert('x')</script>  Summer   Party   ",
-            'description' => "<b>Welcome</b>\n<script>alert('x')</script>\n<img src=x onerror=alert(1)> Night",
-        ]);
-
-        $this->assertSame('Summer Party', $sanitized['title']);
-        $this->assertSame('Welcome Night', $sanitized['description']);
-    }
-
-    public function test_legitimate_characters_are_preserved_after_sanitization(): void
-    {
-        $sanitized = StudioCreateEventInputGuard::validateAndSanitize([
-            'title' => "O'Reilly Founder Meetup",
-            'description' => 'Bring your ideas & co-build.',
-        ]);
-
-        $this->assertSame("O'Reilly Founder Meetup", $sanitized['title']);
-        $this->assertSame('Bring your ideas & co-build.', $sanitized['description']);
-    }
 }

@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { studioNav } from './mock-data';
+import { logoAyoyok } from '../brand-assets';
 import { StudioIcon } from './primitives';
 import { classNames } from './utils';
 
@@ -16,11 +17,8 @@ export function StudioShell({ active, title, description, actions, children }) {
             <div className="relative mx-auto flex w-full max-w-[1600px] gap-4 px-3 py-4 sm:px-6 sm:py-6">
                 <aside className="hidden w-[290px] shrink-0 rounded-[30px] border border-white/10 bg-slate-950/55 p-5 shadow-[0_28px_80px_-45px_rgba(2,132,199,0.45)] backdrop-blur-xl lg:block">
                     <a href="/studio" className="group flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 transition hover:bg-white/[0.08]">
-                        <span className="rounded-xl bg-gradient-to-br from-orange-400 to-fuchsia-500 p-2 text-white shadow-lg shadow-fuchsia-500/25">
-                            <StudioIcon name="spark" className="h-5 w-5" />
-                        </span>
+                        <img src={logoAyoyok} alt="AyoYok Studio" className="h-10 w-auto rounded-xl bg-transparent p-1" />
                         <div>
-                            <p className="text-lg font-semibold text-white">AyoYok Studio</p>
                             <p className="text-xs text-slate-300">Organizer workspace</p>
                         </div>
                     </a>

@@ -21,9 +21,10 @@
 @layer components {
     .dashboard-shell {
         background-image:
-            radial-gradient(circle at top left, rgba(251, 146, 60, 0.18), transparent 32%),
-            radial-gradient(circle at top right, rgba(34, 211, 238, 0.18), transparent 28%),
-            linear-gradient(180deg, #f7f4ed 0%, #ece7dc 100%);
+            radial-gradient(circle at 12% 14%, rgba(88, 120, 215, 0.28), transparent 34%),
+            radial-gradient(circle at 84% 18%, rgba(56, 189, 248, 0.2), transparent 30%),
+            radial-gradient(circle at 50% 88%, rgba(99, 102, 241, 0.14), transparent 34%),
+            linear-gradient(180deg, #050a15 0%, #070d1b 52%, #060b16 100%);
     }
 
     .dashboard-display {
@@ -31,11 +32,11 @@
     }
 
     .panel {
-        @apply rounded-[28px] border border-slate-200/80 bg-white/78 shadow-[0_24px_60px_-32px_rgba(15,23,42,0.35)] backdrop-blur-xl;
+        @apply rounded-[24px] border border-[#23304a]/60 bg-[#0f182b]/72 shadow-[0_26px_72px_-42px_rgba(2,8,24,0.92)] backdrop-blur-xl;
     }
 
     .panel-dark {
-        @apply rounded-[28px] border border-white/10 bg-slate-950/92 text-slate-100 shadow-[0_24px_60px_-32px_rgba(15,23,42,0.7)];
+        @apply rounded-[24px] border border-[#24324e]/70 bg-[#0b1324]/92 text-[#e7ecfa] shadow-[0_26px_72px_-42px_rgba(2,8,24,0.92)];
     }
 
     .panel-grid {
@@ -48,9 +49,10 @@
 
     .editorial-shell {
         background-image:
-            radial-gradient(circle at top left, rgba(200, 191, 255, 0.32), transparent 30%),
-            radial-gradient(circle at top right, rgba(193, 233, 213, 0.26), transparent 24%),
-            linear-gradient(180deg, #fdf8ff 0%, #f6f0fb 56%, #fdf8ff 100%);
+            radial-gradient(circle at 10% 18%, rgba(96, 130, 224, 0.22), transparent 34%),
+            radial-gradient(circle at 88% 22%, rgba(56, 189, 248, 0.18), transparent 30%),
+            radial-gradient(circle at 62% 86%, rgba(99, 102, 241, 0.14), transparent 32%),
+            linear-gradient(180deg, #050a15 0%, #070d1b 54%, #060b16 100%);
     }
 
     .editorial-display {
@@ -66,13 +68,14 @@
     }
 
     .glass-card {
-        background: rgba(255, 255, 255, 0.72);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
+        background: rgba(15, 24, 43, 0.68);
+        border: 1px solid rgba(37, 50, 78, 0.6);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
     }
 
     .ambient-shadow {
-        box-shadow: 0 24px 60px -32px rgba(94, 80, 176, 0.22);
+        box-shadow: 0 28px 70px -44px rgba(2, 10, 30, 0.95);
     }
 
     .ambient-shadow-hover {
@@ -82,8 +85,8 @@
     }
 
     .ambient-shadow-hover:hover {
-        box-shadow: 0 32px 72px -36px rgba(94, 80, 176, 0.28);
-        transform: translateY(-4px);
+        box-shadow: 0 36px 80px -44px rgba(2, 10, 30, 0.96);
+        transform: translateY(-3px);
     }
 
     .date-tile {
@@ -93,8 +96,64 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        background: #ffffff;
+        background: #0f182b;
         border-radius: 12px;
-        box-shadow: 0 12px 28px -18px rgba(28, 27, 33, 0.42);
+        border: 1px solid rgba(37, 50, 78, 0.58);
+        box-shadow: 0 18px 42px -28px rgba(2, 10, 30, 0.95);
+    }
+
+    .quiet-luxury-surface {
+        @apply rounded-[24px] border border-[#23314a]/70 bg-[#101a2e]/78 backdrop-blur-xl shadow-[0_26px_72px_-42px_rgba(2,8,24,0.95)];
+    }
+
+    .quiet-luxury-title {
+        @apply text-[#eaf0ff];
+    }
+
+    .quiet-luxury-body {
+        @apply text-[#a8b4cc];
+    }
+
+    .quiet-luxury-accent {
+        @apply text-[#9ab0ff];
+    }
+
+    .quiet-luxury-glow::before {
+        content: '';
+        position: absolute;
+        inset: -18% auto auto -12%;
+        width: 220px;
+        height: 220px;
+        border-radius: 9999px;
+        background: radial-gradient(circle, rgba(124, 146, 235, 0.28) 0%, rgba(124, 146, 235, 0) 72%);
+        pointer-events: none;
+        filter: blur(8px);
+    }
+
+    .ambient-motion {
+        animation: ambientDrift 18s ease-in-out infinite alternate;
+    }
+
+    @keyframes ambientDrift {
+        from {
+            transform: translate3d(0, 0, 0) scale(1);
+            opacity: 0.7;
+        }
+        to {
+            transform: translate3d(-10px, 8px, 0) scale(1.06);
+            opacity: 1;
+        }
+    }
+
+    /* Keep studio social preview visuals independent from user-side dark redesign. */
+    .studio-preview-shell {
+        background-image:
+            radial-gradient(circle at top left, rgba(251, 146, 60, 0.18), transparent 32%),
+            radial-gradient(circle at top right, rgba(34, 211, 238, 0.18), transparent 28%),
+            linear-gradient(180deg, #f7f4ed 0%, #ece7dc 100%);
+    }
+
+    .studio-preview-panel {
+        @apply rounded-[28px] border border-slate-200/80 bg-white/78 shadow-[0_24px_60px_-32px_rgba(15,23,42,0.35)] backdrop-blur-xl;
     }
 }

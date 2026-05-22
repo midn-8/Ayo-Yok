@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { activeEvents, attendeeTrend, dashboardStats, recentActivity, revenueTrend } from '../mock-data';
+import { logoAyoyokTransparent } from '../../brand-assets';
 import {
     Money,
     StudioActivityList,
@@ -37,9 +38,16 @@ export function StudioDashboardPage() {
                         }`}
                     >
                         <p className="text-xs font-semibold uppercase tracking-[0.38em] text-slate-300">Welcome</p>
-                        <h2 className="mt-4 bg-gradient-to-r from-orange-300 via-fuchsia-300 to-sky-300 bg-clip-text text-4xl font-extrabold tracking-tight text-transparent sm:text-5xl">
-                            AYOYOK Business Partner
-                        </h2>
+                        <div className="mt-5 flex flex-col items-center gap-4">
+                            <img
+                                src={logoAyoyokTransparent}
+                                alt="AyoYok Business Partner"
+                                className="h-20 w-auto drop-shadow-[0_20px_36px_rgba(56,189,248,0.25)] sm:h-24"
+                            />
+                            <h2 className="bg-gradient-to-r from-orange-300 via-fuchsia-300 to-sky-300 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent sm:text-4xl">
+                                Business Partner
+                            </h2>
+                        </div>
                     </div>
                 </div>
             ) : null}

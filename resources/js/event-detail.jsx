@@ -5,6 +5,7 @@ import './bootstrap';
 
 import { EVENTS, ORGANIZERS, SOCIAL_POSTS, compareEventDates, getEventById, getInitials, getOrganizerById } from './social-hub/mockData';
 import { classNames, formatEventDate, formatPrice, Icon } from './social-hub/ui';
+import { logoAyoyok } from './brand-assets';
 
 const { StrictMode, useEffect, useMemo, useRef } = React;
 
@@ -28,12 +29,12 @@ const CATEGORY_TO_ORGANIZER = {
 };
 
 const CATEGORY_TAG_STYLES = {
-    Music: 'bg-[#e5deff] text-[#372687]',
-    Seminar: 'bg-[#dff2ff] text-[#0c4a6e]',
-    Sports: 'bg-[#dcfce7] text-[#166534]',
-    Food: 'bg-[#ffedd5] text-[#9a3412]',
-    Arts: 'bg-[#f3e8ff] text-[#6b21a8]',
-    Community: 'bg-[#ffe4e6] text-[#be123c]',
+    Music: 'bg-[#1a2742] text-[#9fb3ff]',
+    Seminar: 'bg-[#1c3559] text-[#9fd8ff]',
+    Sports: 'bg-[#173728] text-[#8fe0b3]',
+    Food: 'bg-[#2d2116] text-[#f5b586]',
+    Arts: 'bg-[#251a35] text-[#ceb0ff]',
+    Community: 'bg-[#2b1825] text-[#ff9db9]',
 };
 
 const LOCATION_BY_CATEGORY = {
@@ -187,9 +188,9 @@ function SectionHeader({ eyebrow, title, description, action }) {
     return (
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#797583]">{eyebrow}</p>
-                <h2 className="editorial-display mt-3 text-[30px] font-semibold leading-[1.15] text-[#1c1b21] sm:text-[36px]">{title}</h2>
-                {description ? <p className="mt-3 max-w-2xl text-sm leading-7 text-[#484552] sm:text-base">{description}</p> : null}
+                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#7e8eaa]">{eyebrow}</p>
+                <h2 className="editorial-display mt-3 text-[30px] font-semibold leading-[1.15] text-[#e8eefc] sm:text-[36px]">{title}</h2>
+                {description ? <p className="mt-3 max-w-2xl text-sm leading-7 text-[#a8b4cc] sm:text-base">{description}</p> : null}
             </div>
             {action}
         </div>
@@ -200,27 +201,27 @@ function StoryCard({ post, event }) {
     const visual = selectVisualImage(event, 2);
 
     return (
-        <article className="story-frame overflow-hidden rounded-[30px] border border-white/70 bg-white/80">
+        <article className="story-frame overflow-hidden rounded-[30px] border border-[#25324d]/70 bg-[#111b31]/80">
             <img alt={event.title} className="h-56 w-full object-cover" src={visual} />
             <div className="space-y-4 p-6">
                 <div className="flex items-center gap-3">
                     <img alt={post.userName} className="h-12 w-12 rounded-full object-cover" src={post.avatar} />
                     <div>
-                        <p className="text-sm font-semibold text-[#1c1b21]">{post.userName}</p>
-                        <p className="text-xs uppercase tracking-[0.2em] text-[#797583]">{post.timeAgo}</p>
+                        <p className="text-sm font-semibold text-[#e8eefc]">{post.userName}</p>
+                        <p className="text-xs uppercase tracking-[0.2em] text-[#7e8eaa]">{post.timeAgo}</p>
                     </div>
                 </div>
-                <p className="text-sm leading-7 text-[#484552]">{post.caption}</p>
-                <div className="flex flex-wrap gap-3 text-xs font-semibold uppercase tracking-[0.18em] text-[#797583]">
-                    <span className="inline-flex items-center gap-2 rounded-full bg-[#f1ecf5] px-3 py-2">
+                <p className="text-sm leading-7 text-[#a8b4cc]">{post.caption}</p>
+                <div className="flex flex-wrap gap-3 text-xs font-semibold uppercase tracking-[0.18em] text-[#7e8eaa]">
+                    <span className="inline-flex items-center gap-2 rounded-full bg-[#101a30] px-3 py-2">
                         <Icon name="heart" className="h-4 w-4" />
                         {post.likes}
                     </span>
-                    <span className="inline-flex items-center gap-2 rounded-full bg-[#f1ecf5] px-3 py-2">
+                    <span className="inline-flex items-center gap-2 rounded-full bg-[#101a30] px-3 py-2">
                         <Icon name="comment" className="h-4 w-4" />
                         {post.comments}
                     </span>
-                    <span className="inline-flex items-center gap-2 rounded-full bg-[#f1ecf5] px-3 py-2">
+                    <span className="inline-flex items-center gap-2 rounded-full bg-[#101a30] px-3 py-2">
                         <Icon name="calendar" className="h-4 w-4" />
                         {event.category}
                     </span>
@@ -236,7 +237,7 @@ function RelatedEventCard({ event }) {
     return (
         <a
             href={`/events/${event.id}`}
-            className="group block min-w-[290px] overflow-hidden rounded-[28px] border border-white/70 bg-white/82 transition hover:-translate-y-1 hover:shadow-[0_28px_60px_-34px_rgba(94,80,176,0.28)]"
+            className="group block min-w-[290px] overflow-hidden rounded-[28px] border border-[#25324d]/70 bg-[#101a30]/82 transition hover:-translate-y-1 hover:shadow-[0_28px_60px_-34px_rgba(94,80,176,0.28)]"
         >
             <img alt={event.title} className="h-48 w-full object-cover transition duration-500 group-hover:scale-105" src={visual} />
             <div className="p-5">
@@ -244,11 +245,11 @@ function RelatedEventCard({ event }) {
                     <span className={classNames('rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em]', CATEGORY_TAG_STYLES[event.category] || CATEGORY_TAG_STYLES.Community)}>
                         {event.category}
                     </span>
-                    <span className="text-xs font-semibold uppercase tracking-[0.18em] text-[#797583]">{formatPrice(event.price)}</span>
+                    <span className="text-xs font-semibold uppercase tracking-[0.18em] text-[#7e8eaa]">{formatPrice(event.price)}</span>
                 </div>
-                <h3 className="editorial-display mt-4 text-[24px] font-semibold leading-[1.2] text-[#1c1b21]">{event.title}</h3>
-                <p className="mt-2 text-sm text-[#484552]">{formatEventDate(event.date)}</p>
-                <p className="mt-1 text-sm text-[#797583]">{event.location}</p>
+                <h3 className="editorial-display mt-4 text-[24px] font-semibold leading-[1.2] text-[#e8eefc]">{event.title}</h3>
+                <p className="mt-2 text-sm text-[#a8b4cc]">{formatEventDate(event.date)}</p>
+                <p className="mt-1 text-sm text-[#7e8eaa]">{event.location}</p>
             </div>
         </a>
     );
@@ -320,31 +321,30 @@ function EventDetailPage({ userName, userUsername, userEmail, rawEvent, joinUrl,
     }
 
     return (
-        <div className="event-memory-shell editorial-copy min-h-screen bg-[#fdf8ff] pb-28 text-[#1c1b21] selection:bg-[#e5deff] selection:text-[#372687] md:pb-0">
-            <header className="fixed inset-x-0 top-0 z-50 border-b border-white/55 bg-[rgba(253,248,255,0.82)] backdrop-blur-md shadow-[0_12px_30px_-24px_rgba(94,80,176,0.35)]">
+        <div className="event-memory-shell editorial-copy min-h-screen bg-[#050b17] pb-28 text-[#e8eefc] selection:bg-[#1a2742] selection:text-[#9fb3ff] md:pb-0">
+            <header className="fixed inset-x-0 top-0 z-50 border-b border-[#25324d]/55 bg-[rgba(8,13,27,0.82)] backdrop-blur-md shadow-[0_12px_30px_-24px_rgba(94,80,176,0.35)]">
                 <div className="mx-auto flex max-w-[1240px] items-center justify-between gap-4 px-5 py-4 lg:px-8">
                     <div className="flex items-center gap-8">
                         <a href="/dashboard" className="flex items-center gap-3">
-                            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#5e50b0] text-white shadow-[0_16px_28px_-18px_rgba(94,80,176,0.85)]">
-                                <span className="editorial-display text-base font-bold">AY</span>
-                            </div>
-                            <div>
-                                <p className="editorial-display text-[24px] font-bold tracking-[-0.02em] text-[#5e50b0]">AyoYok</p>
-                                <p className="hidden text-xs text-[#797583] sm:block">Event memory page</p>
-                            </div>
+                            <img
+                                src={logoAyoyok}
+                                alt="AyoYok"
+                                className="h-11 w-auto rounded-xl border border-[#25324d]/75 bg-[#111b31]/90 p-1 shadow-[0_16px_28px_-18px_rgba(94,80,176,0.65)]"
+                            />
+                            <p className="hidden text-xs text-[#7e8eaa] sm:block">Event memory page</p>
                         </a>
 
                         <nav className="hidden items-center gap-6 md:flex">
-                            <a className="text-sm font-semibold text-[#484552] transition-colors hover:text-[#5e50b0]" href="/dashboard">
+                            <a className="text-sm font-semibold text-[#a8b4cc] transition-colors hover:text-[#8ea2ff]" href="/dashboard">
                                 Home
                             </a>
-                            <a className="text-sm font-semibold text-[#484552] transition-colors hover:text-[#5e50b0]" href="/explore">
+                            <a className="text-sm font-semibold text-[#a8b4cc] transition-colors hover:text-[#8ea2ff]" href="/explore">
                                 Explore
                             </a>
-                            <a className="text-sm font-semibold text-[#484552] transition-colors hover:text-[#5e50b0]" href="/schedule">
+                            <a className="text-sm font-semibold text-[#a8b4cc] transition-colors hover:text-[#8ea2ff]" href="/schedule">
                                 Calendar
                             </a>
-                            <a className="text-sm font-semibold text-[#484552] transition-colors hover:text-[#5e50b0]" href="/profile">
+                            <a className="text-sm font-semibold text-[#a8b4cc] transition-colors hover:text-[#8ea2ff]" href="/profile">
                                 Profile
                             </a>
                         </nav>
@@ -353,13 +353,13 @@ function EventDetailPage({ userName, userUsername, userEmail, rawEvent, joinUrl,
                     <div className="flex items-center gap-3">
                         <a
                             href={backUrl}
-                            className="hidden rounded-full border border-white/70 bg-white/75 px-4 py-2 text-sm font-semibold text-[#484552] transition hover:border-[#5e50b0] hover:text-[#5e50b0] md:inline-flex"
+                            className="hidden rounded-full border border-[#25324d]/70 bg-[#111b31]/75 px-4 py-2 text-sm font-semibold text-[#a8b4cc] transition hover:border-[#8ea2ff] hover:text-[#8ea2ff] md:inline-flex"
                         >
                             Back to public events
                         </a>
                         <a
                             href="/profile"
-                            className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-[#c8bfff] bg-white text-sm font-bold text-[#5e50b0]"
+                            className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-[#3e5996] bg-[#101a30] text-sm font-bold text-[#8ea2ff]"
                             title={`${userName} ${displayHandle}`}
                         >
                             {getInitials(userName)}
@@ -373,11 +373,11 @@ function EventDetailPage({ userName, userUsername, userEmail, rawEvent, joinUrl,
                     <section className="hero-haze relative overflow-hidden rounded-[36px]">
                         <img alt={event.title} className="h-[640px] w-full object-cover" src={heroVisual} />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                        <div className="absolute right-6 top-6 rounded-[24px] bg-white/88 p-4 text-center shadow-[0_18px_36px_-24px_rgba(28,27,33,0.45)] sm:right-8 sm:top-8">
-                            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#5e50b0]">
+                        <div className="absolute right-6 top-6 rounded-[24px] bg-[#111b31]/88 p-4 text-center shadow-[0_18px_36px_-24px_rgba(28,27,33,0.45)] sm:right-8 sm:top-8">
+                            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#8ea2ff]">
                                 {new Intl.DateTimeFormat('en-US', { month: 'long' }).format(new Date(event.date))}
                             </p>
-                            <p className="editorial-display mt-1 text-[32px] font-bold leading-none text-[#1c1b21]">
+                            <p className="editorial-display mt-1 text-[32px] font-bold leading-none text-[#e8eefc]">
                                 {new Date(event.date).getDate()}
                             </p>
                         </div>
@@ -387,10 +387,10 @@ function EventDetailPage({ userName, userUsername, userEmail, rawEvent, joinUrl,
                                     <span className={classNames('rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em]', CATEGORY_TAG_STYLES[event.category] || CATEGORY_TAG_STYLES.Community)}>
                                         {event.category}
                                     </span>
-                                    <span className="rounded-full bg-white/15 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-white backdrop-blur-md">
+                                    <span className="rounded-full bg-[#101a30]/15 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-white backdrop-blur-md">
                                         Curated memory page
                                     </span>
-                                    <span className="rounded-full bg-white/15 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-white backdrop-blur-md">
+                                    <span className="rounded-full bg-[#101a30]/15 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-white backdrop-blur-md">
                                         Hosted by {event.host}
                                     </span>
                                 </div>
@@ -401,15 +401,15 @@ function EventDetailPage({ userName, userUsername, userEmail, rawEvent, joinUrl,
                                 <p className="mt-5 max-w-2xl text-base leading-8 text-white/86 sm:text-lg">{event.highlight || event.description}</p>
 
                                 <div className="mt-7 grid gap-4 sm:grid-cols-3">
-                                    <div className="glass-card rounded-[24px] border border-white/20 p-4 text-white">
+                                    <div className="glass-card rounded-[24px] border border-[#25324d]/20 p-4 text-white">
                                         <p className="text-xs font-semibold uppercase tracking-[0.22em] text-white/60">Date & time</p>
                                         <p className="mt-2 text-sm font-semibold">{formatEventDate(event.date)}</p>
                                     </div>
-                                    <div className="glass-card rounded-[24px] border border-white/20 p-4 text-white">
+                                    <div className="glass-card rounded-[24px] border border-[#25324d]/20 p-4 text-white">
                                         <p className="text-xs font-semibold uppercase tracking-[0.22em] text-white/60">Location</p>
                                         <p className="mt-2 text-sm font-semibold">{event.location}</p>
                                     </div>
-                                    <div className="glass-card rounded-[24px] border border-white/20 p-4 text-white">
+                                    <div className="glass-card rounded-[24px] border border-[#25324d]/20 p-4 text-white">
                                         <p className="text-xs font-semibold uppercase tracking-[0.22em] text-white/60">Attendees</p>
                                         <p className="mt-2 text-sm font-semibold">{event.attendees.toLocaleString()} in the room</p>
                                     </div>
@@ -419,7 +419,7 @@ function EventDetailPage({ userName, userUsername, userEmail, rawEvent, joinUrl,
                                     <button
                                         type="button"
                                         onClick={triggerJoin}
-                                        className="inline-flex items-center justify-center gap-2 rounded-full bg-[#5e50b0] px-8 py-4 text-sm font-semibold text-white shadow-[0_24px_48px_-26px_rgba(94,80,176,0.95)] transition hover:-translate-y-0.5 hover:bg-[#5343a8]"
+                                        className="inline-flex items-center justify-center gap-2 rounded-full bg-[#8ea2ff] px-8 py-4 text-sm font-semibold text-white shadow-[0_24px_48px_-26px_rgba(94,80,176,0.95)] transition hover:-translate-y-0.5 hover:bg-[#5343a8]"
                                     >
                                         Join & continue
                                         <Icon name="ticket" className="h-4 w-4" />
@@ -427,7 +427,7 @@ function EventDetailPage({ userName, userUsername, userEmail, rawEvent, joinUrl,
                                     <button
                                         type="button"
                                         onClick={scrollToStories}
-                                        className="inline-flex items-center justify-center gap-2 rounded-full border border-white/30 bg-white/12 px-8 py-4 text-sm font-semibold text-white backdrop-blur-md transition hover:bg-white/18"
+                                        className="inline-flex items-center justify-center gap-2 rounded-full border border-[#25324d]/30 bg-[#101a30]/12 px-8 py-4 text-sm font-semibold text-white backdrop-blur-md transition hover:bg-[#172742]/65"
                                     >
                                         See guest memories
                                         <Icon name="arrow" className="h-4 w-4" />
@@ -447,11 +447,11 @@ function EventDetailPage({ userName, userUsername, userEmail, rawEvent, joinUrl,
                                 />
 
                                 <div className="grid gap-6 lg:grid-cols-[1.12fr_0.88fr]">
-                                    <div className="polaroid-card scrapbook-tape relative rounded-[30px] bg-white p-4">
+                                    <div className="polaroid-card scrapbook-tape relative rounded-[30px] bg-[#101a30] p-4">
                                         <img alt={event.title} className="h-[380px] w-full rounded-[24px] object-cover" src={galleryImages[0]} />
                                         <div className="px-3 pb-2 pt-5">
-                                            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#797583]">Pinned to the moodboard</p>
-                                            <p className="mt-2 max-w-xl text-sm leading-7 text-[#484552]">
+                                            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#7e8eaa]">Pinned to the moodboard</p>
+                                            <p className="mt-2 max-w-xl text-sm leading-7 text-[#a8b4cc]">
                                                 Warm light, slow entrances, an art-directed crowd, and just enough mystery to make the room feel cinematic.
                                             </p>
                                         </div>
@@ -462,17 +462,17 @@ function EventDetailPage({ userName, userUsername, userEmail, rawEvent, joinUrl,
                                             <div
                                                 key={image}
                                                 className={classNames(
-                                                    'polaroid-card relative rounded-[28px] bg-white p-3',
+                                                    'polaroid-card relative rounded-[28px] bg-[#101a30] p-3',
                                                     index === 0 ? 'rotate-[-2deg]' : index === 1 ? 'rotate-[2deg]' : 'rotate-[-1deg]',
                                                 )}
                                             >
                                                 <div className="scrapbook-tape absolute inset-x-0 top-0 z-10" />
                                                 <img alt={`${event.title} memory ${index + 1}`} className="h-40 w-full rounded-[22px] object-cover sm:h-48" src={image} />
                                                 <div className="px-2 pb-1 pt-4">
-                                                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#5e50b0]">
+                                                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#8ea2ff]">
                                                         {index === 0 ? 'Arrival frame' : index === 1 ? 'Detail capture' : 'Afterglow'}
                                                     </p>
-                                                    <p className="mt-2 text-sm leading-6 text-[#484552]">
+                                                    <p className="mt-2 text-sm leading-6 text-[#a8b4cc]">
                                                         {index === 0
                                                             ? 'Guests settle in before the room starts humming.'
                                                             : index === 1
@@ -494,8 +494,8 @@ function EventDetailPage({ userName, userUsername, userEmail, rawEvent, joinUrl,
                                 />
 
                                 <div className="grid gap-6 lg:grid-cols-[1fr_0.82fr]">
-                                    <div className="glass-card rounded-[32px] border border-white/70 p-7">
-                                        <div className="space-y-5 text-base leading-8 text-[#484552]">
+                                    <div className="glass-card rounded-[32px] border border-[#25324d]/70 p-7">
+                                        <div className="space-y-5 text-base leading-8 text-[#a8b4cc]">
                                             {aboutCopy.map((paragraph) => (
                                                 <p key={paragraph}>{paragraph}</p>
                                             ))}
@@ -504,7 +504,7 @@ function EventDetailPage({ userName, userUsername, userEmail, rawEvent, joinUrl,
                                             {event.perks.map((perk) => (
                                                 <span
                                                     key={perk}
-                                                    className="rounded-full border border-[#d9d2e3] bg-white/80 px-4 py-2 text-sm font-semibold text-[#484552]"
+                                                    className="rounded-full border border-[#d9d2e3] bg-[#111b31]/80 px-4 py-2 text-sm font-semibold text-[#a8b4cc]"
                                                 >
                                                     {perk}
                                                 </span>
@@ -517,19 +517,19 @@ function EventDetailPage({ userName, userUsername, userEmail, rawEvent, joinUrl,
                                             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-white/55">Memory cue</p>
                                             <p className="editorial-display mt-3 text-[28px] font-semibold leading-[1.18]">{event.highlight}</p>
                                         </div>
-                                        <div className="glass-card rounded-[28px] border border-white/70 p-6">
-                                            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#797583]">Quick details</p>
+                                        <div className="glass-card rounded-[28px] border border-[#25324d]/70 p-6">
+                                            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#7e8eaa]">Quick details</p>
                                             <div className="mt-4 space-y-4">
-                                                <div className="flex items-center gap-3 text-sm text-[#484552]">
-                                                    <Icon name="calendar" className="h-4 w-4 text-[#5e50b0]" />
+                                                <div className="flex items-center gap-3 text-sm text-[#a8b4cc]">
+                                                    <Icon name="calendar" className="h-4 w-4 text-[#8ea2ff]" />
                                                     <span>{formatEventDate(event.date)}</span>
                                                 </div>
-                                                <div className="flex items-center gap-3 text-sm text-[#484552]">
-                                                    <Icon name="map" className="h-4 w-4 text-[#5e50b0]" />
+                                                <div className="flex items-center gap-3 text-sm text-[#a8b4cc]">
+                                                    <Icon name="map" className="h-4 w-4 text-[#8ea2ff]" />
                                                     <span>{event.location}</span>
                                                 </div>
-                                                <div className="flex items-center gap-3 text-sm text-[#484552]">
-                                                    <Icon name="people" className="h-4 w-4 text-[#5e50b0]" />
+                                                <div className="flex items-center gap-3 text-sm text-[#a8b4cc]">
+                                                    <Icon name="people" className="h-4 w-4 text-[#8ea2ff]" />
                                                     <span>{mutualCount}+ mutual attendees in adjacent circles</span>
                                                 </div>
                                             </div>
@@ -546,33 +546,33 @@ function EventDetailPage({ userName, userUsername, userEmail, rawEvent, joinUrl,
                                 />
 
                                 <div className="grid gap-6 lg:grid-cols-[0.92fr_1.08fr]">
-                                    <div className="glass-card rounded-[32px] border border-white/70 p-6">
+                                    <div className="glass-card rounded-[32px] border border-[#25324d]/70 p-6">
                                         <div className="flex -space-x-4">
                                             {attendeePreview.slice(0, 5).map((attendee) => (
                                                 <img
                                                     key={attendee.id}
                                                     alt={attendee.name}
-                                                    className="h-16 w-16 rounded-full border-4 border-[#fdf8ff] object-cover"
+                                                    className="h-16 w-16 rounded-full border-4 border-[#050b17] object-cover"
                                                     src={attendee.avatar}
                                                 />
                                             ))}
-                                            <div className="flex h-16 w-16 items-center justify-center rounded-full border-4 border-[#fdf8ff] bg-[#e5deff] text-sm font-bold text-[#372687]">
+                                            <div className="flex h-16 w-16 items-center justify-center rounded-full border-4 border-[#050b17] bg-[#1a2742] text-sm font-bold text-[#9fb3ff]">
                                                 +{mutualCount}
                                             </div>
                                         </div>
-                                        <h3 className="editorial-display mt-6 text-[26px] font-semibold text-[#1c1b21]">A room with familiar energy.</h3>
-                                        <p className="mt-3 text-sm leading-7 text-[#484552]">
+                                        <h3 className="editorial-display mt-6 text-[26px] font-semibold text-[#e8eefc]">A room with familiar energy.</h3>
+                                        <p className="mt-3 text-sm leading-7 text-[#a8b4cc]">
                                             {mutualCount} mutual or adjacent attendees overlap with the kinds of events you already join, save, and talk about.
                                         </p>
                                     </div>
 
                                     <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
                                         {attendeePreview.map((attendee) => (
-                                            <article key={attendee.id} className="rounded-[26px] border border-white/70 bg-white/82 p-5">
+                                            <article key={attendee.id} className="rounded-[26px] border border-[#25324d]/70 bg-[#101a30]/82 p-5">
                                                 <img alt={attendee.name} className="h-14 w-14 rounded-full object-cover" src={attendee.avatar} />
-                                                <p className="mt-4 text-sm font-semibold text-[#1c1b21]">{attendee.name}</p>
-                                                <p className="mt-1 text-xs uppercase tracking-[0.18em] text-[#797583]">{attendee.handle}</p>
-                                                <span className="mt-4 inline-flex rounded-full bg-[#f1ecf5] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#5e50b0]">
+                                                <p className="mt-4 text-sm font-semibold text-[#e8eefc]">{attendee.name}</p>
+                                                <p className="mt-1 text-xs uppercase tracking-[0.18em] text-[#7e8eaa]">{attendee.handle}</p>
+                                                <span className="mt-4 inline-flex rounded-full bg-[#101a30] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#8ea2ff]">
                                                     {attendee.tag}
                                                 </span>
                                             </article>
@@ -603,55 +603,55 @@ function EventDetailPage({ userName, userUsername, userEmail, rawEvent, joinUrl,
                                 />
 
                                 <div className="grid gap-6 lg:grid-cols-[1fr_0.92fr]">
-                                    <div className="glass-card rounded-[32px] border border-white/70 p-7">
+                                    <div className="glass-card rounded-[32px] border border-[#25324d]/70 p-7">
                                         <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
                                             <img alt={organizer.name} className="h-24 w-24 rounded-[28px] object-cover shadow-[0_20px_40px_-24px_rgba(28,27,33,0.3)]" src={organizer.avatar} />
                                             <div className="flex-1">
                                                 <div className="flex flex-wrap items-center gap-3">
-                                                    <h3 className="editorial-display text-[30px] font-semibold text-[#1c1b21]">{organizer.name}</h3>
+                                                    <h3 className="editorial-display text-[30px] font-semibold text-[#e8eefc]">{organizer.name}</h3>
                                                     {organizer.verified ? (
                                                         <span className="rounded-full bg-[#312f36] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-white">
                                                             Verified
                                                         </span>
                                                     ) : null}
                                                 </div>
-                                                <p className="mt-2 text-sm font-semibold text-[#5e50b0]">{organizer.handle}</p>
-                                                <p className="mt-4 text-sm leading-7 text-[#484552]">{organizer.bio}</p>
+                                                <p className="mt-2 text-sm font-semibold text-[#8ea2ff]">{organizer.handle}</p>
+                                                <p className="mt-4 text-sm leading-7 text-[#a8b4cc]">{organizer.bio}</p>
                                             </div>
                                         </div>
 
                                         <div className="mt-8 grid gap-4 sm:grid-cols-3">
-                                            <div className="rounded-[24px] bg-white/80 p-5 text-center">
-                                                <p className="text-xs uppercase tracking-[0.18em] text-[#797583]">Followers</p>
-                                                <p className="editorial-display mt-2 text-[28px] font-semibold text-[#1c1b21]">{organizer.followers.toLocaleString()}</p>
+                                            <div className="rounded-[24px] bg-[#111b31]/80 p-5 text-center">
+                                                <p className="text-xs uppercase tracking-[0.18em] text-[#7e8eaa]">Followers</p>
+                                                <p className="editorial-display mt-2 text-[28px] font-semibold text-[#e8eefc]">{organizer.followers.toLocaleString()}</p>
                                             </div>
-                                            <div className="rounded-[24px] bg-white/80 p-5 text-center">
-                                                <p className="text-xs uppercase tracking-[0.18em] text-[#797583]">Hosted</p>
-                                                <p className="editorial-display mt-2 text-[28px] font-semibold text-[#1c1b21]">{organizer.eventsHosted}</p>
+                                            <div className="rounded-[24px] bg-[#111b31]/80 p-5 text-center">
+                                                <p className="text-xs uppercase tracking-[0.18em] text-[#7e8eaa]">Hosted</p>
+                                                <p className="editorial-display mt-2 text-[28px] font-semibold text-[#e8eefc]">{organizer.eventsHosted}</p>
                                             </div>
-                                            <div className="rounded-[24px] bg-white/80 p-5 text-center">
-                                                <p className="text-xs uppercase tracking-[0.18em] text-[#797583]">Focus</p>
-                                                <p className="editorial-display mt-2 text-[28px] font-semibold text-[#1c1b21]">{organizer.category}</p>
+                                            <div className="rounded-[24px] bg-[#111b31]/80 p-5 text-center">
+                                                <p className="text-xs uppercase tracking-[0.18em] text-[#7e8eaa]">Focus</p>
+                                                <p className="editorial-display mt-2 text-[28px] font-semibold text-[#e8eefc]">{organizer.category}</p>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div className="rounded-[32px] border border-white/70 bg-white/82 p-6">
-                                        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#797583]">Other drops from this organizer</p>
+                                    <div className="rounded-[32px] border border-[#25324d]/70 bg-[#101a30]/82 p-6">
+                                        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#7e8eaa]">Other drops from this organizer</p>
                                         <div className="mt-5 space-y-4">
                                             {organizerEvents.map((organizerEvent) => (
                                                 <a
                                                     key={organizerEvent.id}
                                                     href={`/events/${organizerEvent.id}`}
-                                                    className="flex items-center gap-4 rounded-[24px] border border-white/70 bg-white/70 p-4 transition hover:-translate-y-0.5 hover:shadow-[0_22px_44px_-28px_rgba(94,80,176,0.35)]"
+                                                    className="flex items-center gap-4 rounded-[24px] border border-[#25324d]/70 bg-[#111b31]/70 p-4 transition hover:-translate-y-0.5 hover:shadow-[0_22px_44px_-28px_rgba(94,80,176,0.35)]"
                                                 >
                                                     <img alt={organizerEvent.title} className="h-20 w-20 rounded-[20px] object-cover" src={organizerEvent.image} />
                                                     <div className="min-w-0 flex-1">
-                                                        <p className="truncate text-sm font-semibold text-[#1c1b21]">{organizerEvent.title}</p>
-                                                        <p className="mt-1 text-sm text-[#484552]">{formatEventDate(organizerEvent.date)}</p>
-                                                        <p className="mt-1 truncate text-xs uppercase tracking-[0.18em] text-[#797583]">{organizerEvent.location}</p>
+                                                        <p className="truncate text-sm font-semibold text-[#e8eefc]">{organizerEvent.title}</p>
+                                                        <p className="mt-1 text-sm text-[#a8b4cc]">{formatEventDate(organizerEvent.date)}</p>
+                                                        <p className="mt-1 truncate text-xs uppercase tracking-[0.18em] text-[#7e8eaa]">{organizerEvent.location}</p>
                                                     </div>
-                                                    <MaterialIcon name="arrow_forward" className="text-[#797583]" />
+                                                    <MaterialIcon name="arrow_forward" className="text-[#7e8eaa]" />
                                                 </a>
                                             ))}
                                         </div>
@@ -675,28 +675,28 @@ function EventDetailPage({ userName, userUsername, userEmail, rawEvent, joinUrl,
                         </div>
 
                         <aside className="space-y-6 xl:sticky xl:top-28 xl:self-start">
-                            <section className="glass-card rounded-[34px] border border-white/70 p-7 shadow-[0_30px_70px_-40px_rgba(94,80,176,0.55)]">
-                                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#5e50b0]">Join / ticket</p>
+                            <section className="glass-card rounded-[34px] border border-[#25324d]/70 p-7 shadow-[0_30px_70px_-40px_rgba(94,80,176,0.55)]">
+                                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#8ea2ff]">Join / ticket</p>
                                 <div className="mt-4 flex items-end gap-2">
-                                    <p className="editorial-display text-[48px] font-bold leading-none text-[#1c1b21]">{formatPrice(event.price)}</p>
-                                    <p className="pb-2 text-sm text-[#797583]">per person</p>
+                                    <p className="editorial-display text-[48px] font-bold leading-none text-[#e8eefc]">{formatPrice(event.price)}</p>
+                                    <p className="pb-2 text-sm text-[#7e8eaa]">per person</p>
                                 </div>
 
                                 <div className="mt-6 grid gap-3">
-                                    <div className="rounded-[24px] bg-white/80 p-4">
-                                        <p className="text-xs uppercase tracking-[0.18em] text-[#797583]">Attendee count</p>
-                                        <p className="mt-2 text-sm font-semibold text-[#1c1b21]">{event.attendees.toLocaleString()} already interested</p>
+                                    <div className="rounded-[24px] bg-[#111b31]/80 p-4">
+                                        <p className="text-xs uppercase tracking-[0.18em] text-[#7e8eaa]">Attendee count</p>
+                                        <p className="mt-2 text-sm font-semibold text-[#e8eefc]">{event.attendees.toLocaleString()} already interested</p>
                                     </div>
-                                    <div className="rounded-[24px] bg-white/80 p-4">
-                                        <p className="text-xs uppercase tracking-[0.18em] text-[#797583]">Availability</p>
-                                        <p className="mt-2 text-sm font-semibold text-[#1c1b21]">{remainingSeats} spots left in the current release</p>
+                                    <div className="rounded-[24px] bg-[#111b31]/80 p-4">
+                                        <p className="text-xs uppercase tracking-[0.18em] text-[#7e8eaa]">Availability</p>
+                                        <p className="mt-2 text-sm font-semibold text-[#e8eefc]">{remainingSeats} spots left in the current release</p>
                                     </div>
                                 </div>
 
                                 <form ref={joinFormRef} action={joinUrl} className="mt-6 space-y-3" method="POST">
                                     <input type="hidden" name="_token" value={csrfToken} />
                                     <button
-                                        className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#5e50b0] px-5 py-4 text-sm font-semibold text-white shadow-[0_20px_44px_-26px_rgba(94,80,176,0.9)] transition hover:-translate-y-0.5 hover:bg-[#5343a8]"
+                                        className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#8ea2ff] px-5 py-4 text-sm font-semibold text-white shadow-[0_20px_44px_-26px_rgba(94,80,176,0.9)] transition hover:-translate-y-0.5 hover:bg-[#5343a8]"
                                         type="submit"
                                     >
                                         {event.price === 0 ? 'Join Event' : 'Join & Continue to Payment'}
@@ -706,7 +706,7 @@ function EventDetailPage({ userName, userUsername, userEmail, rawEvent, joinUrl,
 
                                 <a
                                     href={paymentUrl}
-                                    className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-full border border-[#d1cbdb] bg-white/80 px-5 py-4 text-sm font-semibold text-[#484552] transition hover:border-[#5e50b0] hover:text-[#5e50b0]"
+                                    className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-full border border-[#d1cbdb] bg-[#111b31]/80 px-5 py-4 text-sm font-semibold text-[#a8b4cc] transition hover:border-[#8ea2ff] hover:text-[#8ea2ff]"
                                 >
                                     Open payment page
                                     <Icon name="arrow" className="h-4 w-4" />
@@ -720,20 +720,20 @@ function EventDetailPage({ userName, userUsername, userEmail, rawEvent, joinUrl,
                                 </div>
                             </section>
 
-                            <section className="overflow-hidden rounded-[34px] border border-white/70 bg-white/82">
+                            <section className="overflow-hidden rounded-[34px] border border-[#25324d]/70 bg-[#101a30]/82">
                                 <a href={mapUrl} target="_blank" rel="noreferrer" className="block">
                                     <div className="relative h-56 overflow-hidden">
                                         <img alt={event.location} className="h-full w-full object-cover" src={GALLERY_IMAGES[1]} />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-[#5e50b0]/45 to-transparent" />
-                                        <div className="absolute bottom-4 left-4 rounded-full bg-white/86 px-4 py-2 text-sm font-semibold text-[#5e50b0] shadow-[0_16px_28px_-18px_rgba(28,27,33,0.4)]">
+                                        <div className="absolute inset-0 bg-gradient-to-t from-[#8ea2ff]/45 to-transparent" />
+                                        <div className="absolute bottom-4 left-4 rounded-full bg-[#101a30]/86 px-4 py-2 text-sm font-semibold text-[#8ea2ff] shadow-[0_16px_28px_-18px_rgba(28,27,33,0.4)]">
                                             Get directions
                                         </div>
                                     </div>
                                 </a>
                                 <div className="p-5">
-                                    <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#797583]">Venue mood</p>
-                                    <p className="mt-2 text-sm font-semibold text-[#1c1b21]">{event.location}</p>
-                                    <p className="mt-2 text-sm leading-7 text-[#484552]">
+                                    <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#7e8eaa]">Venue mood</p>
+                                    <p className="mt-2 text-sm font-semibold text-[#e8eefc]">{event.location}</p>
+                                    <p className="mt-2 text-sm leading-7 text-[#a8b4cc]">
                                         Save the route, plan the entrance, and keep the night feeling intentional from the moment you leave home.
                                     </p>
                                 </div>
@@ -743,26 +743,26 @@ function EventDetailPage({ userName, userUsername, userEmail, rawEvent, joinUrl,
                 </div>
             </main>
 
-            <nav className="fixed bottom-0 left-0 z-50 flex w-full items-center justify-around rounded-t-[22px] border-t border-white/60 bg-[rgba(247,242,251,0.92)] px-4 py-3 shadow-[0_-8px_30px_-18px_rgba(94,80,176,0.28)] backdrop-blur-lg md:hidden">
-                <a href="/dashboard" className="flex flex-col items-center justify-center px-5 py-1 text-[#484552]">
+            <nav className="fixed bottom-0 left-0 z-50 flex w-full items-center justify-around rounded-t-[22px] border-t border-[#25324d]/60 bg-[rgba(10,17,34,0.92)] px-4 py-3 shadow-[0_-8px_30px_-18px_rgba(94,80,176,0.28)] backdrop-blur-lg md:hidden">
+                <a href="/dashboard" className="flex flex-col items-center justify-center px-5 py-1 text-[#a8b4cc]">
                     <MaterialIcon name="home" />
                     <span className="text-[11px] font-semibold">Home</span>
                 </a>
-                <a href="/explore" className="flex flex-col items-center justify-center rounded-full bg-[#e5deff] px-5 py-1 text-[#372687]">
+                <a href="/explore" className="flex flex-col items-center justify-center rounded-full bg-[#1a2742] px-5 py-1 text-[#9fb3ff]">
                     <MaterialIcon name="explore" />
                     <span className="text-[11px] font-semibold">Explore</span>
                 </a>
-                <a href="/schedule" className="flex flex-col items-center justify-center px-5 py-1 text-[#484552]">
+                <a href="/schedule" className="flex flex-col items-center justify-center px-5 py-1 text-[#a8b4cc]">
                     <MaterialIcon name="calendar_today" />
                     <span className="text-[11px] font-semibold">Calendar</span>
                 </a>
-                <a href="/profile" className="flex flex-col items-center justify-center px-5 py-1 text-[#484552]">
+                <a href="/profile" className="flex flex-col items-center justify-center px-5 py-1 text-[#a8b4cc]">
                     <MaterialIcon name="person" />
                     <span className="text-[11px] font-semibold">Profile</span>
                 </a>
             </nav>
 
-            <footer className="px-5 pb-16 pt-6 text-center text-xs font-medium uppercase tracking-[0.22em] text-[#797583] md:pb-10">
+            <footer className="px-5 pb-16 pt-6 text-center text-xs font-medium uppercase tracking-[0.22em] text-[#7e8eaa] md:pb-10">
                 Built on the same event route, now with a more immersive front-end memory layer. Reach out at {userEmail}.
             </footer>
         </div>

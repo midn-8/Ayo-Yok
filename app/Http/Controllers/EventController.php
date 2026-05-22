@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Studio\CreateEvent\StudioCreateEventInputGuard;
+use App\Models\User;
+use Carbon\Carbon;
 use InvalidArgumentException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -19,7 +21,16 @@ class EventController extends Controller
 
     public function createPrivateEvent()
     {
-        return view('events.private-create');
+        return view('events.private-create', [
+            'eventMode' => 'private',
+        ]);
+    }
+
+    public function createPublicEvent()
+    {
+        return view('events.public-create', [
+            'eventMode' => 'public',
+        ]);
     }
 
     public function storeEvent(Request $request)
@@ -128,11 +139,77 @@ class EventController extends Controller
     // =========================
     public function joinPrivate(Request $request, $token)
     {
-        // validasi token undangan
+        $recipientHandle = ltrim((string) $request->query('to', ''), '@');
+        $recipientName = null;
+        $expiresAtRaw = (string) $request->query('exp', '');
+        $expiresAt = null;
+        $isExpired = true;
+
+        if ($recipientHandle !== '') {
+            $recipientName = User::where('username', $recipientHandle)->value('name');
+        }
+
+        if (!$recipientName) {
+            $recipientName = $request->query('recipient');
+        }
+
+        if ($expiresAtRaw !== '') {
+            try {
+                $expiresAt = Carbon::parse($expiresAtRaw);
+                $isExpired = Carbon::now()->greaterThan($expiresAt);
+            } catch (\Throwable $exception) {
+                $isExpired = true;
+            }
+        }
 
         return view('events.private', [
             'token' => $token,
             'theme' => $request->query('theme', 'elegant-night'),
+            'recipientName' => $recipientName,
+            'recipientHandle' => $recipientHandle,
+            'expiresAt' => $expiresAt?->toIso8601String() ?: $expiresAtRaw,
+            'inviteExpired' => $isExpired,
         ]);
+    }
+
+    public function respondPrivateInvite(Request $request, $token)
+    {
+        $validated = $request->validate([
+            'decision' => 'required|in:accept,decline',
+            'exp' => 'required|string',
+            'theme' => 'nullable|string',
+            'to' => 'nullable|string',
+            'recipient' => 'nullable|string',
+        ]);
+
+        $isExpired = true;
+
+        try {
+            $isExpired = Carbon::now()->greaterThan(Carbon::parse($validated['exp']));
+        } catch (\Throwable $exception) {
+            $isExpired = true;
+        }
+
+        if ($isExpired) {
+            return redirect()
+                ->route('invite.show', [
+                    'token' => $token,
+                    'theme' => $validated['theme'] ?? 'elegant-night',
+                    'exp' => $validated['exp'],
+                    'to' => $validated['to'] ?? null,
+                    'recipient' => $validated['recipient'] ?? null,
+                ])
+                ->with('status', 'This invite has expired after 24 hours.');
+        }
+
+        if ($validated['decision'] === 'accept') {
+            return redirect()
+                ->route('dashboard')
+                ->with('success', 'Invitation accepted. Your RSVP is recorded.');
+        }
+
+        return redirect()
+            ->route('dashboard')
+            ->with('status', 'Invitation declined.');
     }
 }

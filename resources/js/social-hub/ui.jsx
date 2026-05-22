@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { CATEGORY_META, getEventById, getInitials } from './mockData';
+import { logoAyoyok } from '../brand-assets';
 
 export function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
@@ -209,19 +210,14 @@ export function TopNavigation({
         <header className="panel sticky top-4 z-30 px-4 py-4 sm:px-6">
             <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
                 <div className="flex items-center gap-4">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-orange-400 to-fuchsia-500 text-white shadow-lg shadow-fuchsia-950/20">
-                        <Icon name="spark" className="h-6 w-6" />
-                    </div>
-                    <div>
-                        <p className="dashboard-display text-2xl font-bold text-slate-950">AyoYok</p>
-                        <p className="text-sm text-slate-500">Discover events, meet people, collect moments.</p>
-                    </div>
+                    <img src={logoAyoyok} alt="AyoYok" className="h-12 w-auto rounded-xl border border-[#2a3855] bg-[#101a30] p-1 shadow-lg shadow-slate-950/10" />
+                    <p className="text-sm text-[#8e9cb6]">Discover events, meet people, collect moments.</p>
                 </div>
 
                 <div className="flex flex-1 flex-col gap-3 xl:max-w-4xl xl:flex-row xl:items-center xl:justify-end">
                     {showSearch ? (
                         <div className="relative w-full xl:max-w-xl">
-                            <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
+                            <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[#7f8ea8]">
                                 <Icon name="search" className="h-5 w-5" />
                             </span>
                             <input
@@ -229,7 +225,7 @@ export function TopNavigation({
                                 value={searchTerm}
                                 onChange={(event) => onSearchChange?.(event.target.value)}
                                 placeholder={searchPlaceholder}
-                                className="h-12 w-full rounded-full border border-slate-200 bg-white pl-12 pr-4 text-sm text-slate-700 shadow-sm outline-none transition focus:border-fuchsia-300 focus:ring-4 focus:ring-fuchsia-100"
+                                className="h-12 w-full rounded-full border border-[#2a3855] bg-[#101a30] pl-12 pr-4 text-sm text-[#c6d1e6] shadow-sm outline-none transition focus:border-[#8ea2ff] focus:ring-4 focus:ring-[#8ea2ff]/20"
                             />
                         </div>
                     ) : null}
@@ -246,7 +242,7 @@ export function TopNavigation({
                                         aria-current={isActive ? 'page' : undefined}
                                         className={classNames(
                                             'rounded-full px-4 py-2 text-sm font-semibold transition',
-                                            isActive ? 'bg-slate-950 text-white shadow-lg shadow-slate-950/15' : 'text-slate-600 hover:bg-slate-100',
+                                            isActive ? 'bg-[#111b31] text-white shadow-lg shadow-slate-950/15' : 'text-[#a7b3cb] hover:bg-[#15233d]',
                                         )}
                                     >
                                         {item.label}
@@ -255,8 +251,8 @@ export function TopNavigation({
                             })}
                         </nav>
 
-                        <a href="/profile" className="flex items-center gap-3 rounded-full bg-slate-950 px-3 py-2 text-white shadow-lg shadow-slate-950/15">
-                            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white/15 text-sm font-bold">
+                        <a href="/profile" className="flex items-center gap-3 rounded-full bg-[#111b31] px-3 py-2 text-white shadow-lg shadow-slate-950/15">
+                            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#101a30]/15 text-sm font-bold">
                                 {getInitials(userName)}
                             </span>
                             <div className="pr-2">
@@ -275,9 +271,9 @@ export function SectionHeading({ eyebrow, title, description, action }) {
     return (
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-slate-500">{eyebrow}</p>
-                <h2 className="dashboard-display mt-2 text-2xl font-bold text-slate-950 sm:text-3xl">{title}</h2>
-                {description ? <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">{description}</p> : null}
+                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#8e9cb6]">{eyebrow}</p>
+                <h2 className="dashboard-display mt-2 text-2xl font-bold text-[#e8eefc] sm:text-3xl">{title}</h2>
+                {description ? <p className="mt-2 max-w-2xl text-sm leading-6 text-[#a7b3cb]">{description}</p> : null}
             </div>
             {action}
         </div>
@@ -287,9 +283,9 @@ export function SectionHeading({ eyebrow, title, description, action }) {
 export function StatCard({ label, value, note, inverse = false }) {
     return (
         <article className={classNames(inverse ? 'panel-dark' : 'panel', 'p-5 sm:p-6')}>
-            <p className={classNames('text-xs font-semibold uppercase tracking-[0.28em]', inverse ? 'text-slate-400' : 'text-slate-500')}>{label}</p>
-            <p className={classNames('dashboard-display mt-4 text-4xl font-bold', inverse ? 'text-white' : 'text-slate-950')}>{value}</p>
-            {note ? <p className={classNames('mt-2 text-sm leading-6', inverse ? 'text-slate-300' : 'text-slate-600')}>{note}</p> : null}
+            <p className={classNames('text-xs font-semibold uppercase tracking-[0.28em]', inverse ? 'text-[#7f8ea8]' : 'text-[#8e9cb6]')}>{label}</p>
+            <p className={classNames('dashboard-display mt-4 text-4xl font-bold', inverse ? 'text-white' : 'text-[#e8eefc]')}>{value}</p>
+            {note ? <p className={classNames('mt-2 text-sm leading-6', inverse ? 'text-slate-300' : 'text-[#a7b3cb]')}>{note}</p> : null}
         </article>
     );
 }
@@ -302,8 +298,8 @@ export function FilterChip({ label, active, onClick }) {
             className={classNames(
                 'rounded-full px-4 py-2 text-sm font-semibold transition',
                 active
-                    ? 'bg-slate-950 text-white shadow-lg shadow-slate-950/15'
-                    : 'bg-white text-slate-600 ring-1 ring-inset ring-slate-200 hover:bg-slate-50',
+                    ? 'bg-[#111b31] text-white shadow-lg shadow-slate-950/15'
+                    : 'bg-[#101a30] text-[#a7b3cb] ring-1 ring-inset ring-[#2a3855] hover:bg-[#15233d]',
             )}
         >
             {label}
@@ -320,36 +316,36 @@ export function EventCard({ event, joined = false, onOpen, onPrimaryAction, prim
             <div className="p-5 sm:p-6">
                 <div className="flex flex-wrap items-center gap-2">
                     <span className={classNames('rounded-full px-3 py-1 text-xs font-semibold', meta.soft)}>{event.category}</span>
-                    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-500">
+                    <span className="rounded-full bg-[#15233d] px-3 py-1 text-xs font-semibold text-[#8e9cb6]">
                         {event.attendees.toLocaleString()} going
                     </span>
-                    {badgeLabel ? <span className="rounded-full bg-slate-950 px-3 py-1 text-xs font-semibold text-white">{badgeLabel}</span> : null}
+                    {badgeLabel ? <span className="rounded-full bg-[#111b31] px-3 py-1 text-xs font-semibold text-white">{badgeLabel}</span> : null}
                     {joined ? (
-                        <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700 ring-1 ring-inset ring-emerald-200">
+                        <span className="rounded-full bg-[#173728] px-3 py-1 text-xs font-semibold text-[#8fe0b3] ring-1 ring-inset ring-[#28523d]">
                             Joined
                         </span>
                     ) : null}
                 </div>
 
-                <h3 className="dashboard-display mt-4 text-2xl font-bold text-slate-950">{event.title}</h3>
-                <p className="mt-2 text-sm leading-6 text-slate-600">{event.highlight}</p>
+                <h3 className="dashboard-display mt-4 text-2xl font-bold text-[#e8eefc]">{event.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-[#a7b3cb]">{event.highlight}</p>
 
-                <div className="mt-5 space-y-3 text-sm text-slate-600">
+                <div className="mt-5 space-y-3 text-sm text-[#a7b3cb]">
                     <div className="flex items-center gap-3">
-                        <span className="text-slate-400">
+                        <span className="text-[#7f8ea8]">
                             <Icon name="calendar" className="h-4 w-4" />
                         </span>
                         <span>{formatEventDate(event.date)}</span>
                     </div>
                     <div className="flex items-center gap-3">
-                        <span className="text-slate-400">
+                        <span className="text-[#7f8ea8]">
                             <Icon name="map" className="h-4 w-4" />
                         </span>
                         <span>{event.location}</span>
                     </div>
                     {showHost ? (
                         <div className="flex items-center gap-3">
-                            <span className="text-slate-400">
+                            <span className="text-[#7f8ea8]">
                                 <Icon name="people" className="h-4 w-4" />
                             </span>
                             <span>Hosted by {event.host}</span>
@@ -359,15 +355,15 @@ export function EventCard({ event, joined = false, onOpen, onPrimaryAction, prim
 
                 <div className="mt-6 flex items-center justify-between gap-4">
                     <div>
-                        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">Price</p>
-                        <p className="mt-1 text-lg font-bold text-slate-950">{formatPrice(event.price)}</p>
+                        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#7f8ea8]">Price</p>
+                        <p className="mt-1 text-lg font-bold text-[#e8eefc]">{formatPrice(event.price)}</p>
                     </div>
                     <div className="flex gap-2">
                         {onOpen ? (
                             <button
                                 type="button"
                                 onClick={onOpen}
-                                className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+                                className="rounded-full border border-[#2a3855] px-4 py-2 text-sm font-semibold text-[#c6d1e6] transition hover:bg-[#15233d]"
                             >
                                 Details
                             </button>
@@ -375,7 +371,7 @@ export function EventCard({ event, joined = false, onOpen, onPrimaryAction, prim
                         <button
                             type="button"
                             onClick={onPrimaryAction}
-                            className="inline-flex items-center gap-2 rounded-full bg-slate-950 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-slate-950/15 transition hover:bg-slate-800"
+                            className="inline-flex items-center gap-2 rounded-full bg-[#111b31] px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-slate-950/15 transition hover:bg-[#1b2742]"
                         >
                             {primaryLabel || (joined ? 'View Ticket' : event.price === 0 ? 'Join Event' : 'Buy Ticket')}
                             <Icon name="arrow" className="h-4 w-4" />
@@ -392,16 +388,16 @@ export function CompactEventItem({ event, badge, actionLabel, onOpen }) {
         <button
             type="button"
             onClick={onOpen}
-            className="flex w-full items-start gap-4 rounded-[24px] border border-slate-200 bg-white px-4 py-4 text-left transition hover:-translate-y-0.5 hover:shadow-lg"
+            className="flex w-full items-start gap-4 rounded-[24px] border border-[#2a3855] bg-[#101a30] px-4 py-4 text-left transition hover:-translate-y-0.5 hover:shadow-lg"
         >
             <img src={event.image} alt={event.title} className="h-20 w-20 rounded-2xl object-cover" />
             <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-center gap-2">
-                    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">{badge}</span>
-                    <span className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">{formatDateChip(event.date)}</span>
+                    <span className="rounded-full bg-[#15233d] px-3 py-1 text-xs font-semibold text-[#a7b3cb]">{badge}</span>
+                    <span className="text-xs font-semibold uppercase tracking-[0.24em] text-[#7f8ea8]">{formatDateChip(event.date)}</span>
                 </div>
-                <h3 className="mt-3 text-base font-bold text-slate-950">{event.title}</h3>
-                <p className="mt-1 text-sm text-slate-600">{event.location}</p>
+                <h3 className="mt-3 text-base font-bold text-[#e8eefc]">{event.title}</h3>
+                <p className="mt-1 text-sm text-[#a7b3cb]">{event.location}</p>
                 <p className="mt-3 text-sm font-semibold text-fuchsia-600">{actionLabel}</p>
             </div>
         </button>
@@ -415,30 +411,30 @@ export function OrganizerCard({ organizer }) {
                 <img src={organizer.avatar} alt={organizer.name} className="h-16 w-16 rounded-[22px] object-cover shadow-lg shadow-slate-950/10" />
                 <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
-                        <h3 className="dashboard-display text-xl font-bold text-slate-950">{organizer.name}</h3>
+                        <h3 className="dashboard-display text-xl font-bold text-[#e8eefc]">{organizer.name}</h3>
                         {organizer.verified ? (
-                            <span className="rounded-full bg-slate-950 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.24em] text-white">
+                            <span className="rounded-full bg-[#111b31] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.24em] text-white">
                                 Verified
                             </span>
                         ) : null}
                     </div>
                     <p className="mt-1 text-sm font-semibold text-fuchsia-600">{organizer.handle}</p>
-                    <p className="mt-3 text-sm leading-6 text-slate-600">{organizer.bio}</p>
+                    <p className="mt-3 text-sm leading-6 text-[#a7b3cb]">{organizer.bio}</p>
                 </div>
             </div>
 
             <div className="mt-5 grid grid-cols-3 gap-3 text-center text-sm">
                 <div className="rounded-[20px] bg-slate-50 px-3 py-4">
-                    <p className="text-slate-400">Followers</p>
-                    <p className="mt-2 font-bold text-slate-950">{organizer.followers.toLocaleString()}</p>
+                    <p className="text-[#7f8ea8]">Followers</p>
+                    <p className="mt-2 font-bold text-[#e8eefc]">{organizer.followers.toLocaleString()}</p>
                 </div>
                 <div className="rounded-[20px] bg-slate-50 px-3 py-4">
-                    <p className="text-slate-400">Hosted</p>
-                    <p className="mt-2 font-bold text-slate-950">{organizer.eventsHosted}</p>
+                    <p className="text-[#7f8ea8]">Hosted</p>
+                    <p className="mt-2 font-bold text-[#e8eefc]">{organizer.eventsHosted}</p>
                 </div>
                 <div className="rounded-[20px] bg-slate-50 px-3 py-4">
-                    <p className="text-slate-400">Focus</p>
-                    <p className="mt-2 font-bold text-slate-950">{organizer.category}</p>
+                    <p className="text-[#7f8ea8]">Focus</p>
+                    <p className="mt-2 font-bold text-[#e8eefc]">{organizer.category}</p>
                 </div>
             </div>
         </article>
@@ -460,29 +456,29 @@ export function SocialPostCard({ post }) {
                 <img src={post.avatar} alt={post.userName} className="h-12 w-12 rounded-full object-cover" />
                 <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
-                        <p className="font-semibold text-slate-950">{post.userName}</p>
-                        <span className="text-sm text-slate-500">{post.handle}</span>
+                        <p className="font-semibold text-[#e8eefc]">{post.userName}</p>
+                        <span className="text-sm text-[#8e9cb6]">{post.handle}</span>
                     </div>
-                    <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">{post.timeAgo}</p>
+                    <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#7f8ea8]">{post.timeAgo}</p>
                 </div>
                 <span className={classNames('rounded-full px-3 py-1 text-xs font-semibold', meta.soft)}>{event.title}</span>
             </div>
 
-            <img src={event.image} alt={event.title} className="h-72 w-full object-cover" />
+            <img src={post.media || event.image} alt={event.title} className="h-72 w-full object-cover" />
 
             <div className="space-y-4 px-5 py-5 sm:px-6">
-                <p className="text-sm leading-7 text-slate-700">{post.caption}</p>
+                <p className="text-sm leading-7 text-[#c6d1e6]">{post.caption}</p>
 
-                <div className="flex flex-wrap items-center gap-3 text-sm text-slate-500">
-                    <div className="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-2 font-semibold text-slate-700">
+                <div className="flex flex-wrap items-center gap-3 text-sm text-[#8e9cb6]">
+                    <div className="inline-flex items-center gap-2 rounded-full bg-[#15233d] px-3 py-2 font-semibold text-[#c6d1e6]">
                         <Icon name="heart" className="h-4 w-4" />
                         {post.likes}
                     </div>
-                    <div className="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-2 font-semibold text-slate-700">
+                    <div className="inline-flex items-center gap-2 rounded-full bg-[#15233d] px-3 py-2 font-semibold text-[#c6d1e6]">
                         <Icon name="comment" className="h-4 w-4" />
                         {post.comments}
                     </div>
-                    <div className="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-2 font-semibold text-slate-700">
+                    <div className="inline-flex items-center gap-2 rounded-full bg-[#15233d] px-3 py-2 font-semibold text-[#c6d1e6]">
                         <Icon name="calendar" className="h-4 w-4" />
                         {formatShortDate(event.date)}
                     </div>
@@ -495,21 +491,148 @@ export function SocialPostCard({ post }) {
 export function EmptyState({ title, description }) {
     return (
         <div className="panel-grid rounded-[28px] border border-dashed border-slate-300 bg-slate-50 px-6 py-12 text-center">
-            <p className="dashboard-display text-2xl font-bold text-slate-950">{title}</p>
-            <p className="mt-3 text-sm leading-6 text-slate-600">{description}</p>
+            <p className="dashboard-display text-2xl font-bold text-[#e8eefc]">{title}</p>
+            <p className="mt-3 text-sm leading-6 text-[#a7b3cb]">{description}</p>
         </div>
     );
 }
 
 export function FloatingCreateButton() {
+    const rootRef = React.useRef(null);
+    const closeTimerRef = React.useRef(null);
+    const [isOpen, setIsOpen] = React.useState(false);
+    const [isPinned, setIsPinned] = React.useState(false);
+
+    React.useEffect(() => {
+        function handlePointerDown(event) {
+            if (!rootRef.current?.contains(event.target)) {
+                setIsOpen(false);
+                setIsPinned(false);
+            }
+        }
+
+        function handleKeydown(event) {
+            if (event.key === 'Escape') {
+                setIsOpen(false);
+                setIsPinned(false);
+            }
+        }
+
+        window.addEventListener('pointerdown', handlePointerDown);
+        window.addEventListener('keydown', handleKeydown);
+
+        return () => {
+            window.removeEventListener('pointerdown', handlePointerDown);
+            window.removeEventListener('keydown', handleKeydown);
+        };
+    }, []);
+
+    function hasHoverSupport() {
+        return typeof window !== 'undefined' && window.matchMedia('(hover: hover)').matches;
+    }
+
+    function handleMouseEnter() {
+        if (!hasHoverSupport() || isPinned) {
+            return;
+        }
+
+        if (closeTimerRef.current) {
+            window.clearTimeout(closeTimerRef.current);
+        }
+        setIsOpen(true);
+    }
+
+    function handleMouseLeave() {
+        if (!hasHoverSupport() || isPinned) {
+            return;
+        }
+
+        closeTimerRef.current = window.setTimeout(() => {
+            setIsOpen(false);
+        }, 140);
+    }
+
+    function handleToggle(event) {
+        event.preventDefault();
+
+        setIsPinned((current) => {
+            const nextPinned = !current;
+            setIsOpen(nextPinned || !isOpen);
+            return nextPinned;
+        });
+    }
+
+    function handleNavigate() {
+        setIsOpen(false);
+        setIsPinned(false);
+    }
+
     return (
-        <a
-            href="/events/private/create"
-            aria-label="Create private event"
-            className="fixed bottom-24 right-6 sm:bottom-10 sm:right-10 z-40 inline-flex h-16 w-16 items-center justify-center rounded-[20px] bg-[#5e50b0] text-white shadow-[0_20px_40px_-16px_rgba(94,80,176,0.8)] transition hover:-translate-y-1 hover:shadow-[0_24px_60px_-16px_rgba(94,80,176,0.95)]"
+        <div
+            ref={rootRef}
+            className="fixed bottom-24 right-6 z-40 sm:bottom-10 sm:right-10"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
         >
-            <span aria-hidden="true" className="material-symbols-outlined text-[32px] leading-none">add</span>
-        </a>
+            <div
+                className={classNames(
+                    'absolute bottom-[76px] right-0 w-[240px] origin-bottom-right rounded-[22px] border border-[#25324d]/70 bg-[rgba(12,20,36,0.82)] p-2.5 shadow-[0_30px_70px_-36px_rgba(2,8,24,0.95)] backdrop-blur-xl transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]',
+                    isOpen ? 'pointer-events-auto translate-y-0 scale-100 opacity-100' : 'pointer-events-none translate-y-3 scale-95 opacity-0',
+                )}
+                role="menu"
+                aria-label="Create event options"
+                aria-hidden={!isOpen}
+            >
+                <a
+                    href="/events/private/create"
+                    onClick={handleNavigate}
+                    role="menuitem"
+                    className="group flex items-center justify-between rounded-2xl px-4 py-3 text-[#e8eefc] transition hover:bg-[#182741]"
+                >
+                    <div>
+                        <p className="text-sm font-semibold tracking-[-0.01em]">Create Private Event</p>
+                        <p className="mt-0.5 text-xs text-[#8e9cb6]">Invite-only gathering</p>
+                    </div>
+                    <span className="material-symbols-outlined text-[18px] text-[#8ea2ff] transition group-hover:translate-x-0.5">lock</span>
+                </a>
+
+                <a
+                    href="/events/public/create"
+                    onClick={handleNavigate}
+                    role="menuitem"
+                    className="group mt-1 flex items-center justify-between rounded-2xl px-4 py-3 text-[#e8eefc] transition hover:bg-[#182741]"
+                >
+                    <div>
+                        <p className="text-sm font-semibold tracking-[-0.01em]">Create Public Event</p>
+                        <p className="mt-0.5 text-xs text-[#8e9cb6]">Open event listing</p>
+                    </div>
+                    <span className="material-symbols-outlined text-[18px] text-[#8ea2ff] transition group-hover:translate-x-0.5">public</span>
+                </a>
+            </div>
+
+            <button
+                type="button"
+                onClick={handleToggle}
+                aria-label="Create event"
+                aria-expanded={isOpen}
+                className={classNames(
+                    'inline-flex h-16 w-16 items-center justify-center rounded-[20px] text-white shadow-[0_20px_40px_-16px_rgba(94,80,176,0.8)] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]',
+                    isOpen
+                        ? 'bg-[#9fb0ff] shadow-[0_28px_58px_-18px_rgba(94,80,176,0.95)]'
+                        : 'bg-[#8ea2ff] hover:-translate-y-1 hover:shadow-[0_24px_60px_-16px_rgba(94,80,176,0.95)]',
+                )}
+            >
+                <span
+                    aria-hidden="true"
+                    className={classNames(
+                        'material-symbols-outlined text-[32px] leading-none transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]',
+                        isOpen ? 'rotate-45' : 'rotate-0',
+                    )}
+                >
+                    add
+                </span>
+            </button>
+        </div>
     );
 }
 
@@ -520,7 +643,7 @@ export function LogoutButton() {
             <button
                 type="submit"
                 title="Logout"
-                className="rounded-full p-2 text-[#484552] transition hover:bg-white/80 hover:text-red-500"
+                className="rounded-full p-2 text-[#a8b4cc] transition hover:bg-[#111b31]/80 hover:text-red-500"
             >
                 <span aria-hidden="true" className="material-symbols-outlined leading-none">logout</span>
             </button>
