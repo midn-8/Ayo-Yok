@@ -12,6 +12,11 @@
         id="ayoyok-invitation-root"
         data-token="{{ $token }}"
         data-theme="{{ $theme }}"
+        data-recipient-name="{{ $recipientName ?? '' }}"
+        data-recipient-handle="{{ $recipientHandle ?? '' }}"
+        data-expires-at="{{ $expiresAt ?? '' }}"
+        data-invite-expired="{{ ($inviteExpired ?? false) ? 'true' : 'false' }}"
+        data-status-message="{{ session('status') ?? '' }}"
         data-authenticated="{{ auth()->check() ? 'true' : 'false' }}"
         data-viewer-name="{{ auth()->user()->name ?? 'Guest Viewer' }}"
     ></div>

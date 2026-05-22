@@ -44,6 +44,7 @@ Route::middleware('auth')->group(function () {
     // EVENT
     Route::get('/event/create', [EventController::class, 'createPrivateEvent'])->name('event.create');
     Route::get('/events/private/create', [EventController::class, 'createPrivateEvent'])->name('events.private.create');
+    Route::get('/events/public/create', [EventController::class, 'createPublicEvent'])->name('events.public.create');
     Route::post('/event/store', [EventController::class, 'storeEvent'])->name('event.store');
     Route::post('/events/private/store', [EventController::class, 'storePrivateEvent'])->name('events.private.store');
 
@@ -51,6 +52,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/events/{id}', [EventController::class, 'eventDetail'])->name('events.show');
     Route::get('/event/{id}', [EventController::class, 'eventDetail'])->name('event.show');
     Route::get('/invite/{token}', [EventController::class, 'joinPrivate'])->name('invite.show');
+    Route::post('/invite/{token}/respond', [EventController::class, 'respondPrivateInvite'])->name('invite.respond');
     Route::get('/event/private/{token}', [EventController::class, 'joinPrivate'])->name('events.private.invitation');
 
     Route::post('/event/{id}/join', [EventController::class, 'joinEvent'])->name('event.join');

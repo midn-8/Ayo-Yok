@@ -1,3 +1,16 @@
+import eventImage01 from '../../../source/event/11ST-Coachella-Influencers-04-vtwq-articleLarge.webp';
+import eventImage02 from '../../../source/event/corporate-event-photography-800x530.webp';
+import eventImage03 from '../../../source/event/group-fans-gathered-thge-stadium-cheering-up_1303-18617.avif';
+import eventImage04 from '../../../source/event/images (1).jpg';
+import eventImage05 from '../../../source/event/images (2).jpg';
+import eventImage06 from '../../../source/event/images (3).jpg';
+import eventImage07 from '../../../source/event/images (4) - Copy.jpg';
+import eventImage08 from '../../../source/event/images (7).jpg';
+import eventImage09 from '../../../source/event/images.jpg';
+import eventImage10 from '../../../source/event/istockphoto-1184628725-612x612.jpg';
+import postImage01 from '../../../source/event/post/images (5).jpg';
+import postImage02 from '../../../source/event/post/images (6).jpg';
+
 export const BASE_DATE = new Date('2026-05-18T21:30:00');
 
 export const CATEGORY_META = {
@@ -38,6 +51,32 @@ export const CATEGORY_META = {
         marker: 'bg-rose-500',
     },
 };
+
+const EVENT_MEDIA = [
+    eventImage01,
+    eventImage02,
+    eventImage03,
+    eventImage04,
+    eventImage05,
+    eventImage06,
+    eventImage07,
+    eventImage08,
+    eventImage09,
+    eventImage10,
+];
+
+const POST_MEDIA = [
+    postImage01,
+    postImage02,
+];
+
+function getEventMedia(index) {
+    return EVENT_MEDIA[index % EVENT_MEDIA.length];
+}
+
+function getPostMedia(index) {
+    return POST_MEDIA[index % POST_MEDIA.length];
+}
 
 function sanitizeSvgText(value) {
     return value.replace(/&/g, '&amp;').replace(/</g, '&lt;');
@@ -196,7 +235,7 @@ export const EVENTS = [
             'An open-air rooftop concert with indie bands, sunset cocktails, and a curated social lounge for new connections.',
         perks: ['Digital ticket with QR entry', 'Welcome drink', 'Priority lounge access'],
         keywords: ['dj', 'rooftop', 'nightlife', 'concert', 'music'],
-        image: makeEventImage('Moonlight Rooftop', '#7c3aed', '#ec4899', '♪'),
+        image: getEventMedia(0),
     },
     {
         id: 'evt-102',
@@ -220,7 +259,7 @@ export const EVENTS = [
             'A fast-paced evening for founders, marketers, and creators who want sharper storytelling for launches, demos, and community building.',
         perks: ['Speaker notes pack', 'Networking session', 'After-event discussion room'],
         keywords: ['startup', 'pitch', 'founder', 'product', 'networking'],
-        image: makeEventImage('Storytelling Sprint', '#0ea5e9', '#22d3ee', '◎'),
+        image: getEventMedia(1),
     },
     {
         id: 'evt-103',
@@ -244,7 +283,7 @@ export const EVENTS = [
             'Start the day with a community-paced 5K run, a stretch circle, and a casual post-run meetup for runners of all levels.',
         perks: ['Free entry', 'Hydration station', 'Community badge'],
         keywords: ['run', 'fitness', 'free', 'morning', 'community'],
-        image: makeEventImage('Sunrise Fun Run', '#10b981', '#14b8a6', '△'),
+        image: getEventMedia(2),
     },
     {
         id: 'evt-104',
@@ -268,7 +307,7 @@ export const EVENTS = [
             'Create your own ceramic cup while a local barista serves rotating brews and a jazz duo plays through the evening.',
         perks: ['All materials included', 'Kiln firing', 'Coffee pairing'],
         keywords: ['pottery', 'coffee', 'creative', 'workshop', 'jazz'],
-        image: makeEventImage('Clay and Coffee', '#8b5cf6', '#6366f1', '✦'),
+        image: getEventMedia(3),
     },
     {
         id: 'evt-105',
@@ -292,7 +331,7 @@ export const EVENTS = [
             'A guided social tasting route with chef recommendations, creator meetups, and a live ranking board for favorite bites.',
         perks: ['Tasting passport', 'Exclusive discount stalls', 'Shareable foodie badge'],
         keywords: ['food', 'culinary', 'market', 'night', 'tasting'],
-        image: makeEventImage('Food Passport', '#f59e0b', '#f97316', '◌'),
+        image: getEventMedia(4),
     },
     {
         id: 'evt-106',
@@ -316,7 +355,7 @@ export const EVENTS = [
             'A relaxed community meetup to plant herbs, exchange seeds, and turn a public green space into a social Sunday ritual.',
         perks: ['Free entry', 'Starter seed kit', 'Volunteer certificate'],
         keywords: ['garden', 'volunteer', 'community', 'brunch', 'park'],
-        image: makeEventImage('Garden Sunday', '#fb7185', '#f43f5e', '◍'),
+        image: getEventMedia(5),
     },
     {
         id: 'evt-107',
@@ -340,7 +379,7 @@ export const EVENTS = [
             'A casual social tournament with beginner-friendly brackets, coaching stations, and a post-match beach hangout.',
         perks: ['Court access', 'Team placement', 'Locker area'],
         keywords: ['volley', 'sports', 'beach', 'sunset', 'tournament'],
-        image: makeEventImage('Volley Social Cup', '#22c55e', '#06b6d4', '△'),
+        image: getEventMedia(6),
     },
     {
         id: 'evt-108',
@@ -364,7 +403,7 @@ export const EVENTS = [
             'Creators and indie builders gather to demo what they are shipping, collect feedback, and meet future collaborators.',
         perks: ['Demo floor access', 'Feedback cards', 'After-hours mixer'],
         keywords: ['demo', 'creator', 'builder', 'feedback', 'product'],
-        image: makeEventImage('Demo Night', '#38bdf8', '#3b82f6', '◎'),
+        image: getEventMedia(7),
     },
     {
         id: 'evt-109',
@@ -388,7 +427,7 @@ export const EVENTS = [
             'A large-scale city festival mixing breakout artists, immersive installations, and community meetups throughout the night.',
         perks: ['Festival wristband', 'Access to creator village', 'Night shuttle pass'],
         keywords: ['festival', 'concert', 'creator', 'nightlife', 'music'],
-        image: makeEventImage('City Soundwave', '#ec4899', '#f97316', '♪'),
+        image: getEventMedia(8),
     },
     {
         id: 'evt-110',
@@ -412,7 +451,7 @@ export const EVENTS = [
             'Watch a new independent release under the stars, then stay for a live conversation with the director, cast, and audience.',
         perks: ['Reserved screening seat', 'Q and A access', 'Digital poster'],
         keywords: ['film', 'cinema', 'rooftop', 'indie', 'premiere'],
-        image: makeEventImage('Film Premiere', '#6366f1', '#8b5cf6', '✦'),
+        image: getEventMedia(9),
     },
     {
         id: 'evt-111',
@@ -436,7 +475,7 @@ export const EVENTS = [
             'An easy-going community picnic with shared snacks, live acoustic music, and enough room for new groups to form naturally.',
         perks: ['Glow kit', 'Acoustic set', 'Picnic map'],
         keywords: ['picnic', 'community', 'park', 'social', 'music'],
-        image: makeEventImage('Neon Picnic', '#fb7185', '#f43f5e', '◍'),
+        image: getEventMedia(0),
     },
     {
         id: 'evt-112',
@@ -460,7 +499,7 @@ export const EVENTS = [
             'Shape your own tableware, swap playlists with other guests, and stay for a slow brunch hosted by local makers.',
         perks: ['Brunch set', 'Studio apron', 'Ceramic glazing'],
         keywords: ['pottery', 'brunch', 'creative', 'weekend', 'maker'],
-        image: makeEventImage('Pottery Brunch', '#7c3aed', '#fb7185', '✦'),
+        image: getEventMedia(1),
     },
 ];
 
@@ -484,6 +523,7 @@ export const SOCIAL_POSTS = [
         userName: 'Nadia Hart',
         handle: '@nadiahart',
         eventId: 'evt-111',
+        media: getPostMedia(0),
         caption: 'The glow picnic felt weirdly intimate in the best way. Found two new brunch friends before the acoustic set even started.',
         likes: 284,
         comments: 16,
@@ -495,6 +535,7 @@ export const SOCIAL_POSTS = [
         userName: 'Rafi Pramana',
         handle: '@rafiruns',
         eventId: 'evt-103',
+        media: getPostMedia(1),
         caption: 'Stride Club still knows how to make a 6AM run feel social instead of painful. Coffee table after the finish was packed.',
         likes: 198,
         comments: 10,
@@ -506,6 +547,7 @@ export const SOCIAL_POSTS = [
         userName: 'Sasha Lee',
         handle: '@sashawanders',
         eventId: 'evt-101',
+        media: getPostMedia(0),
         caption: 'Moonlight Rooftop keeps getting better. The skyline, the set list, and the tiny corners where strangers actually talk.',
         likes: 421,
         comments: 28,
@@ -517,6 +559,7 @@ export const SOCIAL_POSTS = [
         userName: 'Arka Wijaya',
         handle: '@arka.builds',
         eventId: 'evt-108',
+        media: getPostMedia(1),
         caption: 'Demo Night energy is exactly what the local builder scene needed. Fewer lectures, more shipping and feedback.',
         likes: 160,
         comments: 12,
@@ -528,6 +571,7 @@ export const SOCIAL_POSTS = [
         userName: 'Mina Chen',
         handle: '@minacoffee',
         eventId: 'evt-104',
+        media: getPostMedia(0),
         caption: 'Clay + coffee + quiet music is such an unfairly good combination. I left with a crooked mug and zero regrets.',
         likes: 242,
         comments: 19,
@@ -539,6 +583,7 @@ export const SOCIAL_POSTS = [
         userName: 'Bayu Adi',
         handle: '@bayueats',
         eventId: 'evt-105',
+        media: getPostMedia(1),
         caption: 'The passport trail is dangerous if you arrive hungry. Best stop tonight: charred satay with lime and chilli salt.',
         likes: 307,
         comments: 21,
@@ -550,6 +595,7 @@ export const SOCIAL_POSTS = [
         userName: 'Luna Maulani',
         handle: '@lunamaulani',
         eventId: 'evt-110',
+        media: getPostMedia(0),
         caption: 'Rooftop premiere nights need to stay in rotation. The Q and A after the screening made the whole ticket worth it.',
         likes: 188,
         comments: 14,
@@ -561,6 +607,7 @@ export const SOCIAL_POSTS = [
         userName: 'Aldo H.',
         handle: '@aldosocial',
         eventId: 'evt-109',
+        media: getPostMedia(1),
         caption: 'Soundwave festival map dropped and it already looks like an entire weekend plan.',
         likes: 530,
         comments: 31,
@@ -572,6 +619,7 @@ export const SOCIAL_POSTS = [
         userName: 'Ghea Putri',
         handle: '@gheaputri',
         eventId: 'evt-112',
+        media: getPostMedia(0),
         caption: 'Booked the pottery brunch before my coffee even cooled down. This one is going to sell out.',
         likes: 147,
         comments: 7,
@@ -655,6 +703,7 @@ export const MESSAGE_THREADS = [
 export const INVITE_CONTACTS = [
     { id: 'contact-1', name: 'Maya Anindita', handle: '@mayaanindita', address: 'maya@ayoyok.app', hasAccount: true },
     { id: 'contact-2', name: 'Rafi Pramana', handle: '@rafiruns', address: 'rafi@ayoyok.app', hasAccount: true },
+    { id: 'contact-6', name: 'Lia', handle: '@midn8', address: 'lia@ayoyok.app', hasAccount: true },
     { id: 'contact-3', name: 'Ghea Putri', handle: '', address: 'ghea@gmail.com', hasAccount: false },
     { id: 'contact-4', name: 'Evan K', handle: '@evank', address: 'evan@ayoyok.app', hasAccount: true },
     { id: 'contact-5', name: 'Clara Wang', handle: '', address: 'clarawang@yahoo.com', hasAccount: false },
@@ -769,8 +818,28 @@ export function getUserRank(joinedCount, socialActivity) {
     return selectedTier.name;
 }
 
-export function buildInvitationLink(token, theme) {
-    return `/invite/${token}?theme=${theme}`;
+export function buildInvitationLink(token, theme, metadata = {}) {
+    const hasExpiry = metadata.exp !== undefined && metadata.exp !== null && String(metadata.exp).trim() !== '';
+    const expiresAt = hasExpiry ? String(metadata.exp) : new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
+
+    const params = new URLSearchParams({
+        theme: theme || 'elegant-night',
+        exp: expiresAt,
+    });
+
+    Object.entries(metadata).forEach(([key, value]) => {
+        if (value === undefined || value === null) {
+            return;
+        }
+
+        const normalized = String(value).trim();
+
+        if (normalized !== '') {
+            params.set(key, normalized);
+        }
+    });
+
+    return `/invite/${encodeURIComponent(token)}?${params.toString()}`;
 }
 
 export function buildInvitationPayload({ title, date, theme, message, host }) {

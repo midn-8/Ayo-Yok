@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="light" lang="en">
+<html class="dark" lang="en">
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -16,32 +16,32 @@
             theme: {
                 extend: {
                     colors: {
-                        background: "#fdf8ff",
-                        surface: "#fdf8ff",
-                        "surface-container-low": "#f7f2fb",
-                        "surface-container": "#f1ecf5",
-                        "surface-container-high": "#ebe6ef",
-                        "surface-container-highest": "#e5e1ea",
+                        background: "#050b17",
+                        surface: "#050b17",
+                        "surface-container-low": "#0f1a30",
+                        "surface-container": "#101a30",
+                        "surface-container-high": "#0a1222",
+                        "surface-container-highest": "#1d2940",
                         "surface-container-lowest": "#ffffff",
-                        primary: "#5e50b0",
+                        primary: "#8ea2ff",
                         "primary-container": "#a294f9",
                         "primary-fixed": "#e5deff",
-                        "primary-fixed-dim": "#c8bfff",
+                        "primary-fixed-dim": "#3e5996",
                         secondary: "#426656",
-                        "secondary-container": "#c1e9d5",
+                        "secondary-container": "#1b365f",
                         "secondary-fixed": "#c4ebd8",
                         "secondary-fixed-dim": "#a8cfbc",
                         tertiary: "#6c5b4f",
                         "tertiary-container": "#b29e90",
-                        "tertiary-fixed": "#f5dece",
+                        "tertiary-fixed": "#1d355f",
                         "tertiary-fixed-dim": "#d8c2b3",
-                        outline: "#797583",
-                        "outline-variant": "#c9c4d3",
+                        outline: "#7e8eaa",
+                        "outline-variant": "#2b3855",
                         error: "#ba1a1a",
                         "error-container": "#ffdad6",
-                        "on-background": "#1c1b21",
-                        "on-surface": "#1c1b21",
-                        "on-surface-variant": "#484552",
+                        "on-background": "#e8eefc",
+                        "on-surface": "#e8eefc",
+                        "on-surface-variant": "#a8b4cc",
                         "on-primary": "#ffffff",
                         "on-primary-container": "#372687",
                         "on-secondary-container": "#466a5a",
@@ -71,16 +71,16 @@
             vertical-align: middle;
         }
         .glass-card {
-            background: rgba(255, 255, 255, 0.72);
+            background: rgba(15, 24, 43, 0.72);
             backdrop-filter: blur(18px);
             -webkit-backdrop-filter: blur(18px);
         }
         .scrapbook-shell {
             background-image:
-                radial-gradient(circle at top left, rgba(200, 191, 255, 0.45), transparent 28%),
-                radial-gradient(circle at top right, rgba(193, 233, 213, 0.32), transparent 24%),
-                radial-gradient(circle at bottom right, rgba(245, 222, 206, 0.46), transparent 26%),
-                linear-gradient(180deg, #fdf8ff 0%, #f8f1fb 100%);
+                radial-gradient(circle at top left, rgba(88, 120, 215, 0.30), transparent 28%),
+                radial-gradient(circle at top right, rgba(56, 189, 248, 0.20), transparent 24%),
+                radial-gradient(circle at bottom right, rgba(99, 102, 241, 0.18), transparent 26%),
+                linear-gradient(180deg, #050b17 0%, #070d1b 100%);
         }
         .ambient-shadow {
             box-shadow: 0 24px 60px -28px rgba(94, 80, 176, 0.28);
@@ -101,7 +101,7 @@
     </div>
 
     <main class="relative px-5 py-6 md:px-8 lg:px-10">
-        <div class="mx-auto grid min-h-[calc(100vh-3rem)] max-w-[1280px] overflow-hidden rounded-[36px] border border-white/60 bg-white/30 shadow-float md:grid-cols-[1.05fr_0.95fr]">
+        <div class="mx-auto grid min-h-[calc(100vh-3rem)] max-w-[1280px] overflow-hidden rounded-[36px] border border-[#25324d]/60 bg-[#111b31]/30 shadow-float md:grid-cols-[1.05fr_0.95fr]">
             <section class="relative hidden min-h-full overflow-hidden md:flex">
                 <div class="absolute inset-0">
                     <img
@@ -109,30 +109,31 @@
                         class="h-full w-full object-cover"
                         src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsvUXVxu44HydnsCT9G_0dbXgxflCMTVoPBZgizxnnQ04uY9yD0wdo_CQebdmo8GDtpg0uiyH5a24cJTVl6CU3cbF-60ZiMRIuY-hi8gzWKMk74NaPgNn7BlstVFhfONgmt4K7muwE6RyvCHzMQHl9L5tuDbfa21a1Dlws7hKUGjkqjiRUi9-YcMBX13M0avH7GxWA-W55mPb90Mg29qKYR6mG7m7nQiUyoCrXZtnps6diOAm0_0hjHwbFlhKFv4Lh-SMlkJRjWuOP"
                     >
-                    <div class="absolute inset-0 bg-gradient-to-br from-[#1a1338]/55 via-[#5e50b0]/20 to-[#f5dece]/10"></div>
+                    <div class="absolute inset-0 bg-gradient-to-br from-[#1a1338]/55 via-[#8ea2ff]/20 to-[#1d355f]/10"></div>
                 </div>
 
                 <div class="relative z-10 flex w-full flex-col justify-between p-10 lg:p-14">
                     <div class="flex items-center justify-between">
-                        <a class="inline-flex items-center gap-3 rounded-full border border-white/30 bg-white/10 px-4 py-2 text-white backdrop-blur-md" href="{{ route('login') }}">
-                            <div class="flex h-10 w-10 items-center justify-center rounded-full bg-white text-sm font-bold text-primary">AY</div>
-                            <div>
-                                <p class="editorial-display text-lg font-bold">AyoYok</p>
-                                <p class="text-xs text-white/70">Social event platform</p>
-                            </div>
+                        <a class="inline-flex items-center gap-3 rounded-full border border-[#25324d]/30 bg-[#111b31]/10 px-4 py-2 text-[#e7ecfa] backdrop-blur-md" href="{{ route('login') }}">
+                            <img
+                                alt="AyoYok"
+                                class="h-10 w-auto rounded-lg border border-[#25324d]/70 bg-[#111b31]/95 p-1"
+                                src="{{ Vite::asset('source/logo-Ayoyok.png') }}"
+                            >
+                            <p class="text-xs text-[#b4c0d8]">Social event platform</p>
                         </a>
                         <div class="glass-card rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-primary">Scrapbook nights</div>
                     </div>
 
                     <div class="max-w-xl">
-                        <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/15 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-white backdrop-blur-md">
+                        <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-[#25324d]/30 bg-[#111b31]/15 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-[#e7ecfa] backdrop-blur-md">
                             <span class="material-symbols-outlined text-base">auto_awesome</span>
                             Find your next unforgettable memory
                         </div>
-                        <h1 class="editorial-display text-4xl font-bold leading-[1.05] tracking-[-0.03em] text-white lg:text-6xl">
+                        <h1 class="editorial-display text-4xl font-bold leading-[1.05] tracking-[-0.03em] text-[#e7ecfa] lg:text-6xl">
                             Nights that start with a ticket and end as a story worth retelling.
                         </h1>
-                        <p class="mt-6 max-w-lg text-base leading-8 text-white/82 lg:text-lg">
+                        <p class="mt-6 max-w-lg text-base leading-8 text-[#cfdaef] lg:text-lg">
                             Step back into your event circle, pick up your plans, and keep the social momentum moving with every RSVP, playlist, and late-night memory.
                         </p>
                     </div>
@@ -183,7 +184,7 @@
 
                 <div class="relative z-10 w-full max-w-[470px]">
                     <div class="mb-6 md:hidden">
-                        <div class="overflow-hidden rounded-[28px] border border-white/70 bg-white/55 shadow-ambient backdrop-blur-xl">
+                        <div class="overflow-hidden rounded-[28px] border border-[#25324d]/70 bg-[#111b31]/55 shadow-ambient backdrop-blur-xl">
                             <img
                                 alt="Friends gathered at a dreamy event table"
                                 class="h-48 w-full object-cover"
@@ -196,14 +197,15 @@
                         </div>
                     </div>
 
-                    <div class="glass-card ambient-shadow rounded-[32px] border border-white/70 p-6 sm:p-8 lg:p-10">
+                    <div class="glass-card ambient-shadow rounded-[32px] border border-[#25324d]/70 p-6 sm:p-8 lg:p-10">
                         <div class="flex items-center justify-between">
                             <a class="inline-flex items-center gap-3" href="{{ route('login') }}">
-                                <div class="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-sm font-bold text-on-primary">AY</div>
-                                <div>
-                                    <p class="editorial-display text-2xl font-bold tracking-[-0.02em] text-primary">AyoYok</p>
-                                    <p class="text-xs text-outline">Dreamy social discovery</p>
-                                </div>
+                                <img
+                                    alt="AyoYok"
+                                    class="h-12 w-auto rounded-lg border border-[#25324d]/80 bg-[#111b31]/95 p-1"
+                                    src="{{ Vite::asset('source/logo-Ayoyok.png') }}"
+                                >
+                                <p class="text-xs text-outline">Dreamy social discovery</p>
                             </a>
                             <span class="rounded-full bg-primary-fixed px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-on-primary-container">Login</span>
                         </div>
@@ -242,7 +244,7 @@
                                     <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">mail</span>
                                     <input
                                         autocomplete="email"
-                                        class="w-full rounded-[22px] border border-white/80 bg-surface-container-low px-12 py-4 text-[15px] text-on-surface placeholder:text-outline-variant focus:border-primary focus:outline-none focus:ring-0"
+                                        class="w-full rounded-[22px] border border-[#25324d]/80 bg-surface-container-low px-12 py-4 text-[15px] text-on-surface placeholder:text-outline-variant focus:border-primary focus:outline-none focus:ring-0"
                                         id="email"
                                         name="email"
                                         placeholder="alex@example.com"
@@ -265,7 +267,7 @@
                                     <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">lock</span>
                                     <input
                                         autocomplete="current-password"
-                                        class="w-full rounded-[22px] border border-white/80 bg-surface-container-low px-12 py-4 text-[15px] text-on-surface placeholder:text-outline-variant focus:border-primary focus:outline-none focus:ring-0"
+                                        class="w-full rounded-[22px] border border-[#25324d]/80 bg-surface-container-low px-12 py-4 text-[15px] text-on-surface placeholder:text-outline-variant focus:border-primary focus:outline-none focus:ring-0"
                                         id="password"
                                         name="password"
                                         placeholder="••••••••"
@@ -278,7 +280,7 @@
                                 @enderror
                             </div>
 
-                            <div class="flex flex-col gap-4 rounded-[24px] border border-white/70 bg-white/55 p-4 sm:flex-row sm:items-center sm:justify-between">
+                            <div class="flex flex-col gap-4 rounded-[24px] border border-[#25324d]/70 bg-[#111b31]/55 p-4 sm:flex-row sm:items-center sm:justify-between">
                                 <label class="inline-flex items-center gap-3 text-sm font-medium text-on-surface" for="remember">
                                     <input
                                         {{ old('remember') ? 'checked' : '' }}
@@ -306,10 +308,10 @@
                             </div>
 
                             <div class="mt-4 grid grid-cols-2 gap-4">
-                                <button class="rounded-[20px] border border-white/70 bg-white/65 px-4 py-3 text-sm font-semibold text-on-surface transition hover:bg-surface-container-low" type="button">
+                                <button class="rounded-[20px] border border-[#25324d]/70 bg-[#111b31]/65 px-4 py-3 text-sm font-semibold text-on-surface transition hover:bg-surface-container-low" type="button">
                                     Google
                                 </button>
-                                <button class="rounded-[20px] border border-white/70 bg-white/65 px-4 py-3 text-sm font-semibold text-on-surface transition hover:bg-surface-container-low" type="button">
+                                <button class="rounded-[20px] border border-[#25324d]/70 bg-[#111b31]/65 px-4 py-3 text-sm font-semibold text-on-surface transition hover:bg-surface-container-low" type="button">
                                     Apple
                                 </button>
                             </div>

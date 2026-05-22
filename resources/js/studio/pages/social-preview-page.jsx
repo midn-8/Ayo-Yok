@@ -1,16 +1,20 @@
 import * as React from 'react';
 
 import { attendeeMemories, organizerProfileDefaults } from '../mock-data';
+import { logoAyoyok } from '../../brand-assets';
 import { getIntegratedMemories, loadIntegrationState } from '../integration-settings';
 import { useStudioWorkspace } from '../workspace-store';
 
 function PreviewTopBar() {
     return (
-        <header className="panel sticky top-4 z-20 px-4 py-4 sm:px-6">
+        <header className="studio-preview-panel sticky top-4 z-20 px-4 py-4 sm:px-6">
             <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
                     <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">Customer View Preview</p>
-                    <p className="dashboard-display text-2xl font-bold text-slate-950">AyoYok Organizer Profile Feed</p>
+                    <div className="mt-2 flex items-center gap-3">
+                        <img src={logoAyoyok} alt="AyoYok" className="h-9 w-auto rounded-lg border border-slate-200 bg-white p-1" />
+                        <p className="dashboard-display text-2xl font-bold text-slate-950">Organizer Profile Feed</p>
+                    </div>
                 </div>
                 <div className="flex flex-wrap gap-2">
                     <a
@@ -53,12 +57,12 @@ export function StudioSocialPreviewPage() {
     }, []);
 
     return (
-        <div className="dashboard-shell min-h-screen">
+        <div className="studio-preview-shell min-h-screen">
             <div className="mx-auto max-w-[1500px] px-4 py-4 sm:px-6 sm:py-6">
                 <PreviewTopBar />
 
                 <main className="mt-6 space-y-6">
-                    <section className="panel overflow-hidden p-0">
+                    <section className="studio-preview-panel overflow-hidden p-0">
                         <div className="relative h-44 bg-gradient-to-r from-orange-300 via-fuchsia-300 to-sky-300">
                             <div className="absolute inset-0 bg-[radial-gradient(circle_at_10%_30%,rgba(255,255,255,0.55),transparent_40%)]" />
                             <img
@@ -102,7 +106,7 @@ export function StudioSocialPreviewPage() {
 
                     <section className="grid gap-4 xl:grid-cols-2">
                         {socialPosts.map((post) => (
-                            <article key={post.id} className="panel overflow-hidden">
+                            <article key={post.id} className="studio-preview-panel overflow-hidden">
                                 <div className="relative h-56 bg-gradient-to-br from-slate-900 via-fuchsia-900 to-sky-900">
                                     <div className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-slate-700">
                                         Sponsored
@@ -119,7 +123,7 @@ export function StudioSocialPreviewPage() {
                         ))}
                     </section>
 
-                    <section className="panel p-6">
+                    <section className="studio-preview-panel p-6">
                         <div className="flex items-center justify-between gap-3">
                             <h2 className="dashboard-display text-2xl font-bold text-slate-950">Community Memories</h2>
                             <a
