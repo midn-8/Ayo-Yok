@@ -9,7 +9,7 @@ import {
     compareEventDates,
     getInitials,
 } from './social-hub/mockData';
-import { classNames, formatEventDate, formatPrice, Icon, FloatingCreateButton } from './social-hub/ui';
+import { classNames, formatEventDate, formatPrice, Icon, FloatingCreateButton, LogoutButton } from './social-hub/ui';
 
 const { StrictMode, useEffect, useMemo, useState } = React;
 
