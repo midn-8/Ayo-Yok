@@ -4,7 +4,7 @@ import { createRoot } from 'react-dom/client';
 import './bootstrap';
 
 import { BASE_DATE, CATEGORY_META, getJoinedEvents, getInitials } from './social-hub/mockData';
-import { classNames, formatEventDate, formatMonthLabel, formatPrice, Icon, FloatingCreateButton } from './social-hub/ui';
+import { classNames, formatEventDate, formatMonthLabel, formatPrice, Icon, FloatingCreateButton, LogoutButton } from './social-hub/ui';
 
 const { StrictMode, useMemo, useState } = React;
 
